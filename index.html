@@ -1296,25 +1296,28 @@ const SEATS=[-58,-30,-2,26].map((x,i)=>`<g class="seat empty" data-seat="${i}"><
 const BUS = `
 <g id="bus"><g id="busflip"><g id="busbody" transform="scale(1.35)">
   <ellipse cx="0" cy="4" rx="84" ry="8" style="fill:#000;opacity:.14"/>
+  ${[-58,-30,-2,26,54].map(x=>`<rect x="${x-10}" y="-99" width="20" height="16" rx="4" style="fill:#3A3F4A"/>`).join('')}
   <g id="seats">${SEATS}</g>
-  <rect x="-84" y="-92" width="168" height="84" rx="12" style="fill:url(#gBus)"/>
-  <line x1="-82" y1="-97" x2="64" y2="-97" style="stroke:#1D1D1F;stroke-width:2;opacity:.55"/>
-  ${[-80,-44,-16,12,40,64].map(x=>`<line x1="${x}" y1="-97" x2="${x}" y2="-90" style="stroke:#1D1D1F;stroke-width:2;opacity:.55"/>`).join('')}
-  <path d="M66,-90 L74,-106 L84,-106 L84,-90Z" style="fill:#C9DDEE;opacity:.7"/>
-  <text class="bt" data-cx="-14" x="-14" y="-73" style="font:800 10px var(--f-display);fill:#fff;text-anchor:middle;letter-spacing:.12em">HOP ON · HOP OFF</text>
-  <rect x="56" y="-86" width="24" height="9" rx="2" style="fill:var(--led-bg)"/>
-  <text class="ledsvg bt" data-cx="68" x="68" y="-79.5" style="font-size:6.5px">TOUR</text>
-  <rect x="-84" y="-68" width="168" height="3" style="fill:#fff;opacity:.9"/>
-  <rect x="-74" y="-60" width="108" height="22" rx="5" style="fill:#25303D"/>
-  <path d="M-60,-60 L-52,-60 L-66,-38 L-74,-38 L-74,-44Z M-24,-60 L-16,-60 L-30,-38 L-38,-38Z" style="fill:#fff;opacity:.18"/>
-  <rect id="busdoor" x="40" y="-62" width="18" height="50" rx="3" style="fill:#25303D"/>
-  <path d="M62,-62 L78,-62 Q82,-62 82,-56 L82,-36 L62,-36Z" style="fill:#25303D"/>
-  <circle cx="-50" cy="-24" r="9" style="fill:#fff"/><circle cx="-50" cy="-24" r="9" style="fill:none;stroke:var(--red);stroke-width:2.5"/>
-  <text class="bt" data-cx="-50" x="-50" y="-21.5" style="font:700 6.5px var(--f-display);fill:#1D1D1F;text-anchor:middle">S·B</text>
+  <path d="M-84,-84 L60,-84 Q66,-84 68,-80 L72,-62 L-84,-62Z" style="fill:url(#gBus)"/>
+  <rect x="-84" y="-64" width="168" height="56" rx="10" style="fill:url(#gBus)"/>
+  <rect x="-84" y="-86" width="152" height="3" rx="1.5" style="fill:#fff;opacity:.85"/>
+  <line x1="-84" y1="-100" x2="62" y2="-100" style="stroke:#C7C7CC;stroke-width:2.2"/>
+  ${[-84,-58,-30,-2,26,54,62].map(x=>`<line x1="${x}" y1="-100" x2="${x}" y2="-85" style="stroke:#C7C7CC;stroke-width:2"/>`).join('')}
+  <path d="M62,-84 L70,-104 L74,-104 L72,-84Z" style="fill:#C9DDEE;opacity:.85"/>
+  <text class="bt" data-cx="-12" x="-12" y="-69.5" style="font:800 9.5px var(--f-display);fill:#fff;text-anchor:middle;letter-spacing:.12em">HOP ON · HOP OFF</text>
+  <rect x="-84" y="-62" width="168" height="3" style="fill:#fff;opacity:.9"/>
+  <rect x="-74" y="-54" width="108" height="20" rx="5" style="fill:#25303D"/>
+  <path d="M-60,-54 L-52,-54 L-64,-34 L-72,-34 L-74,-38Z M-24,-54 L-16,-54 L-28,-34 L-36,-34Z" style="fill:#fff;opacity:.18"/>
+  <rect id="busdoor" x="40" y="-56" width="18" height="44" rx="3" style="fill:#25303D"/>
+  <path d="M62,-58 L78,-58 Q83,-58 83,-52 L83,-32 L62,-32Z" style="fill:#25303D"/>
+  <rect x="62" y="-70" width="20" height="8" rx="2" style="fill:var(--led-bg)"/>
+  <text class="ledsvg bt" data-cx="72" x="72" y="-64" style="font-size:6px">TOUR</text>
+  <circle cx="-50" cy="-22" r="8" style="fill:#fff"/><circle cx="-50" cy="-22" r="8" style="fill:none;stroke:var(--red);stroke-width:2.5"/>
+  <text class="bt" data-cx="-50" x="-50" y="-19.8" style="font:700 6px var(--f-display);fill:#1D1D1F;text-anchor:middle">S·B</text>
   <path d="M-62,-8 A18,18 0 0 1 -26,-8Z M26,-8 A18,18 0 0 1 62,-8Z" style="fill:#000;opacity:.22"/>
   <g class="wheel" transform="translate(-44,-7)"><circle r="14" style="fill:#1D1D1F"/><circle r="6.5" style="fill:#C7C7CC"/><circle r="2" style="fill:#1D1D1F"/><rect x="-1" y="-6" width="2" height="4" style="fill:#1D1D1F"/></g>
   <g class="wheel" transform="translate(44,-7)"><circle r="14" style="fill:#1D1D1F"/><circle r="6.5" style="fill:#C7C7CC"/><circle r="2" style="fill:#1D1D1F"/><rect x="-1" y="-6" width="2" height="4" style="fill:#1D1D1F"/></g>
-  <rect x="78" y="-28" width="6" height="8" rx="2" style="fill:#FFD60A"/>
+  <rect x="78" y="-26" width="6" height="8" rx="2" style="fill:#FFD60A"/>
 </g></g></g>`;
 /* the queue at the depot */
 const QUEUE=[[60,1306],[104,1300],[148,1306],[192,1300]];
