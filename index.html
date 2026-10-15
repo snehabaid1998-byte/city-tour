@@ -1509,7 +1509,7 @@ function go(i, focus){
   boardOpen=false; board.classList.add('away');
   say(`Next stop: ${STOPS[i].name}`);
   const dur=reduce?0:Math.min(3400,Math.max(1100,dist*1.4));
-  const t0=performance.now(); svg.classList.add('moving'); if(dur) sfx.engine(dur);
+  const t0=performance.now(); svg.classList.add('moving'); if(dur) sfx.engine(dur); else { sfx.engine(1400); setTimeout(sfx.stop,1400); }
   const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
   let lastX=busPos.x;
   const step=now=>{
@@ -1633,46 +1633,91 @@ const sfx=(()=>{
   }
   function unlock(){ if(init()&&ctx.state==='suspended') ctx.resume().catch(()=>{}); }
   function noiseBuf(){ const b=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; return b; }
-  // a soft "click" for each passenger stepping on
+  // hop-on: two footsteps on the bus's metal step, then the ticket reader beep
+  function step(t,v){
+    // body of the footfall: a low thump
+    const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine';
+    o.frequency.setValueAtTime(140,t); o.frequency.exponentialRampToValueAtTime(55,t+.09);
+    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.55*v,t+.006); g.gain.exponentialRampToValueAtTime(.0001,t+.14);
+    o.connect(g).connect(master); o.start(t); o.stop(t+.16);
+    // scuff of the shoe
+    const n=ctx.createBufferSource(), f=ctx.createBiquadFilter(), ng=ctx.createGain();
+    n.buffer=noiseBuf(); f.type='bandpass'; f.frequency.value=900; f.Q.value=.9;
+    ng.gain.setValueAtTime(.0001,t); ng.gain.exponentialRampToValueAtTime(.35*v,t+.004); ng.gain.exponentialRampToValueAtTime(.0001,t+.07);
+    n.connect(f).connect(ng).connect(master); n.start(t); n.stop(t+.08);
+    // short ring of the metal step
+    const m=ctx.createOscillator(), mg=ctx.createGain(); m.type='triangle'; m.frequency.value=620+Math.random()*60;
+    mg.gain.setValueAtTime(.0001,t); mg.gain.exponentialRampToValueAtTime(.05*v,t+.004); mg.gain.exponentialRampToValueAtTime(.0001,t+.22);
+    m.connect(mg).connect(master); m.start(t); m.stop(t+.24);
+  }
   function click(){
     if(!on||!init()) return; const t=ctx.currentTime;
-    const o=ctx.createOscillator(), g=ctx.createGain();
-    o.type='triangle'; o.frequency.setValueAtTime(1500,t); o.frequency.exponentialRampToValueAtTime(700,t+.06);
-    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.22,t+.004); g.gain.exponentialRampToValueAtTime(.0001,t+.09);
-    o.connect(g).connect(master); o.start(t); o.stop(t+.1);
-    const n=ctx.createBufferSource(), f=ctx.createBiquadFilter(), ng=ctx.createGain();
-    n.buffer=noiseBuf(); f.type='highpass'; f.frequency.value=3000;
-    ng.gain.setValueAtTime(.12,t); ng.gain.exponentialRampToValueAtTime(.0001,t+.03);
-    n.connect(f).connect(ng).connect(master); n.start(t); n.stop(t+.04);
+    step(t,.9); step(t+.17,1);
+    // ticket reader: a short two-tone beep
+    [[1900,0],[2400,.07]].forEach(([fq,off])=>{
+      const o=ctx.createOscillator(), g=ctx.createGain(), tt=t+.36+off; o.type='square'; o.frequency.value=fq;
+      const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3500;
+      g.gain.setValueAtTime(.0001,tt); g.gain.exponentialRampToValueAtTime(.05,tt+.005); g.gain.setValueAtTime(.05,tt+.055); g.gain.exponentialRampToValueAtTime(.0001,tt+.07);
+      o.connect(lp).connect(g).connect(master); o.start(tt); o.stop(tt+.08);
+    });
   }
-  // engine hum that revs up with the bus and settles as it arrives
+  // "ding ding" bell as the bus pulls away
+  function bell(){
+    if(!on||!init()) return;
+    [0,.28].forEach(off=>{
+      const t=ctx.currentTime+off;
+      [[1568,.18],[3136,.06],[4700,.03]].forEach(([f,v])=>{
+        const o=ctx.createOscillator(), g=ctx.createGain(); o.type='sine'; o.frequency.value=f;
+        g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(v,t+.005); g.gain.exponentialRampToValueAtTime(.0001,t+.7);
+        o.connect(g).connect(master); o.start(t); o.stop(t+.75);
+      });
+    });
+  }
+  // air-brake "pssht" as it stops
+  function hiss(){
+    if(!on||!init()) return; const t=ctx.currentTime;
+    const n=ctx.createBufferSource(), f=ctx.createBiquadFilter(), g=ctx.createGain();
+    n.buffer=noiseBuf(); f.type='highpass'; f.frequency.value=2200;
+    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.16,t+.03); g.gain.exponentialRampToValueAtTime(.0001,t+.75);
+    n.connect(f).connect(g).connect(master); n.start(t); n.stop(t+.8);
+  }
+  // diesel engine: harmonics in the range laptop and phone speakers can play, a chug, and road noise
   function engine(dur){
-    if(!on||!init()) return; const t=ctx.currentTime, d=Math.max(.6,dur/1000);
+    if(!on||!init()) return; const t=ctx.currentTime, d=Math.max(.8,dur/1000);
     if(!eng){
-      const g=ctx.createGain(); g.gain.value=.0001;
-      const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=380; lp.Q.value=.8;
+      bell();
+      const out=ctx.createGain(); out.gain.value=.0001;
+      const body=ctx.createBiquadFilter(); body.type='lowpass'; body.frequency.value=900; body.Q.value=1.2;
       const o1=ctx.createOscillator(); o1.type='sawtooth';
-      const o2=ctx.createOscillator(); o2.type='square'; o2.detune.value=-8;
-      const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.frequency.value=7; lg.gain.value=.25;
-      const tremolo=ctx.createGain(); tremolo.gain.value=.75; lfo.connect(lg).connect(tremolo.gain);
+      const o2=ctx.createOscillator(); o2.type='sawtooth'; o2.detune.value=7;
+      const o3=ctx.createOscillator(); o3.type='square';
+      const g3=ctx.createGain(); g3.gain.value=.35;
+      // chug: amplitude wobble at the firing rate
+      const chug=ctx.createGain(); chug.gain.value=.6;
+      const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.type='sine'; lg.gain.value=.4; lfo.connect(lg).connect(chug.gain);
+      o1.connect(body); o2.connect(body); o3.connect(g3).connect(body);
+      body.connect(chug).connect(out);
+      // road and tire noise
       const n=ctx.createBufferSource(); n.buffer=noiseBuf(); n.loop=true;
-      const nf=ctx.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=180; nf.Q.value=.7;
-      const ngain=ctx.createGain(); ngain.gain.value=.5;
-      o1.connect(lp); o2.connect(lp); n.connect(nf).connect(ngain).connect(lp);
-      lp.connect(tremolo).connect(g).connect(master);
-      [o1,o2,lfo,n].forEach(x=>x.start());
-      eng={g,o1,o2,lfo,parts:[o1,o2,lfo,n]};
+      const nf=ctx.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=700; nf.Q.value=.6;
+      const road=ctx.createGain(); road.gain.value=.0001;
+      n.connect(nf).connect(road).connect(out);
+      out.connect(master);
+      [o1,o2,o3,lfo,n].forEach(x=>x.start());
+      eng={out,road,o1,o2,o3,lfo,parts:[o1,o2,o3,lfo,n]};
     }
-    const {g,o1,o2,lfo}=eng;
-    g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(g.gain.value,.0001),t);
-    g.gain.exponentialRampToValueAtTime(.09,t+.35);
-    [[o1,1],[o2,2]].forEach(([o,m])=>{ o.frequency.cancelScheduledValues(t); o.frequency.setValueAtTime(42*m,t); o.frequency.linearRampToValueAtTime(68*m,t+d*.45); o.frequency.linearRampToValueAtTime(46*m,t+d); });
-    lfo.frequency.cancelScheduledValues(t); lfo.frequency.setValueAtTime(6,t); lfo.frequency.linearRampToValueAtTime(11,t+d*.45); lfo.frequency.linearRampToValueAtTime(6,t+d);
+    const {out,road,o1,o2,o3,lfo}=eng;
+    out.gain.cancelScheduledValues(t); out.gain.setValueAtTime(Math.max(out.gain.value,.0001),t); out.gain.exponentialRampToValueAtTime(.26,t+.3);
+    road.gain.cancelScheduledValues(t); road.gain.setValueAtTime(Math.max(road.gain.value,.0001),t); road.gain.exponentialRampToValueAtTime(.5,t+d*.45); road.gain.exponentialRampToValueAtTime(.12,t+d);
+    // rev: idle → cruising → slowing, following the bus's ease-in-out
+    [[o1,1],[o2,2],[o3,3]].forEach(([o,m])=>{ o.frequency.cancelScheduledValues(t); o.frequency.setValueAtTime(68*m,t); o.frequency.linearRampToValueAtTime(112*m,t+d*.45); o.frequency.linearRampToValueAtTime(74*m,t+d); });
+    lfo.frequency.cancelScheduledValues(t); lfo.frequency.setValueAtTime(14,t); lfo.frequency.linearRampToValueAtTime(26,t+d*.45); lfo.frequency.linearRampToValueAtTime(15,t+d);
   }
   function stop(){
     if(!eng||!ctx) return; const t=ctx.currentTime, e=eng; eng=null;
-    e.g.gain.cancelScheduledValues(t); e.g.gain.setValueAtTime(Math.max(e.g.gain.value,.0001),t); e.g.gain.exponentialRampToValueAtTime(.0001,t+.5);
-    e.parts.forEach(x=>{ try{ x.stop(t+.55); }catch(err){} });
+    e.out.gain.cancelScheduledValues(t); e.out.gain.setValueAtTime(Math.max(e.out.gain.value,.0001),t); e.out.gain.exponentialRampToValueAtTime(.0001,t+.45);
+    e.parts.forEach(x=>{ try{ x.stop(t+.5); }catch(err){} });
+    hiss();
   }
   function toggle(){
     on=!on; paint(); try{ localStorage.setItem('sb-sound',on?'on':'off'); }catch(e){}
@@ -1696,7 +1741,7 @@ function finishBoarding(){
   fillSeats(4);
 }
 function boardBus(done){
-  if(boarded||reduce){ finishBoarding(); done(); return; }
+  if(boarded||reduce){ if(!boarded) [0,1,2,3].forEach(k=>setTimeout(sfx.click,k*480)); finishBoarding(); done(); return; }
   say('Boarding at the depot. Find a seat up top.');
   setTarget(busPos.x-70,busPos.y); tgt.s=Math.max(tgt.s,.62);
   const door={x:busPos.x+49*1.35, y:busPos.y+2};
