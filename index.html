@@ -1684,28 +1684,8 @@ const sfx=(()=>{
       o.connect(g).connect(master); o.start(t); o.stop(t+len+.05);
     });
   }
-  let lastStop=0;
-  function stop(){
-    if(!on||!init()) return;
-    const now=performance.now(); if(now-lastStop<400) return; lastStop=now;
-    const t=ctx.currentTime;
-    // 1. brakes squeal briefly as it halts
-    const o=ctx.createOscillator(), g=ctx.createGain(), vib=ctx.createOscillator(), vg=ctx.createGain();
-    o.type='sine'; o.frequency.value=2500; vib.frequency.value=8; vg.gain.value=35; vib.connect(vg).connect(o.frequency);
-    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.03,t+.05); g.gain.exponentialRampToValueAtTime(.0001,t+.32);
-    o.connect(g).connect(master); o.start(t); vib.start(t); o.stop(t+.35); vib.stop(t+.35);
-    // 2. the bus rocks to a stop
-    thud(t+.22,.7);
-    // 3. air brakes: the big "psshhh"
-    noise(t+.3,'highpass',1600,.7,.32,.02,1.1);
-    noise(t+.3,'bandpass',350,.8,.18,.02,.35);
-    // 4. doors hiss open and clunk
-    noise(t+1.25,'bandpass',3200,1.1,.14,.03,.4);
-    thud(t+1.68,.55);
-    // 5. door chime: "bing-bong"
-    tone(t+1.85,659.25,.09,.6);
-    tone(t+2.15,523.25,.09,.9);
-  }
+  // no bus sounds while driving or at stops
+  function stop(){}
   function toggle(){
     on=!on; paint(); try{ localStorage.setItem('sb-sound',on?'on':'off'); }catch(e){}
     if(init()){ unlock(); master.gain.setTargetAtTime(on?1:0,ctx.currentTime,.05); if(!on) stop(); }
