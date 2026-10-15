@@ -1,0 +1,1733 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sneha Baid, product designer. A hop-on, hop-off bus tour through her product work, architecture, art and running.">
+<meta property="og:title" content="Sneha Baid City Tour">
+<meta property="og:description" content="A hop-on, hop-off tour through Sneha Baid's product design work.">
+<style>body{margin:0}img{max-width:100%}</style>
+<title>Sneha Baid City Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: one fixed screen, Apple-style. A quiet illustrated map the camera glides across; a frosted stop sheet (summary) docked right, bottom sheet on phones; "Hop off" opens a full-screen walkthrough with visuals per project. Light = day tour, dark = night tour. Apple system palette; SF Pro with Inter as fallback. */
+:root{
+  --ground:#EEEEF1; --block:#E5E5EA; --road:#FFFFFF; --water:#C3E0F5; --park:#D7EDD0;
+  --bldg:#FFFFFF; --bldg2:#DCDCE1; --win:#C9DDEE; --outline:#48484A; --track:#F2A285;
+  --side:#D8DDE6; --roof:#F3F5F8; --win2:#AFC6D9; --tree:#86C98A; --tree-hi:#B4E2B2; --trunk:#A08C78; --shade:rgba(0,0,0,.09); --gl1:#C9DDEE; --gl2:#FFFFFF;
+  --ink:#1D1D1F; --muted:#6E6E73; --paper:#FFFFFF; --paper2:#F5F5F7; --hair:rgba(0,0,0,.08);
+  --fill:rgba(118,118,128,.12); --glass:rgba(255,255,255,.76);
+  --red:#FF3B30; --blue:#0071E3; --green:#28A745; --purple:#AF52DE; --amber:#FF9500;
+  --ok-ink:#1E7B34; --warn-ink:#A85400;
+  --on-line:#FFFFFF; --link:#0066CC;
+  --led-bg:#1D1D1F; --led:#FFD60A;
+  --shadow:0 24px 70px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.05);
+  --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --f-body:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#151517; --block:#1D1D20; --road:#2A2A2D; --water:#0E2B43; --park:#172C20;
+    --bldg:#3A3A3C; --bldg2:#48484A; --win:#FFD60A; --outline:#000000; --track:#9C4A35;
+    --side:#28282B; --roof:#4A4A4E; --win2:#B8901C; --tree:#2F6B3E; --tree-hi:#3F8A52; --trunk:#5A4A3C; --shade:rgba(0,0,0,.35); --gl1:#4A6488; --gl2:#2A3140;
+    --ink:#F5F5F7; --muted:#98989D; --paper:#1C1C1E; --paper2:#2C2C2E; --hair:rgba(255,255,255,.1);
+    --fill:rgba(118,118,128,.24); --glass:rgba(28,28,30,.76);
+    --red:#FF453A; --blue:#0A84FF; --green:#30D158; --purple:#BF5AF2; --amber:#FF9F0A;
+    --ok-ink:#30D158; --warn-ink:#FFB340;
+    --on-line:#FFFFFF; --link:#2997FF; --shadow:0 24px 70px rgba(0,0,0,.55); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#151517; --block:#1D1D20; --road:#2A2A2D; --water:#0E2B43; --park:#172C20;
+  --bldg:#3A3A3C; --bldg2:#48484A; --win:#FFD60A; --outline:#000000; --track:#9C4A35;
+    --side:#28282B; --roof:#4A4A4E; --win2:#B8901C; --tree:#2F6B3E; --tree-hi:#3F8A52; --trunk:#5A4A3C; --shade:rgba(0,0,0,.35); --gl1:#4A6488; --gl2:#2A3140;
+  --ink:#F5F5F7; --muted:#98989D; --paper:#1C1C1E; --paper2:#2C2C2E; --hair:rgba(255,255,255,.1);
+  --fill:rgba(118,118,128,.24); --glass:rgba(28,28,30,.76);
+  --red:#FF453A; --blue:#0A84FF; --green:#30D158; --purple:#BF5AF2; --amber:#FF9F0A;
+  --ok-ink:#30D158; --warn-ink:#FFB340;
+  --on-line:#FFFFFF; --link:#2997FF; --shadow:0 24px 70px rgba(0,0,0,.55); color-scheme:dark;
+}
+
+html,body{height:100%;overflow:hidden}
+body{background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.47;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer;letter-spacing:inherit}
+:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 60%,transparent);outline-offset:2px;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.glass{background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px)}
+
+#app{height:100%;display:grid;grid-template-rows:auto 1fr auto;grid-template-columns:minmax(0,1fr)}
+.top,.strip,.main{min-width:0}
+
+/* ── Top bar ── */
+.top{position:relative;display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--hair);z-index:6}
+.brand{display:flex;align-items:center;gap:10px;flex:none}
+.roundel{width:28px;height:28px;border-radius:50%;border:4px solid var(--red);display:grid;place-items:center;font:700 8.5px/1 var(--f-display);background:var(--paper)}
+.brand b{font:600 16px/1 var(--f-display);letter-spacing:-.022em}
+.now{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:var(--fill);border-radius:980px;padding:7px 14px}
+.now .dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex:none;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--blue) 50%,transparent)}70%,100%{box-shadow:0 0 0 8px transparent}}
+.now .txt{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;transition:opacity .3s}
+.now .txt.fade{opacity:0}
+.count{flex:none;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:500}
+.autobtn{flex:none;border:0;background:var(--fill);color:var(--ink);border-radius:980px;padding:7px 14px;font-weight:500;font-size:13px}
+.autobtn[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.prog{position:absolute;left:0;right:0;bottom:-1px;height:2px}
+.prog i{display:block;height:100%;width:0;background:var(--blue);transition:width .6s cubic-bezier(.32,.72,0,1)}
+
+/* ── Map ── */
+.main{position:relative;overflow:hidden;min-height:0}
+#map{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.w{fill:var(--bldg);stroke:var(--outline);stroke-width:1.5;stroke-linejoin:round}
+.r{fill:var(--bldg2);stroke:var(--outline);stroke-width:1.5;stroke-linejoin:round}
+.n{fill:var(--win)}
+.s{fill:none;stroke:var(--outline);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.dl{font:600 40px var(--f-display);fill:var(--muted);opacity:.4;letter-spacing:.28em}
+.lm{cursor:pointer}
+/* spotlight: landmarks rest dimmed; the stop the bus is at lights up */
+.lmi{opacity:.28;transition:opacity .7s ease}
+.lm:hover .lmi{opacity:.6}
+.lm.cur .lmi{opacity:1;animation:lmpop .8s cubic-bezier(.32,.72,0,1);transform-box:fill-box;transform-origin:50% 100%}
+@keyframes lmpop{0%{transform:scale(.92)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+.lm .pill{opacity:.7;transition:opacity .5s}
+.lm.cur .pill,.lm:hover .pill{opacity:1}
+/* tourists */
+.seat{transition:opacity .35s ease,transform .45s cubic-bezier(.32,.72,0,1)}
+.seat.empty{opacity:0;transform:translateY(12px)}
+.tourist{transform-box:fill-box;transform-origin:50% 100%}
+.moving .tourist{animation:tbob .32s ease-in-out infinite alternate}
+.moving .seat:nth-child(2) .tourist{animation-delay:.08s}.moving .seat:nth-child(3) .tourist{animation-delay:.16s}.moving .seat:nth-child(4) .tourist{animation-delay:.24s}
+@keyframes tbob{to{transform:translateY(-2.5px)}}
+.arm{transform-box:fill-box;transform-origin:50% 100%;animation:waveArm 1.1s ease-in-out infinite}
+@keyframes waveArm{0%,100%{transform:rotate(-28deg)}50%{transform:rotate(14deg)}}
+.flash{animation:flash 2.6s ease-in-out infinite}
+@keyframes flash{0%,88%,100%{opacity:0}92%{opacity:1}}
+.pp{transition:opacity .3s}
+.lm > g:first-child{filter:url(#soft)}
+.pill rect{fill:var(--paper);filter:url(#soft)}
+.pill text{font:600 24px var(--f-display);fill:var(--ink);text-anchor:middle;letter-spacing:-.01em}
+.lm:hover .pill rect,.lm.cur .pill rect{fill:var(--ink)}
+.lm:hover .pill text,.lm.cur .pill text{fill:var(--paper)}
+.stopmark{fill:var(--paper);stroke-width:6}
+.ledsvg{font:600 13px var(--f-mono);fill:var(--led);text-anchor:middle}
+.wave{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round;animation:wave 2.2s ease-out infinite}
+.wave.b{animation-delay:.5s}.wave.c{animation-delay:1s}
+@keyframes wave{0%{opacity:0}30%{opacity:1}100%{opacity:0}}
+.sparkle{animation:twinkle 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes twinkle{0%,100%{transform:scale(.4);opacity:.3}50%{transform:scale(1);opacity:1}}
+.grow{animation:grow 3s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom center}
+@keyframes grow{0%,100%{transform:scale(.7)}50%{transform:scale(1.05)}}
+.wheel{transform-box:fill-box;transform-origin:center}
+.moving .wheel{animation:spin .45s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.moving #busbody{animation:bob .3s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-2px)}}
+.lamp{fill:var(--win);opacity:0}
+.lampdot{fill:#FFD60A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lamp{opacity:.45}}
+:root[data-theme="dark"] .lamp{opacity:.45}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .lampdot{opacity:1}}
+:root[data-theme="dark"] .lampdot{opacity:1}
+
+/* zoom controls */
+.zoom{position:absolute;left:16px;bottom:16px;display:grid;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--hair);z-index:2}
+.zoom button{border:0;background:transparent;width:38px;height:36px;font-size:18px;font-weight:500}
+.zoom button+button{border-top:1px solid var(--hair)}
+.zoom button:hover{background:var(--fill)}
+
+/* ── Stop sheet ── */
+.board{position:absolute;top:16px;right:16px;bottom:16px;width:min(400px,calc(100% - 32px));border-radius:26px;box-shadow:var(--shadow);border:1px solid var(--hair);display:flex;flex-direction:column;overflow:hidden;transition:transform .55s cubic-bezier(.32,.72,0,1),opacity .35s;z-index:3}
+.board.away{transform:translateX(calc(100% + 30px));opacity:0;pointer-events:none}
+.grab{display:none}
+.bhead,.bfoot,.grab{flex:none}
+.bhead{padding:22px 22px 6px;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;align-items:center}
+.stopno{grid-row:span 2;width:48px;height:48px;border-radius:50%;border:5px solid var(--line);display:grid;place-items:center;font:600 16px/1 var(--f-display);font-variant-numeric:tabular-nums;background:var(--paper)}
+.kind{font-size:12px;color:var(--muted);font-weight:500;min-width:0}
+.kind .chip{color:var(--line);font-weight:600}
+.bhead h2{margin:0;font:700 clamp(21px,2vw,26px)/1.12 var(--f-display);letter-spacing:-.026em;text-wrap:balance}
+.bhead h2:focus{outline:none}
+.bbody{flex:1;min-height:0;overflow:auto;padding:12px 22px 18px;display:flex;flex-direction:column;gap:14px}
+.sum{margin:0;max-width:62ch}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.facts div{background:var(--paper2);border-radius:14px;padding:11px 12px}
+.facts b{display:block;font:700 24px/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.facts span{display:block;font-size:11.5px;color:var(--muted);line-height:1.3;margin-top:6px}
+.wh{font-size:12px;font-weight:600;color:var(--muted);margin:0 0 -6px}
+.who{list-style:none;margin:0;padding:0;border-radius:14px;background:var(--paper2);overflow:hidden}
+.who li{padding:9px 14px;display:grid;grid-template-columns:8px 1fr;gap:11px;align-items:start;font-size:13.5px;line-height:1.4}
+.who li + li{border-top:1px solid var(--hair)}
+.who li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--line);margin-top:6px}
+.hop{width:100%;justify-content:space-between!important;padding:14px 18px!important;font-size:16px!important;border-radius:16px!important;background:var(--ink)!important;color:var(--paper)!important}
+.hop small{opacity:.65;font-weight:500;font-size:13px}
+.bfoot{display:flex;gap:10px;padding:12px 18px 16px;border-top:1px solid var(--hair)}
+.btn{border:0;border-radius:980px;padding:10px 18px;font-weight:500;font-size:15px;background:var(--blue);color:#fff;display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:transform .15s,filter .15s;text-decoration:none}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--fill);color:var(--ink)}
+.btn.next{flex:1;min-width:0}
+.btn.next span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn.small{padding:7px 14px;font-size:13px}
+.olink{display:inline-flex;gap:4px;align-items:center;font-weight:500;color:var(--link);text-decoration:none}
+.olink:hover{text-decoration:underline}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;font-size:13.5px;align-items:center}
+kbd{font:600 12px var(--f-mono);background:var(--paper);border-radius:6px;padding:3px 7px;box-shadow:0 0 0 .5px var(--hair),0 1px 0 var(--hair);text-align:center}
+.email{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--paper2);border-radius:16px;padding:14px 16px}
+.email code{font:600 15px var(--f-body);user-select:all;word-break:break-all;flex:1;min-width:0}
+.links{display:flex;gap:18px;flex-wrap:wrap}
+
+/* ── Explore (hop off) ── */
+.explore{position:absolute;inset:0;z-index:7;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--ground) 45%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);animation:fadein .35s}
+@keyframes fadein{from{opacity:0}}
+.excard{width:min(1180px,100%);height:min(760px,100%);border-radius:28px;box-shadow:var(--shadow);border:1px solid var(--hair);display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;overflow:hidden}
+.excard.enter{animation:cardin .5s cubic-bezier(.32,.72,0,1)}
+@keyframes cardin{from{transform:translateY(20px) scale(.985);opacity:0}}
+.exhead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 26px 10px}
+.exhead h2{margin:2px 0 0;font:700 clamp(22px,2.6vw,32px)/1.1 var(--f-display);letter-spacing:-.03em}
+.exsteps{display:flex;gap:4px;padding:0 26px 14px;overflow-x:auto;scrollbar-width:none}
+.exstep{flex:none;border:0;background:transparent;border-radius:980px;padding:6px 12px 6px 6px;display:flex;gap:8px;align-items:center;font-size:13px;font-weight:500;color:var(--muted)}
+.exstep i{font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--fill);display:grid;place-items:center;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.exstep[aria-selected="true"]{background:var(--fill);color:var(--ink);font-weight:600}
+.exstep[aria-selected="true"] i{background:var(--line);color:#fff}
+.exbody{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;padding:0 26px;min-height:0}
+.vstage{position:relative;background:var(--paper2);border-radius:22px;padding:24px;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;animation:pagein .45s cubic-bezier(.32,.72,0,1)}
+.vstage > .vfit{margin:auto 0;display:flex;flex-direction:column;gap:14px;width:100%}
+.extext{min-height:0;overflow:auto;padding:4px 2px 8px;animation:pagein .45s .05s cubic-bezier(.32,.72,0,1) both}
+.extext h3{margin:0 0 10px;font:700 22px/1.2 var(--f-display);letter-spacing:-.022em;text-wrap:balance}
+.extext p{margin:0 0 12px;color:var(--ink);max-width:56ch}
+.extext p.note{font-size:13px;color:var(--muted)}
+@keyframes pagein{from{opacity:0;transform:translateY(8px)}}
+.exfoot{display:flex;align-items:center;gap:10px;padding:16px 26px 20px}
+.exfoot .sp{flex:1;white-space:nowrap;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:center}
+.vcap{font-size:12px;color:var(--muted);text-align:center;margin:0}
+
+/* ── Visual kit ── */
+.vcard{background:var(--paper);border-radius:16px;padding:14px 16px;box-shadow:0 0 0 .5px var(--hair),0 1px 2px rgba(0,0,0,.04);min-width:0}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:12px;padding:4px 10px;border-radius:980px;background:var(--fill)}
+.banner{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.banner span{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:980px;background:var(--paper);box-shadow:0 0 0 .5px var(--hair)}
+.rh{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.ri{width:34px;height:34px;border-radius:10px;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.rh b{display:block;font-size:15px;line-height:1.2}.rh small{color:var(--muted);font-size:12px}
+.lbl{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+.tokp{border-radius:18px;padding:16px;display:grid;gap:12px;min-width:0}
+.tl{font-size:12px;font-weight:600;opacity:.8}
+.sws{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.sws i{display:block;aspect-ratio:1;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(127,127,127,.3)}
+.sws code{display:block;font:9.5px var(--f-mono);margin-top:4px;opacity:.85;text-align:center;overflow:hidden;text-overflow:ellipsis}
+.samp{border-radius:14px;padding:12px 14px;display:grid;gap:3px}
+.samp small{opacity:.7;font-size:12px}
+.samp .row{display:flex;gap:8px;margin-top:8px;align-items:center}
+.pillx{font-size:12px;font-weight:600;padding:5px 11px;border-radius:980px}
+.swx{width:36px;height:22px;border-radius:11px;position:relative;margin-left:auto}
+.swx::after{content:"";position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff}
+
+.v-stk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:430px;margin:0 auto;width:100%}
+.stk{border:0;aspect-ratio:1;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;align-content:center;text-align:center;padding:12%;font-weight:700;font-size:13px;line-height:1.15;box-shadow:0 0 0 5px var(--paper),0 8px 18px rgba(0,0,0,.18);position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.32,.72,0,1)}
+.stk::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 45%,transparent 60%);transform:translateX(-120%);transition:transform .8s}
+.stk:hover::after,.stk:focus-visible::after{transform:translateX(120%)}
+.stk:hover{transform:rotate(-5deg) scale(1.05)}
+.stk .no{display:block;font:600 10.5px var(--f-mono);opacity:.85;margin-bottom:4px}
+.stk.locked{background:var(--paper);color:var(--muted);box-shadow:0 0 0 5px var(--paper),inset 0 0 0 2px var(--hair)}
+.stk.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+.v-host{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}
+.hform label{display:block;font-size:12px;color:var(--muted);font-weight:600;margin:10px 0 4px}
+.hform label:first-child{margin-top:0}
+.hform input{width:100%;border:0;background:var(--fill);border-radius:10px;padding:9px 12px;font:inherit;font-size:14px;color:var(--ink)}
+.pub{margin-top:14px;border-top:1px solid var(--hair);padding-top:10px}
+.pt{font-weight:600;font-size:13px;margin-bottom:4px}
+.prow{display:flex;gap:10px;align-items:center;padding:7px 0}
+.prow b{display:block;font-size:13px}.prow small{font-size:11.5px;color:var(--muted)}
+.pl{width:28px;height:28px;border-radius:8px;background:var(--c);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.tg{margin-left:auto;width:46px;height:28px;border-radius:14px;border:0;background:var(--fill);position:relative;flex:none;transition:background .25s}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.22);transition:transform .25s cubic-bezier(.32,.72,0,1)}
+.tg[aria-checked="true"]{background:var(--green)}
+.tg[aria-checked="true"]::after{transform:translateX(18px)}
+.tg:disabled{opacity:.55;cursor:default}
+.phone{width:206px;aspect-ratio:9/18.5;border-radius:34px;background:#1D1D1F;padding:8px;box-shadow:0 20px 44px rgba(0,0,0,.25);flex:none;margin:0 auto}
+.pscreen{height:100%;border-radius:27px;background:var(--paper);overflow:hidden;display:flex;flex-direction:column}
+.pnotch{width:64px;height:18px;border-radius:10px;background:#1D1D1F;margin:7px auto 4px;flex:none}
+.pc{padding:8px 13px 10px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;font-size:11.5px;line-height:1.35}
+.pc h5{margin:0;font:700 17px/1.15 var(--f-display);letter-spacing:-.02em;word-break:break-word}
+.pc p{margin:0;color:var(--muted)}
+.ptab{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--hair);padding:7px 4px 9px;font-size:9.5px;text-align:center;color:var(--muted);flex:none}
+.ptab span:first-child{color:var(--ink);font-weight:600}
+.pbtn{border-radius:10px;padding:8px;text-align:center;font-weight:600;font-size:11.5px}
+
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;counter-reset:f}
+.flow li{counter-increment:f;background:var(--paper);border-radius:14px;padding:12px 14px;box-shadow:0 0 0 .5px var(--hair)}
+.flow li::before{content:"Step 0" counter(f);font:600 10.5px var(--f-mono);color:var(--red);display:block;margin-bottom:4px}
+.flow b{display:block;font-size:14px;line-height:1.25}.flow small{font-size:12px;color:var(--muted)}
+.flow li.me{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--red) 45%,transparent)}
+.callout{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:14px;text-align:center}
+.callout b{color:var(--red)}
+
+.dash{display:grid;grid-template-columns:118px minmax(0,1fr);background:var(--paper);border-radius:16px;overflow:hidden;box-shadow:0 0 0 .5px var(--hair),0 10px 30px rgba(0,0,0,.08)}
+.dash nav{background:var(--paper2);padding:12px 8px;display:grid;gap:3px;align-content:start;border-right:1px solid var(--hair)}
+.dash nav span{font-size:12.5px;padding:7px 10px;border-radius:8px;display:flex;justify-content:space-between;gap:4px}
+.dash nav span em{font-style:normal;font:600 10px var(--f-mono);color:var(--muted)}
+.dash nav .on{background:var(--paper);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.dmain{padding:14px;display:grid;gap:8px;min-width:0}
+.dtitle{font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.drow{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--paper2);min-width:0}
+.av{width:30px;height:30px;border-radius:50%;background:var(--fill);display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.drow div{flex:1;min-width:0}.drow b{display:block;font-size:13px}.drow small{font-size:11.5px;color:var(--muted)}
+.st{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:980px;letter-spacing:.03em;white-space:nowrap;flex:none}
+.st.ok{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--ok-ink)}
+.st.fu{background:color-mix(in srgb,var(--amber) 18%,transparent);color:var(--warn-ink)}
+
+.trk{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;position:relative}
+.trk::before{content:"";position:absolute;top:19px;left:8%;right:8%;height:3px;background:var(--fill);border-radius:2px}
+.trk button{position:relative;border:0;background:none;display:grid;justify-items:center;gap:7px;font-size:11.5px;font-weight:500;color:var(--muted);padding:4px 2px;text-align:center;line-height:1.2}
+.trk .pd{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--paper);color:var(--muted);box-shadow:inset 0 0 0 2px var(--hair)}
+.trk .done .pd{background:var(--red);color:#fff;box-shadow:none}
+.trk .now .pd{background:var(--paper);box-shadow:inset 0 0 0 3px var(--red);color:var(--ink)}
+.trk button[aria-pressed="true"]{color:var(--ink);font-weight:700}
+.trk button[aria-pressed="true"] .pd{transform:scale(1.12)}
+.trkd .st{margin-bottom:6px;display:inline-block}
+.trkd p{margin:0;font-size:14px}
+
+.vtabs{display:flex;gap:2px;padding:2px;background:var(--fill);border-radius:9px;overflow-x:auto;scrollbar-width:none}
+.vtabs button{flex:1 0 auto;border:0;background:transparent;padding:6px 10px;font-size:12.5px;font-weight:500;border-radius:7px;white-space:nowrap}
+.vtabs button[aria-selected="true"]{background:var(--paper);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12)}
+.qlab{font:600 10.5px var(--f-mono);color:var(--muted);margin-bottom:6px;letter-spacing:.04em}
+.quote p{margin:0;font-size:16px;font-weight:500;line-height:1.4}
+.darr{text-align:center;color:var(--muted);font-size:18px;line-height:1}
+.tagx{display:inline-block;font:600 10.5px var(--f-mono);color:var(--red);margin-top:6px}
+
+.engine{display:grid;gap:16px;justify-items:center}
+.core{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--red) 70%,#fff),var(--red));color:#fff;display:grid;place-items:center;text-align:center;font-weight:700;font-size:14px;line-height:1.25;padding:20px;box-shadow:0 14px 34px color-mix(in srgb,var(--red) 35%,transparent)}
+.spokes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%;position:relative}
+.spokes .vcard{text-align:center;font-size:13px}
+.spokes .vcard b{display:block;font-size:14px;margin-bottom:4px}
+
+.bigstat{font:700 clamp(46px,6vw,72px)/1 var(--f-display);letter-spacing:-.045em;color:var(--purple)}
+.chips2{display:flex;flex-wrap:wrap;gap:8px}
+.chips2 span{font-size:13px;font-weight:500;padding:7px 13px;border-radius:980px;background:color-mix(in srgb,var(--purple) 14%,var(--paper));color:var(--ink)}
+.pers h4{margin:0;font-size:15px}.pers small{color:var(--muted);font-size:12px}
+.pers p{margin:8px 0 0;font-size:13px;line-height:1.4}
+.pers .tagp{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:980px;background:color-mix(in srgb,var(--purple) 16%,transparent);color:var(--purple)}
+.proc{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.proc span{font-size:12.5px;font-weight:500;padding:7px 12px;border-radius:980px;background:var(--paper);box-shadow:0 0 0 .5px var(--hair)}
+.proc span:not(:last-child)::after{content:"→";margin-left:10px;color:var(--muted)}
+.palette{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.palette div{border-radius:16px;padding:16px;color:#fff;min-height:96px;display:flex;flex-direction:column;justify-content:flex-end}
+.palette b{font-size:16px}.palette small{opacity:.9}
+
+.pipe{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.pipe li{display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--paper);border-radius:14px;padding:10px 14px;box-shadow:0 0 0 .5px var(--hair)}
+.pipe .pn{font:700 24px/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--blue)}
+.pipe .pn.dim{color:var(--muted);font-size:15px}
+.pipe b{display:block;font-size:14px}.pipe small{font-size:12px;color:var(--muted)}
+.ph{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:980px;background:var(--fill)}
+.sus{position:relative;padding:44px 4px 30px}
+.sus .tr{height:14px;border-radius:7px;background:linear-gradient(90deg,color-mix(in srgb,var(--red) 35%,var(--paper)),color-mix(in srgb,var(--amber) 35%,var(--paper)),color-mix(in srgb,var(--green) 40%,var(--paper)))}
+.sus .mk{position:absolute;top:0;transform:translateX(-50%);text-align:center;font-size:12px;font-weight:600;white-space:nowrap}
+.sus .mk::after{content:"";display:block;width:2px;height:30px;margin:4px auto 0;background:currentColor}
+.sus .mk.me{color:var(--blue)}.sus .mk.avg{color:var(--muted);top:auto;bottom:-6px}
+.sus .mk.avg::after{position:absolute;bottom:100%;left:50%;margin:0 0 2px -1px;height:28px}
+.sus .tk{position:absolute;bottom:0;transform:translateX(-50%);font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.bars{display:grid;gap:12px}
+.bar{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,2fr) 46px;gap:12px;align-items:center;font-size:13px}
+.bar .lab b{display:block;font-weight:600}.bar .lab small{color:var(--muted);font-size:11.5px}
+.bar .tr{height:12px;border-radius:6px;background:var(--fill);position:relative;overflow:hidden}
+.bar .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--c);animation:barin 1s cubic-bezier(.32,.72,0,1) both}
+@keyframes barin{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}
+.bar > b{text-align:right;font:700 17px var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.axis{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,2fr) 46px;gap:12px}
+.axis div{position:relative;height:16px;border-top:1px solid var(--hair)}
+.axis span{position:absolute;top:3px;transform:translateX(-50%);font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;justify-content:center}
+.legend span{display:flex;gap:6px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:3px;background:var(--c)}
+
+.svgv{width:100%;height:auto;display:block}
+.svgv text{font-family:var(--f-body);fill:var(--ink)}
+.svgv .mt{fill:var(--muted)}
+.svgv .lane{fill:var(--paper)}
+.svgv .lanel{font-size:12px;font-weight:600;fill:var(--muted)}
+.svgv .ln{fill:none;stroke:var(--outline);stroke-width:1.5}
+
+.kpi b{display:block;font:700 28px/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.kpi span{display:block;font-size:12px;color:var(--muted);margin-top:6px;line-height:1.3}
+
+.tline{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.tline li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:start;background:var(--paper);border-radius:14px;padding:12px 14px;box-shadow:0 0 0 .5px var(--hair)}
+.tline .y{font:700 18px/1.2 var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tline b{display:block;font-size:14px}.tline small{font-size:12.5px;color:var(--muted)}
+.medal{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:980px;margin-left:6px;background:color-mix(in srgb,var(--amber) 20%,transparent);color:var(--warn-ink)}
+
+.marathon{background:var(--paper);border-radius:18px;padding:22px;box-shadow:0 0 0 .5px var(--hair)}
+.mtrack{position:relative;height:6px;border-radius:3px;background:var(--fill);margin:26px 10px 30px}
+.mfill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:3px;background:var(--green)}
+.runner{position:absolute;top:50%;left:0;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25),0 0 0 .5px rgba(0,0,0,.1)}
+.mtrack i{position:absolute;top:16px;transform:translateX(-50%);font:500 11px var(--f-body);color:var(--muted);font-style:normal;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mread{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.mread .km{font:700 34px var(--f-display);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.mread small{color:var(--muted)}
+
+/* ── Layer: prototype viewer + CV ── */
+.layer{position:absolute;inset:0;z-index:9;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--ground) 45%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);animation:fadein .3s}
+.lcard{width:min(1120px,100%);height:min(800px,100%);border-radius:28px;box-shadow:var(--shadow);border:1px solid var(--hair);display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;overflow:hidden;animation:cardin .45s cubic-bezier(.32,.72,0,1)}
+.lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:20px 24px 14px}
+.lhead h2{margin:2px 0 0;font:700 clamp(20px,2.4vw,28px)/1.1 var(--f-display);letter-spacing:-.03em}
+.lhead .kind{color:var(--muted)}
+.gal{position:relative;margin:0 24px;border-radius:20px;background:var(--paper2);padding:22px;min-height:0;display:grid;place-items:center;overflow:hidden}
+.bframe{max-width:100%;max-height:100%;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.16),0 0 0 .5px rgba(0,0,0,.1);background:#fff;animation:pagein .35s cubic-bezier(.32,.72,0,1)}
+.bbar{flex:none;height:26px;background:#ECECEE;display:flex;align-items:center;gap:6px;padding:0 10px}
+.bbar i{width:9px;height:9px;border-radius:50%;background:#C7C7CC}
+.bframe img{display:block;max-width:100%;min-height:0;height:auto;object-fit:contain}
+.phones{display:flex;gap:28px;justify-content:center;align-items:stretch;height:100%;width:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.phones figure{margin:0;flex:none;display:flex;flex-direction:column;align-items:center;gap:10px;scroll-snap-align:center;min-height:0}
+.phones img{flex:1;min-height:0;height:100%;width:auto;filter:drop-shadow(0 14px 26px rgba(0,0,0,.18))}
+.phones figcaption{font-size:13px;font-weight:600}
+.gnav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:0;background:var(--glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 4px 14px rgba(0,0,0,.15);font-size:20px;display:grid;place-items:center}
+.gnav.l{left:12px}.gnav.r{right:12px}
+.gnav:disabled{opacity:0;pointer-events:none}
+.gcap{text-align:center;font-size:13.5px;color:var(--muted);margin:12px 24px 0;min-height:20px}
+.gcap b{color:var(--ink);font-weight:600}
+.lfoot{display:flex;gap:12px;align-items:center;padding:14px 24px 18px;flex-wrap:wrap}
+.thumbs{display:flex;gap:8px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none}
+.thumb{flex:none;border:0;padding:0;border-radius:8px;overflow:hidden;width:86px;aspect-ratio:16/10;opacity:.5;box-shadow:0 0 0 .5px var(--hair);transition:opacity .2s}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top left;display:block}
+.thumb[aria-current="true"]{opacity:1;box-shadow:0 0 0 2px var(--blue)}
+.lfoot .note{font-size:12px;color:var(--muted);flex:1;min-width:0}
+.cvwrap{overflow:auto;padding:0 24px 8px;min-height:0}
+.cv{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:28px;background:var(--paper2);border-radius:20px;padding:26px 28px}
+.cv h3{margin:0 0 10px;font:600 12px var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.cv section+section{margin-top:22px}
+.cvtop{grid-column:1/-1;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end;padding-bottom:16px;border-bottom:1px solid var(--hair)}
+.cvtop h4{margin:0;font:700 30px/1 var(--f-display);letter-spacing:-.035em}
+.cvtop p{margin:4px 0 0;color:var(--muted)}
+.cvc{font-size:13px;color:var(--muted);text-align:right;line-height:1.6}
+.job{padding:12px 0;border-top:1px solid var(--hair)}
+.job:first-of-type{border-top:0;padding-top:0}
+.job .jh{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.job b{font-size:15px}.job .when{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.job .role{font-size:13px;color:var(--muted);margin:1px 0 6px}
+.job ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.5}
+.job li+li{margin-top:4px}
+.cv .sumtxt{font-size:14px;margin:0}
+.cvlist{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:13.5px}
+.cvlist b{font-weight:600}
+.nums{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.nums li{display:grid;grid-template-columns:52px 1fr;gap:8px;font-size:13px;align-items:baseline}
+.nums b{font:700 18px var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cvbtn{flex:none}
+
+/* ── Route strip ── */
+.strip{border-top:1px solid var(--hair);padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px));overflow-x:auto;scrollbar-width:none;z-index:6}
+.route{display:flex;width:max-content;margin-inline:auto}
+.rs{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px;min-width:84px;position:relative;font-size:12px;font-weight:500;color:var(--muted)}
+.rs::before{content:"";position:absolute;top:12px;left:0;right:0;height:3px;background:var(--line);opacity:.85}
+.rs:first-child::before{left:50%}.rs:last-child::before{right:50%}
+.rs .d{width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--line);position:relative;z-index:1;transition:transform .25s cubic-bezier(.32,.72,0,1)}
+.rs[aria-current="step"]{color:var(--ink);font-weight:600}
+.rs[aria-current="step"] .d{transform:scale(1.45);background:var(--line)}
+.rs.seen .d{background:var(--line)}
+.rs:hover{color:var(--ink)}
+
+/* ── Toast ── */
+.toast{position:absolute;left:16px;top:16px;z-index:5;display:flex;gap:12px;align-items:center;padding:10px 10px 10px 16px;border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--hair);width:max-content;max-width:calc(100% - 32px);font-size:13.5px;animation:cardin .5s cubic-bezier(.32,.72,0,1)}
+
+/* ── Day pass ── */
+.ticketwrap{position:absolute;inset:0;display:grid;place-items:center;padding:16px;background:color-mix(in srgb,var(--ground) 40%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:8;transition:opacity .5s}
+.ticketwrap.gone{opacity:0;pointer-events:none}
+.ticket{width:min(640px,100%);display:grid;grid-template-columns:minmax(0,1fr) 150px;border-radius:28px;box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--hair);animation:cardin .9s cubic-bezier(.32,.72,0,1)}
+.tmain{padding:32px 32px 28px;min-width:0}
+.tmain .eyebrow{font-size:13px;font-weight:600;color:var(--warn-ink)}
+.tmain h1{font:700 clamp(32px,5vw,48px)/1.04 var(--f-display);letter-spacing:-.035em;margin:6px 0 12px;text-wrap:balance}
+.tmain p{margin:0 0 18px;color:var(--muted);font-size:17px;line-height:1.45;max-width:42ch}
+.lines{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.lines span{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px}
+.lines i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.tstub{border-left:2px dashed var(--hair);padding:28px 16px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;text-align:center;background:var(--fill)}
+.tstub .big{font:700 52px/1 var(--f-display);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.tstub small{font-size:12px;color:var(--muted);font-weight:500}
+.tstub .code{font:500 11px var(--f-mono);color:var(--muted);letter-spacing:.12em;writing-mode:vertical-rl;transform:rotate(180deg)}
+.hopon{font-size:17px;padding:13px 28px}
+.skip{background:none;border:0;color:var(--link);font-size:15px;margin-left:14px}
+.skip:hover{text-decoration:underline}
+
+@media (max-width:900px){
+  .exbody{display:block;overflow:auto}
+  .vstage{padding:16px;overflow:visible}
+  .extext{overflow:visible;padding:18px 4px 8px}
+}
+@media (max-width:760px){
+  .lcard{border-radius:22px}
+  .lhead{padding:16px 18px 10px}
+  .gal{margin:0 14px;padding:14px}
+  .gnav{width:34px;height:34px}
+  .lfoot{padding:12px 14px 14px}
+  .thumb{width:64px}
+  .phones{justify-content:flex-start;gap:16px}
+  .cvwrap{padding:0 14px 8px}
+  .cv{grid-template-columns:minmax(0,1fr);padding:18px;gap:18px}
+  .cvc{text-align:left}
+  .cvtop h4{font-size:24px}
+  .brand b,.count{display:none}
+  .top{gap:10px;padding:8px 16px}
+  .now .txt{font-size:13px}
+  .board{top:auto;left:8px;right:8px;bottom:8px;width:auto;max-height:62%;border-radius:22px}
+  .board.away{transform:translateY(calc(100% + 30px))}
+  .grab{display:block;border:0;background:transparent;padding:8px 0 0;width:100%}
+  .grab::before{content:"";display:block;width:38px;height:5px;border-radius:3px;background:var(--fill);margin:0 auto}
+  .board.peek .bbody{display:none}
+  .bhead{padding:8px 18px 4px}
+  .stopno{width:40px;height:40px;border-width:4px;font-size:14px}
+  .bbody{padding:10px 18px 12px;font-size:14px;gap:12px}
+  .bfoot{padding:10px 14px 12px}
+  .facts b{font-size:20px}
+  .zoom{display:none}
+  .rs{min-width:70px;font-size:11px}
+  .route{margin-inline:0}
+  .explore{padding:8px}
+  .excard{border-radius:22px}
+  .exhead{padding:16px 18px 8px}
+  .exsteps{padding:0 18px 10px}
+  .exstep span{display:none}
+  .exstep[aria-selected="true"] span{display:inline}
+  .exbody{padding:0 14px}
+  .exfoot{padding:12px 14px 14px}
+  .exfoot .btn{padding:9px 14px;font-size:14px}
+  .exfoot [data-exprev]{font-size:0;padding:9px 14px}
+  .exfoot [data-exprev]::before{content:"‹";font-size:18px}
+  .extext h3{font-size:19px}
+  .extext p{font-size:14px}
+  .g3,.g4,.spokes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .v-host{grid-template-columns:minmax(0,1fr)}
+  .v-host .phone{display:none}
+  .dash{grid-template-columns:minmax(0,1fr)}
+  .dash nav{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--hair)}
+  .bar{grid-template-columns:minmax(0,1fr) 46px}
+  .bar .tr{grid-column:1/-1;grid-row:2}
+  .axis{display:none}
+  .trk .tn{display:none}
+  .ticket{grid-template-columns:1fr}
+  .tstub{border-left:0;border-top:2px dashed var(--hair);flex-direction:row;padding:12px 20px}
+  .tstub .code{writing-mode:horizontal-tb;transform:none}
+  .tstub .big{font-size:34px}
+  .tmain{padding:24px 22px 22px}
+  .tmain p{font-size:15px}
+  .toast{top:8px}
+}
+@media (max-width:460px){ .g2:not(.keep){grid-template-columns:minmax(0,1fr)} .v-tok{grid-template-columns:minmax(0,1fr)} }
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+</head>
+<body>
+<div id="app">
+  <header class="top glass">
+    <div class="brand"><div class="roundel" aria-hidden="true">S·B</div><b>Sneha Baid City Tour</b></div>
+    <div class="now" aria-hidden="true"><span class="dot"></span><span class="txt" id="ledtxt"></span></div>
+    <span class="count" id="count"></span>
+    <span class="sr" aria-live="polite" id="guidesr"></span>
+    <button class="autobtn" data-cv aria-label="Open CV">CV</button>
+    <button class="autobtn" id="auto" aria-pressed="false" title="Let the bus run the whole route by itself">Auto tour</button>
+    <div class="prog" aria-hidden="true"><i id="progfill"></i></div>
+  </header>
+
+  <main class="main" id="main">
+    <svg id="map" role="img" aria-label="Illustrated tour map of Sneha Baid's work, with a bus that drives between stops">
+      <defs>
+        <pattern id="blocks" width="200" height="200" patternUnits="userSpaceOnUse">
+          <rect width="200" height="200" style="fill:var(--road)"/>
+          <rect x="14" y="14" width="172" height="172" rx="24" style="fill:var(--block)"/>
+        </pattern>
+        <linearGradient id="gGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--gl1)"/><stop offset="1" style="stop-color:var(--gl2)"/></linearGradient>
+        <linearGradient id="gBus" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:color-mix(in srgb,var(--red) 82%,#fff)"/><stop offset=".55" style="stop-color:var(--red)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--red) 80%,#000)"/></linearGradient>
+        <linearGradient id="gGem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:#fff"/><stop offset="1" style="stop-color:var(--water)"/></linearGradient>
+        <linearGradient id="gRiver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--water)"/><stop offset="1" style="stop-color:color-mix(in srgb,var(--water) 80%,var(--blue))"/></linearGradient>
+        <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#000" flood-opacity=".12"/></filter>
+      </defs>
+      <g id="world"></g>
+    </svg>
+
+    <div class="zoom glass" role="group" aria-label="Map zoom">
+      <button id="zin" aria-label="Zoom in">+</button>
+      <button id="zout" aria-label="Zoom out">−</button>
+    </div>
+
+    <div class="toast glass" id="toast" hidden role="status">
+      <span><b>Tip:</b> tap <b>Hop off</b> to see a project up close, or pick any stop below.</span>
+      <button class="btn small" id="toastok">Got it</button>
+    </div>
+
+    <section class="board glass away" id="board" aria-label="Stop details"></section>
+
+    <div class="explore" id="explore" hidden role="dialog" aria-modal="true" aria-labelledby="exTitle"></div>
+    <div class="layer" id="layer" hidden role="dialog" aria-modal="true" aria-labelledby="lTitle"></div>
+
+    <div class="ticketwrap" id="ticketwrap">
+      <div class="ticket glass" role="dialog" aria-labelledby="ttl">
+        <div class="tmain">
+          <div class="eyebrow">Day pass · All lines</div>
+          <h1 id="ttl">The Sneha Baid City Tour</h1>
+          <p>A hop-on, hop-off ride through the products I've designed, the people they serve, the buildings I've drawn, and what I do when I'm off duty.</p>
+          <div class="lines">
+            <span><i style="background:var(--red)"></i>Product Quarter</span>
+            <span><i style="background:var(--blue)"></i>Built City</span>
+            <span><i style="background:var(--green)"></i>Off Duty</span>
+          </div>
+          <button class="btn hopon" id="hopon">Hop on</button><button class="skip" id="skip">Skip to contact</button><button class="skip" data-cv>View CV</button>
+        </div>
+        <div class="tstub">
+          <div><div class="big">13</div><small>stops</small></div>
+          <div class="code">SB-2026-BLR</div>
+          <div><small>Hop off<br>anywhere</small></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="strip glass" aria-label="Tour route">
+    <div class="route" id="route"></div>
+  </nav>
+</div>
+
+<script>
+(function(){
+const LINES = {
+  depot:{name:'Depot', v:'--ink'},
+  red:{name:'Product Quarter', v:'--red'},
+  blue:{name:'Built City', v:'--blue'},
+  green:{name:'Off Duty', v:'--green'}
+};
+const ext = (href, label) => `<a class="olink" href="${href}" target="_blank" rel="noopener">${label} ↗</a>`;
+const cap = t => `<p class="vcap">${t}</p>`;
+const fit = h => `<div class="vfit">${h}</div>`;
+
+/* ═══════════ Visuals for each walkthrough slide ═══════════ */
+const V = {
+btwRoles: fit(`
+  <div class="banner"><span>5 linked apps</span><span>1 shell</span><span>1 token set</span></div>
+  <div class="g2 keep">
+    ${[['A','Attendee','My BTW','--blue',['Dashboard','Calendar','Saved Events','My Attendance','Connect & Support']],
+       ['H','Session host','Host Studio','--amber',['Overview','My Events','Create Event','Check-in','Insights','My Host Profile']],
+       ['P','Registered participant','Participant','--green',['Everything in My BTW','My Profile','Digital Passport']],
+       ['V','Volunteer crew','Volunteer Workspace','--purple',['Overview','Assignments','Availability','Agreement','Resources']]]
+      .map(([i,r,app,c,tags])=>`<div class="vcard" style="--c:var(${c})"><div class="rh"><span class="ri">${i}</span><div><b>${app}</b><small>${r}</small></div></div><div class="tags">${tags.map(t=>`<span>${t}</span>`).join('')}</div></div>`).join('')}
+  </div>`),
+btwTokens: fit(`
+  <div class="g2 v-tok">
+    ${[['Light','#f9f0dd','#0b142f','#e0680f','#fffbf3','#1f8a5f'],['Dark, same tokens remapped','#091018','#f1eade','#f2934a','#0c1427','#3fbf8f']].map(([n,bg,ink,acc,surf,ok])=>`
+    <div class="tokp" style="background:${bg};color:${ink};box-shadow:0 0 0 .5px rgba(127,127,127,.3)">
+      <div class="tl">${n}</div>
+      <div class="sws">${[bg,ink,acc,surf,ok].map(h=>`<div><i style="background:${h}"></i><code>${h}</code></div>`).join('')}</div>
+      <div class="samp" style="background:${surf}"><b>Sample session</b><small>Indiranagar · 6:30 PM</small>
+        <div class="row"><span class="pillx" style="background:${ok};color:#fff">Going</span><span class="pillx" style="background:${acc};color:#fff">RSVP</span><span class="swx" style="background:${ok}"></span></div></div>
+    </div>`).join('')}
+  </div>
+  ${cap('Hex values from the bengalurutechweek.com media kit. The card is a sample built from them.')}`),
+btwPassport: fit(`
+  <div class="v-stk">
+    ${[['01','No Talkie Before Filter','--amber'],['03','Silk Board Survivor','--red'],['04','Dosa Driven Development','--green'],['11','Auto Anna','--blue'],['27','MTR Sunday Ritual','--purple']]
+      .map(([n,t,c])=>`<button class="stk" style="--c:var(${c})" aria-label="Sticker ${n}: ${t}"><span><span class="no">No. ${n}</span>${t}</span></button>`).join('')}
+    <button class="stk locked" data-locked aria-label="Locked sticker: Made In BLR"><span><span class="no">🔒</span>Made In BLR</span></button>
+  </div>
+  ${cap('5 of 100 stickers shown. Hover to see the foil, or tap the locked one.')}`),
+btwHost: fit(`
+  <div class="v-host">
+    <div class="vcard hform">
+      <label for="hs-t">Event title</label><input id="hs-t" value="Design systems meetup" maxlength="48">
+      <label for="hs-w">When and where</label><input id="hs-w" value="Sept 3 · 6:30 PM · Koramangala" maxlength="48">
+      <div class="pub"><div class="pt">Publish to</div>
+        <div class="prow"><span class="pl" style="--c:#e0680f">B</span><div><b>Bengaluru Tech Week</b><small>Always listed</small></div><button class="tg" role="switch" aria-checked="true" disabled aria-label="Bengaluru Tech Week, always on"></button></div>
+        <div class="prow"><span class="pl" style="--c:var(--ink)">L</span><div><b>Luma</b><small>Also list on your Luma calendar</small></div><button class="tg" role="switch" aria-checked="true" id="hs-luma" aria-label="Also list on Luma"></button></div>
+      </div>
+    </div>
+    <div class="phone"><div class="pscreen"><div class="pnotch"></div><div class="pc">
+      <div class="pbtn" style="background:#e0680f;color:#fff;text-align:left;padding:14px 12px 30px;border-radius:14px">BTW 2026</div>
+      <h5 id="hs-pt">Design systems meetup</h5><p id="hs-pw">Sept 3 · 6:30 PM · Koramangala</p>
+      <div class="tags"><span>On BTW</span><span id="hs-pl">On Luma</span></div>
+      <div class="pbtn" style="background:var(--ink);color:var(--paper);margin-top:auto">RSVP</div>
+    </div></div></div>
+  </div>
+  ${cap('Type in the form. The phone preview updates as you go, so no host publishes blind.')}`),
+
+riseBefore: fit(`
+  <ol class="flow">
+    ${[['New student assigned','Program Associate',1],['Chat group created','Google Space',0],['Acceptance email sent','Program Associate',1],['Intro message posted','Mentor + Coach',0],['Start date logged','Program Associate',1],['Parent contacted','Program Associate',1]]
+      .map(([b,s,me])=>`<li class="${me?'me':''}"><b>${b}</b><small>${s}</small></li>`).join('')}
+  </ol>
+  <div class="callout">One person runs all <b>six</b> steps, by hand, once per student.</div>`),
+riseAfter: fit(`
+  <div class="dash">
+    <nav><span class="on">Dashboard <em>01 03 05</em></span><span>Scheduling <em>04</em></span><span>Chat <em>02</em></span><span>Leave <em>new</em></span></nav>
+    <div class="dmain">
+      <div class="dtitle"><span>Rise Connect · Dashboard</span><span class="lbl">Sample data</span></div>
+      <div class="drow"><span class="av">A</span><div><b>Student A</b><small>Mentor session 4 of 8 · coach booked</small></div><span class="st ok">ON TRACK</span></div>
+      <div class="drow"><span class="av">B</span><div><b>Student B</b><small>No session booked this week</small></div><span class="st fu">FOLLOW UP</span></div>
+      <div class="drow"><span class="av">C</span><div><b>Student C</b><small>Research question agreed</small></div><span class="st ok">ON TRACK</span></div>
+    </div>
+  </div>
+  ${cap('Small numbers in the menu show which manual step each view replaces.')}`),
+riseTracker: fit(`
+  <div class="vcard">
+    <div class="trk" role="group" aria-label="Research progress">
+      ${['Enrollment','Mentor Mapping','Research Question','Data Collection','Draft Writing','Publication'].map((p,i)=>`<button data-phase="${i}" class="${i<3?'done':i===3?'now':''}" aria-pressed="${i===3}"><span class="pd">${i<3?'✓':i+1}</span><span class="tn">${p}</span></button>`).join('')}
+    </div>
+  </div>
+  <div class="vcard trkd" id="trkd"></div>
+  ${cap('Sample progress for a student partway through. Tap any phase.')}`),
+
+wisprDemo: fit(`
+  <div class="vtw">
+    <div class="vtabs" role="tablist">
+      ${['Translate Mode','Team Knowledge','Voice Journal','100 Use Cases'].map((t,i)=>`<button role="tab" data-vt="${i}" aria-selected="${i===0}">${t}</button>`).join('')}
+    </div>
+    <div class="vtp" data-vp="0" style="display:grid;gap:10px;margin-top:14px">
+      <div class="vcard quote"><div class="qlab">SPOKEN · EN</div><p>“Let's push the deploy to Friday instead of Thursday.”</p></div>
+      <div class="darr">↓</div>
+      <div class="vcard quote" style="box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--red) 40%,transparent)"><div class="qlab">FLOW OUTPUT · ES</div><p>“Vamos a mover el despliegue a viernes en lugar de jueves.”</p></div>
+    </div>
+    <div class="vtp" data-vp="1" hidden style="display:grid;gap:10px;margin-top:14px">
+      ${[['Standup · Tuesday','Blocked on the auth migration until infra approves the ticket.','#blockers'],['1:1 · Design review','Decided to ship translate mode behind a flag first.','#decisions'],['Hallway · Thu 2:14pm','Marketing wants the growth numbers before the all-hands.','#follow-ups']]
+        .map(([a,b,c])=>`<div class="vcard"><div class="qlab">${a.toUpperCase()}</div><div>“${b}”</div><span class="tagx">${c}</span></div>`).join('')}
+    </div>
+    <div class="vtp" data-vp="2" hidden style="display:grid;gap:10px;margin-top:14px">
+      ${[['MON','Talked through the Q3 roadmap out loud before the planning doc existed. It helped me notice the sequencing was off.'],['WED','Recorded a quick reflection right after the user interview: three call-outs I\'d have forgotten by morning.'],['FRI','A voice memo turned into a written retro draft automatically, with no separate transcription step.']]
+        .map(([d,t])=>`<div class="vcard" style="display:grid;grid-template-columns:44px 1fr;gap:10px"><div class="qlab" style="margin:2px 0 0">${d}</div><div>${t}</div></div>`).join('')}
+    </div>
+    <div class="vtp" data-vp="3" hidden style="margin-top:14px">
+      <div class="tags" style="gap:8px">${['Courtroom transcription','Live event captioning','Multilingual support desks','Field research notes','Surgical documentation','Podcast show notes','Accessibility dictation','Voice-first CRM entry','Classroom note-taking','Therapy session summaries','Sales call coaching'].map(t=>`<span style="background:var(--paper);box-shadow:0 0 0 .5px var(--hair);font-size:13px;padding:7px 12px">${t}</span>`).join('')}<span style="font-weight:600">+ 89 more mapped</span></div>
+    </div>
+  </div>
+  ${cap('Sample content from the pitch. Each tab is one direction for the same engine.')}`),
+wisprEngine: fit(`
+  <div class="engine">
+    <div class="core">Real-time speech understanding</div>
+    <div class="spokes">
+      ${[['Translate Mode','across languages'],['Team Knowledge Capture','for teams'],['Voice Journal','for one person'],['100 Use Cases','for growth']].map(([a,b])=>`<div class="vcard"><b>${a}</b><span style="color:var(--muted)">${b}</span></div>`).join('')}
+    </div>
+  </div>
+  ${cap('One engine, four jobs, no rebuild for each.')}`),
+
+mumResearch: fit(`
+  <div class="vcard" style="display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center">
+    <div class="bigstat">10–20%</div>
+    <div style="font-size:14px">of women are affected by perinatal mental health problems during pregnancy and the first year after birth.<br><span style="color:var(--muted);font-size:12px">Source: ncbi.nlm.nih.gov/pmc/articles/PMC5052760</span></div>
+  </div>
+  <div class="g3">
+    ${[['1:1 interviews','Over Teams, with pregnant women with a history of mental health concerns'],['Online survey','Shared across social platforms and forums'],['Community outreach','Facebook groups on pregnancy and mental health']].map(([a,b])=>`<div class="vcard"><b style="display:block;font-size:14px">${a}</b><span style="font-size:12.5px;color:var(--muted)">${b}</span></div>`).join('')}
+  </div>
+  <div><div class="lbl" style="margin-bottom:8px">What we heard most</div><div class="chips2"><span>Heightened anxiety</span><span>Less sleep</span><span>More OCD symptoms</span><span>Tracking apps hard to learn</span><span>Meditation and exercise help</span></div></div>`),
+mumPersonas: fit(`
+  <div class="g2">
+    ${[['Amanda, 28','Planning ahead','Wants resources to prepare with before pregnancy, and a daily creative outlet like sketching that also works for her blindness.','Blind'],
+       ['Olivia, 24','First pregnancy, third trimester','Anxious about the birth and whether she\'s ready. Already uses meditation apps, wants something pregnancy-specific and a community.',''],
+       ['Claire, 35','Senior software developer','Conceived after multiple attempts. Stress from age, hormonal changes and workload at once. Wants to learn from other women.',''],
+       ['Theresa, 30','History of depression','A sight impairment affects how she tells colors apart. Wants a healthy distraction through organizing, but finds most apps hard to use.','Low vision']]
+      .map(([n,s,p,t])=>`<div class="vcard pers"><h4>${n}</h4><small>${s}</small><p>${p}</p>${t?`<span class="tagp">${t}</span>`:''}</div>`).join('')}
+  </div>`),
+mumProcess: fit(`
+  <div class="proc">${['Market research','User research','Personas','Card sorting + SWOT','Journey mapping','Low-fi prototype','Visual design','Usability testing'].map(t=>`<span>${t}</span>`).join('')}</div>
+  <div class="palette">
+    <div style="background:var(--purple)"><b>Purple</b><small>Calm and relaxation</small></div>
+    <div style="background:var(--green)"><b>Green</b><small>New beginnings and growth</small></div>
+  </div>
+  ${cap('Every text and background pair was checked for contrast.')}`),
+
+edenPhone: fit(`
+  <div class="phone" style="width:230px"><div class="pscreen"><div class="pnotch"></div><div class="pc">
+    <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">Urban Eden</b><span style="font-size:13px">🛒</span></div>
+    <span style="align-self:flex-start;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:980px;background:color-mix(in srgb,var(--green) 18%,transparent);color:var(--ok-ink)">Limited Time Workshop</span>
+    <h5>Start Your Balcony Transformation</h5>
+    <p>Turn your concrete space into a private sanctuary with our expert-led design guides.</p>
+    <div class="pbtn" style="background:var(--green);color:#fff">Explore Templates</div>
+    <div class="pbtn" style="box-shadow:inset 0 0 0 1.5px var(--green);color:var(--ok-ink)">Watch Case Studies</div>
+    <div style="display:flex;gap:8px;align-items:center;padding:8px;border-radius:10px;background:var(--paper2);margin-top:auto"><span style="font-size:16px">📷</span><div style="flex:1;min-width:0"><b style="display:block">Scan My Balcony</b><span style="color:var(--muted);font-size:10px">AI-powered spatial mapping &amp; plant recommendations</span></div><span>›</span></div>
+  </div><div class="ptab"><span>Inspire</span><span>My Garden</span><span>Design</span><span>Library</span></div></div></div>
+  ${cap('Recreated from the Google Stitch exploration, using the same copy and tab order.')}`),
+edenIA: fit(`
+  <div class="g4">
+    ${[['Inspire','Discovery','Templates and content at the top of the funnel'],['My Garden','Ownership','The ongoing surface once a plan exists'],['Design','Planning','The planning tool, fed by the balcony scan'],['Library','Reference','Workshops and case studies, not tied to one project']]
+      .map(([a,b,c])=>`<div class="vcard"><div class="lbl">${b}</div><b style="display:block;font-size:16px;margin:4px 0">${a}</b><span style="font-size:12.5px;color:var(--muted)">${c}</span></div>`).join('')}
+  </div>
+  <div class="banner"><span>Scan → plan → plants</span><span>Content + commerce in one shell</span></div>`),
+
+dcwDesign: fit(`
+  <ol class="pipe">
+    <li><span class="pn dim">—</span><div><b>Literature review</b><small>AR, digital twins and omnichannel retail</small></div><span class="ph">Desk</span></li>
+    <li><span class="pn">20</span><div><b>Semi-structured interviews</b><small>15 recent jewellery buyers, 5 retail sales associates</small></div><span class="ph">Qual</span></li>
+    <li><span class="pn">3</span><div><b>In-store observation visits</b><small>Jewellers in Birmingham</small></div><span class="ph">Qual</span></li>
+    <li><span class="pn">50</span><div><b>Survey respondents</b><small>7-point Likert scale</small></div><span class="ph">Quant</span></li>
+    <li><span class="pn">10</span><div><b>AR try-on prototype testers</b><small>Plus the System Usability Scale</small></div><span class="ph">Test</span></li>
+    <li><span class="pn dim">→</span><div><b>Personas, framework, app flow</b><small>What the evidence turned into</small></div><span class="ph">Design</span></li>
+  </ol>`),
+dcwThemes: fit(`
+  <div class="g2">
+    ${[['Customer experience','People want to hold a piece before buying, but also want convenience. Appointment-only policies frustrated some.'],['Product quality','Sparkle, settings and hallmarks reassure buyers. Some doubted AR could show quality well enough.'],['Relationships and service','Many trust specific sales staff. Others find staff intimidating and were more open to AR.'],['Brand storytelling','Craft and heritage impressed luxury buyers, and AR could carry that story further.']]
+      .map(([a,b])=>`<div class="vcard"><b style="display:block;font-size:15px;margin-bottom:4px">${a}</b><span style="font-size:13px">${b}</span></div>`).join('')}
+  </div>
+  ${cap('Four themes from open coding of 20 interview transcripts.')}`),
+dcwSUS: fit(`
+  <div class="vcard">
+    <div class="lbl">System Usability Scale, 0–100</div>
+    <div class="sus">
+      <div class="mk me" style="left:73%">This prototype · 73</div>
+      <div class="tr"></div>
+      ${[0,25,50,75,100].map(v=>`<span class="tk" style="left:${v}%">${v}</span>`).join('')}
+    </div>
+  </div>
+  <div class="g2">
+    <div class="vcard"><div class="lbl" style="color:var(--ok-ink)">Worked</div><ul style="margin:6px 0 0;padding-left:18px;font-size:13px"><li>Immersive visualisation</li><li>Customising pieces</li><li>Trying more pieces from home</li></ul></div>
+    <div class="vcard"><div class="lbl" style="color:var(--warn-ink)">Friction</div><ul style="margin:6px 0 0;padding-left:18px;font-size:13px"><li>Slow-loading 3D models</li><li>Buttons too small to tap</li><li>Some thought it was projected video</li></ul></div>
+  </div>`),
+
+exBars: fit(`
+  <div class="bars">
+    ${[['Fewer handoff failures','Cross-border hiring blueprint',75,'--blue'],['Less candidate ghosting','400 touchpoints remapped',50,'--amber'],['More qualified placements','In 6 months',45,'--amber'],['Lift in candidate NPS','AI-driven Oracle audit',40,'--blue'],['Less redundancy','Same Oracle audit',30,'--blue'],['Faster time to shortlist','Bullhorn + HireVue',20,'--amber']]
+      .map(([a,b,v,c],i)=>`<div class="bar" style="--c:var(${c})"><div class="lab"><b>${a}</b><small>${b}</small></div><div class="tr"><i style="width:${v}%;animation-delay:${i*.07}s"></i></div><b>${v}%</b></div>`).join('')}
+    <div class="axis"><span></span><div>${[0,25,50,75,100].map(v=>`<span style="left:${v}%">${v}%</span>`).join('')}</div><span></span></div>
+  </div>
+  <div class="legend"><span style="--c:var(--blue)"><i></i>Birmingham City University</span><span style="--c:var(--amber)"><i></i>ManpowerGroup</span></div>`),
+exBlueprint: fit(`
+  <svg class="svgv" viewBox="0 0 640 300" role="img" aria-label="Schematic service blueprint across five lanes">
+    ${['International hire','Leadership','Legal','HR','Compliance'].map((l,i)=>`<rect class="lane" x="0" y="${8+i*58}" width="640" height="50" rx="12"/><text class="lanel" x="16" y="${38+i*58}">${l}</text>`).join('')}
+    <polyline points="170,33 250,91 330,149 410,207 490,265 590,33" style="fill:none;stroke:var(--blue);stroke-width:3;stroke-linejoin:round"/>
+    ${[[170,33,'Offer'],[250,91,'Approve'],[330,149,'Right to work'],[410,207,'Contract'],[490,265,'Checks'],[590,33,'Starts']].map(([x,y,t])=>`<circle cx="${x}" cy="${y}" r="9" style="fill:var(--paper);stroke:var(--blue);stroke-width:3"/><text x="${x}" y="${y-14}" text-anchor="middle" style="font-size:11.5px;font-weight:600">${t}</text>`).join('')}
+  </svg>
+  ${cap('Schematic only. It shows how one blueprint connects the lanes. The step names are illustrative.')}
+  <div class="g3">
+    <div class="vcard kpi"><b>50+</b><span>international hires through the blueprint</span></div>
+    <div class="vcard kpi"><b>400</b><span>candidate touchpoints mapped at ManpowerGroup</span></div>
+    <div class="vcard kpi"><b>8 hrs</b><span>saved a week through automated workflows</span></div>
+  </div>`),
+
+archXochi: fit(`
+  <svg class="svgv" viewBox="0 0 520 250" role="img" aria-label="Schematic of a demountable steel frame">
+    <line x1="20" y1="226" x2="500" y2="226" class="ln"/>
+    ${[70,190,310,430].map(x=>`<rect x="${x-5}" y="60" width="10" height="166" style="fill:var(--outline)"/>`).join('')}
+    <rect x="60" y="54" width="380" height="10" style="fill:var(--outline)"/>
+    <rect x="60" y="140" width="380" height="8" style="fill:var(--outline)"/>
+    ${[70,190,310,430].flatMap(x=>[[x,59],[x,144]]).map(([x,y])=>`<circle cx="${x}" cy="${y}" r="6" style="fill:var(--amber);stroke:var(--outline);stroke-width:1.5"/>`).join('')}
+    <rect x="76" y="150" width="108" height="76" style="fill:color-mix(in srgb,var(--red) 30%,var(--paper))"/>
+    ${[160,174,188,202,216].map(y=>`<line x1="76" x2="184" y1="${y}" y2="${y}" style="stroke:var(--paper);stroke-width:1.5"/>`).join('')}
+    <rect x="196" y="150" width="108" height="76" style="fill:var(--water);opacity:.85"/>
+    <rect x="316" y="70" width="108" height="68" style="fill:var(--water);opacity:.85"/>
+    <text x="130" y="246" text-anchor="middle" class="mt" style="font-size:12px">Brick</text>
+    <text x="250" y="246" text-anchor="middle" class="mt" style="font-size:12px">Glass</text>
+    <text x="470" y="62" class="mt" style="font-size:12px">MS frame</text>
+    <text x="470" y="148" class="mt" style="font-size:12px">Bolted joints</text>
+  </svg>
+  ${cap('Schematic of the idea: a bolted mild-steel frame that can come apart. Not the project drawing.')}
+  <div class="g3">
+    <div class="vcard kpi"><b>603 m²</b><span>built area</span></div>
+    <div class="vcard kpi"><b>200+</b><span>covers</span></div>
+    <div class="vcard kpi"><b>4</b><span>materials: brick, MS, IPS, glass</span></div>
+  </div>`),
+archJewar: fit(`
+  <div class="g3">
+    <div class="vcard kpi"><b>6.87</b><span>acre site</span></div>
+    <div class="vcard kpi"><b>154</b><span>keys in 5 room categories</span></div>
+    <div class="vcard kpi"><b>9,400 m²</b><span>column-free ballroom</span></div>
+    <div class="vcard kpi"><b>13</b><span>meeting rooms</span></div>
+    <div class="vcard kpi"><b>12,000 ft²</b><span>food and beverage</span></div>
+    <div class="vcard kpi"><b>IHCL</b><span>live brief (Taj)</span></div>
+  </div>
+  <div><div class="lbl" style="margin-bottom:8px">Resolved through</div>
+  <div class="proc">${['Area statement','Zoning','Banquet and guest floors','Services: water, waste, HVAC, electrical','Elevations and sections','Facade and materials'].map(t=>`<span>${t}</span>`).join('')}</div></div>
+  <div class="tags"><span>Benchmarked: TWA Hotel, JFK</span><span>Hyderabad International Convention Centre</span><span>MLR Convention Centre</span></div>`),
+archRail: fit(`
+  <svg class="svgv" viewBox="0 0 560 230" role="img" aria-label="Section schematic with arrivals and departures on separate levels">
+    <rect x="30" y="58" width="500" height="14" rx="3" style="fill:var(--bldg2);stroke:var(--outline);stroke-width:1.5"/>
+    <rect x="30" y="148" width="500" height="14" rx="3" style="fill:var(--bldg2);stroke:var(--outline);stroke-width:1.5"/>
+    <line x1="20" y1="216" x2="540" y2="216" class="ln"/>
+    ${[60,200,360,500].map(x=>`<rect x="${x-4}" y="72" width="8" height="144" style="fill:var(--outline);opacity:.6"/>`).join('')}
+    <path d="M80,40 H470" style="stroke:var(--blue);stroke-width:4;marker-end:url(#ah)"/>
+    <path d="M480,130 H90" style="stroke:var(--green);stroke-width:4;marker-end:url(#ah2)"/>
+    <defs><marker id="ah" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10Z" style="fill:var(--blue)"/></marker>
+    <marker id="ah2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10Z" style="fill:var(--green)"/></marker></defs>
+    <text x="275" y="30" text-anchor="middle" style="font-size:13px;font-weight:600">Departures level</text>
+    <text x="275" y="120" text-anchor="middle" style="font-size:13px;font-weight:600">Arrivals level</text>
+    ${[110,150,250,300,420].map((x,i)=>`<circle cx="${x}" cy="${i%2?140:50}" r="5" style="fill:var(--ink)"/>`).join('')}
+  </svg>
+  ${cap('Schematic only: arrivals and departures kept on separate levels so the flows never cross.')}
+  <div class="g2 keep">
+    <div class="vcard kpi"><b>567,633 m²</b><span>transit interchange</span></div>
+    <div class="vcard kpi"><b>2019</b><span>Ethos Railport Design entry</span></div>
+  </div>`),
+
+travelMap: fit(`
+  <svg class="svgv" viewBox="0 0 540 280" role="img" aria-label="Map arc between Birmingham and Bengaluru">
+    ${Array.from({length:12},(_,r)=>Array.from({length:24},(_,c)=>`<circle cx="${20+c*22}" cy="${20+r*22}" r="1.6" class="mt" style="fill:var(--muted);opacity:.35"/>`).join('')).join('')}
+    <path id="tarc" d="M99,52 Q300,-40 446,208" style="fill:none;stroke:var(--blue);stroke-width:2.5;stroke-dasharray:6 8"/>
+    <circle cx="99" cy="52" r="8" style="fill:var(--blue);stroke:var(--paper);stroke-width:3"/>
+    <circle cx="446" cy="208" r="8" style="fill:var(--red);stroke:var(--paper);stroke-width:3"/>
+    <text x="99" y="82" text-anchor="middle" style="font-size:14px;font-weight:600">Birmingham</text>
+    <text x="99" y="98" text-anchor="middle" class="mt" style="font-size:11.5px">2022–2025</text>
+    <text x="446" y="238" text-anchor="middle" style="font-size:14px;font-weight:600">Bengaluru</text>
+    <text x="446" y="254" text-anchor="middle" class="mt" style="font-size:11.5px">Home</text>
+    <path d="M-9,0 L7,-1.5 L10,0 L7,1.5Z M-1,-1 L-5,-8 L-2,-8 L4,-1Z M-1,1 L-5,8 L-2,8 L4,1Z" style="fill:var(--ink)"><animateMotion dur="6s" repeatCount="indefinite" rotate="auto" path="M99,52 Q300,-40 446,208"/></path>
+  </svg>
+  ${cap('Positions are approximate.')}`),
+travelTime: fit(`
+  <ol class="tline">
+    <li><span class="y">2016</span><div><b>Bengaluru</b><small>Five years of architecture school at PES University</small></div></li>
+    <li><span class="y">2022</span><div><b>Birmingham</b><small>MSc in UX Design, Birmingham City University</small></div></li>
+    <li><span class="y">2023–25</span><div><b>Working in the UK</b><small>Diamond Centre Wales, ManpowerGroup, Birmingham City University</small></div></li>
+    <li><span class="y">2026</span><div><b>Bengaluru again</b><small>Designing products</small></div></li>
+  </ol>`),
+
+artAwards: fit(`
+  <ol class="tline">
+    <li><span class="y">2018</span><div><b>Yuva Ratna Next (Birla White) <span class="medal">1st place</span></b><small>National award for mural design. Large format, painted on site with a team.</small></div></li>
+    <li><span class="y">2017</span><div><b>Yuva Ratna Next (Birla White) <span class="medal">3rd place</span></b><small>The same national mural award, a year earlier.</small></div></li>
+    <li><span class="y">2017</span><div><b>IIID Furniture Design Competition</b><small>Art of Balance, a self-initiated seat.</small></div></li>
+    <li><span class="y">2017</span><div><b>TechTop, IIT Delhi <span class="medal">Best Trophy Design</span></b><small>National Innovation Workshop.</small></div></li>
+  </ol>`),
+artCraft: fit(`
+  <div class="g2">
+    ${[['Murals','Large-format graphics, where distance changes how a design reads.'],['Objects','Art of Balance: center-of-gravity sketches, ergonomic studies, three material variants.'],['Sculpture','A sculpture workshop at RV College of Architecture.'],['Photography','Still part of how I make collateral and editorial work.']]
+      .map(([a,b])=>`<div class="vcard"><b style="display:block;font-size:15px;margin-bottom:4px">${a}</b><span style="font-size:13px;color:var(--muted)">${b}</span></div>`).join('')}
+  </div>`),
+
+runMarathon: fit(`
+  <div class="marathon">
+    <div class="lbl">A marathon, to scale</div>
+    <div class="mtrack" aria-hidden="true"><div class="mfill"></div><span class="runner"></span>
+      <i style="left:0">0</i><i style="left:23.7%">10</i><i style="left:50%">21.1 · half</i><i style="left:71.1%">30</i><i style="left:100%">42.195</i></div>
+    <div class="mread"><span><span class="km">0.000</span> <small>/ 42.195 km</small></span><button class="btn small" data-run>Run it</button></div>
+  </div>`),
+runScout: fit(`
+  <div style="display:grid;justify-items:center;gap:14px;text-align:center">
+    <svg viewBox="0 0 120 120" width="140" height="140" role="img" aria-label="Award badge">
+      <circle cx="60" cy="60" r="54" style="fill:var(--paper);stroke:var(--amber);stroke-width:6"/>
+      <circle cx="60" cy="60" r="42" style="fill:none;stroke:var(--amber);stroke-width:1.5;stroke-dasharray:3 4"/>
+      <path d="M60,30 L67,51 L89,51 L71,64 L78,86 L60,72 L42,86 L49,64 L31,51 L53,51Z" style="fill:var(--amber)"/>
+    </svg>
+    <div><b style="font-size:18px">Rashtrapati Award</b><div style="color:var(--muted);font-size:13.5px;max-width:34ch">The highest award of the Bharat Scouts and Guides, conferred by the President of India.</div></div>
+  </div>`)
+};
+
+/* ═══════════ Prototype screens (captured from the live prototypes) ═══════════ */
+const PROTOS = {
+  wispr:{ title:'Wispr Flow Concepts', kind:'Prototype · built in Claude Design', type:'desktop',
+    live:'https://claude.ai/code/artifact/2964af1b-ff61-40d2-b9ee-eb69755b91d1',
+    shots:[['img/wispr-0.jpg','Translate Mode','Speak in English, write in the language your reader needs.'],
+           ['img/wispr-1.jpg','Team Knowledge Capture','Spoken notes become a searchable, auto-tagged team wiki.'],
+           ['img/wispr-2.jpg','Voice Journal','A daily habit loop outside of work, with a mood view.'],
+           ['img/wispr-3.jpg','100 Unexplored Use Cases',"100 workflows Flow doesn't serve today, filtered by vertical."]]},
+  mumme:{ title:'MUM.me', kind:'Prototype · built in Figma', type:'phone',
+    live:'https://www.figma.com/proto/Xsa1jmLnlKWWJH52HNtaQx/Mental-Health-App?node-id=646%3A8037&scaling=scale-down&page-id=646%3A7841&starting-point-node-id=646%3A7842&show-proto-sidebar=1',
+    shots:[['img/mum-home.jpg','Home','Daily practices, matched to the week of pregnancy.'],
+           ['img/mum-community.jpg','Community','Groups, a friend to chat with, and professionals.'],
+           ['img/mum-activity.jpg','Activity','Yoga and journaling, organized by trimester.']]}
+};
+const protoBtn = k => `<button class="btn ghost small" data-proto="${k}">View prototype</button>`;
+
+const CV_HTML = `
+<div class="cv">
+  <div class="cvtop"><div><h4>Sneha Baid</h4><p>Product Designer</p></div>
+    <div class="cvc">Bengaluru, Karnataka, India<br>snehabaid.1998@gmail.com<br>
+      <a class="olink" href="https://www.linkedin.com/in/-snehabaid" target="_blank" rel="noopener">LinkedIn ↗</a> &nbsp; <a class="olink" href="https://snehabaid1998-byte.github.io/" target="_blank" rel="noopener">Portfolio ↗</a></div></div>
+  <div>
+    <section><h3>Summary</h3><p class="sumtxt">Product Designer with experience designing complex workflows, dashboards, and service systems across enterprise and operational contexts. Skilled in Figma, design systems and tokens, information architecture, interaction design, prototyping, and mixed-methods research, with experience simplifying processes for non-design stakeholders. Brings a systems-oriented approach to building clear, connected product experiences from discovery through delivery.</p></section>
+    <section><h3>Experience</h3>
+      <div class="job"><div class="jh"><b>Bengaluru Tech Week 2026</b><span class="when">2026 – Present</span></div><div class="role">Product Designer (Freelance) · Bengaluru, India</div><ul>
+        <li>Design a five-role product system for a real city tech event, mapping attendee, host, participant, and volunteer journeys and prototyping the complete experience end to end in Figma.</li>
+        <li>Maintain one token set across five linked apps rather than designing five separate products, allowing component changes to propagate across the system without visual drift.</li>
+        <li>Work backward from the operational constraint that determines whether the event works: where people bunch up and when, simplifying complex workflows around those moments.</li></ul></div>
+      <div class="job"><div class="jh"><b>The Design Daftar</b><span class="when">Jun 2026 – Jul 2026</span></div><div class="role">Brand Operations Executive · Bengaluru, India</div><ul>
+        <li>Owned brand operations and ran design hiring end to end in eight weeks, writing role definitions at two levels and building a sourcing strategy across six channels.</li></ul></div>
+      <div class="job"><div class="jh"><b>Birmingham City University</b><span class="when">Nov 2024 – Dec 2025</span></div><div class="role">Resourcing Advisor, People Operations Consultant · United Kingdom</div><ul>
+        <li>Redesigned cross-border hiring into a single end-to-end service blueprint covering 50+ international hires, which cut process handoff failures by 75%.</li>
+        <li>Ran an AI-driven audit of the Oracle recruiting system, stripping 30% of the redundancy out of the workflow and lifting candidate NPS by 40%.</li>
+        <li>Presented design rationale to Leadership, Legal, HR, and Compliance, none of them designers, all of them daily users of the process being changed.</li></ul></div>
+      <div class="job"><div class="jh"><b>ManpowerGroup</b><span class="when">Oct 2023 – Nov 2024</span></div><div class="role">Service Delivery Consultant · Birmingham, UK</div><ul>
+        <li>Redesigned sourcing and engagement workflows inside Bullhorn and HireVue, two enterprise systems nobody chooses to use, producing 45% more qualified placements in six months and a 20% faster time to shortlist.</li>
+        <li>Mapped 400 touchpoints across two client accounts, found where candidates were dropping out, and redesigned those points with account stakeholders. Ghosting fell 50%.</li>
+        <li>Automated absence-monitoring with Zapier AI Agents, giving each recruiting team back several hours a week.</li></ul></div>
+      <div class="job"><div class="jh"><b>Diamond Centre Wales</b><span class="when">May 2023 – Oct 2023</span></div><div class="role">User Research Associate · Birmingham, UK</div><ul>
+        <li>Ran a full mixed-methods study, 50+ interviews plus quantitative work, for a luxury manufacturing brand deciding whether to adopt a new production technology.</li>
+        <li>Delivered the findings straight to a senior stakeholder team, framed around the decision they had to make rather than around the research itself.</li></ul></div>
+      <div class="job"><div class="jh"><b>CBRC Architects, SNN Builders, ID+AS</b><span class="when">2020 – 2022</span></div><div class="role">Architect and Spatial Designer · Bengaluru, India</div><ul>
+        <li>Two years designing circulation and flow through buildings, where the constraints you cannot see, structure and load-bearing walls, decide the experience of everyone inside. Same instinct, different medium.</li></ul></div>
+    </section>
+    <section><h3>Projects</h3>
+      <div class="job"><div class="jh"><b>Wispr Flow Concepts</b><span class="when">2026</span></div><div class="role">Unsolicited founder pitch, 0 to 1</div><ul>
+        <li>Built four new directions for Wispr Flow's speech-understanding engine as working interactive prototypes in Claude Design, then sent them to the founders unasked.</li>
+        <li>With no existing product surface to reference, defined the interface direction and explained the design decisions before developing the concepts.</li></ul></div>
+      <div class="job"><div class="jh"><b>Rise Connect</b><span class="when">2026</span></div><div class="role">Self-directed concept</div><ul>
+        <li>Mapped four stakeholder groups, students, mentors, writing coaches, and parents, into one information architecture that supported different views of the same coordination problem.</li>
+        <li>Sketched the concept in three days from inside the organization, using direct visibility into the real workflow rather than relying only on the documented one.</li></ul></div>
+      <div class="job"><div class="jh"><b>MUM.me</b><span class="when">2023</span></div><div class="role">Team project, MSc UX Design</div><ul>
+        <li>A mental health app for pregnant women, taken from market research through to usability testing with a project team.</li>
+        <li>Research-first by necessity: the users could not be guessed at, so every interface decision had to trace back to something someone actually said.</li></ul></div>
+      <div class="job"><div class="jh"><b>Urban Eden</b><span class="when">2026</span></div><div class="role">Personal concept</div><ul>
+        <li>AI-assisted balcony gardening: spatial scanning turned into a four-tab design system with a commerce and content structure sitting on top of it.</li></ul></div>
+    </section>
+  </div>
+  <div>
+    <section><h3>Selected numbers</h3><ul class="nums">
+      <li><b>75%</b><span>fewer handoff failures, cross-border hiring blueprint</span></li>
+      <li><b>40%</b><span>lift in candidate NPS from an AI-driven system audit</span></li>
+      <li><b>45%</b><span>more qualified placements in six months</span></li>
+      <li><b>50%</b><span>drop in candidate ghosting after remapping 400 touchpoints</span></li>
+      <li><b>50+</b><span>mixed-methods interviews across two research studies</span></li></ul></section>
+    <section><h3>Skills</h3><ul class="cvlist">
+      <li><b>Design:</b> Figma end to end, design systems and tokens, information architecture, interaction design, prototyping</li>
+      <li><b>Research:</b> Mixed methods, user interviews, usability testing, journey mapping, service blueprinting, Maze, Otter.ai</li>
+      <li><b>Data and reporting:</b> Dashboard design, data storytelling, advanced Excel, executive-facing reporting</li>
+      <li><b>Build and automation:</b> Claude Design, Zapier AI Agents, Adobe Creative Suite</li></ul></section>
+    <section><h3>Education</h3><ul class="cvlist">
+      <li><b>MSc, User Experience Design</b><br>Birmingham City University, UK · 2023<br><span style="color:var(--muted)">Human-centered design, visual design, UX development, assistive technologies</span></li>
+      <li><b>Bachelor of Architecture</b><br>PES University, Bengaluru · 2021<br><span style="color:var(--muted)">Design thinking, critical analysis, spatial and interior design</span></li></ul></section>
+    <section><h3>Achievements</h3><ul class="cvlist">
+      <li><b>Rashtrapati Award:</b> the highest award given by the President of India to Bharat Scouts and Guides.</li>
+      <li><b>Yuva Ratna Next Award:</b> national award for Best Mural feature.</li></ul></section>
+    <section><h3>Languages</h3><p class="sumtxt">English, Hindi, Kannada, Marwadi</p></section>
+    <section><h3>How I work</h3><p class="sumtxt">I came to product design from architecture, then spent three years inside operations. Both taught me the same thing: watch how people actually move through a system, find where it jams, then redesign the path instead of decorating it.</p>
+      <p class="sumtxt" style="margin-top:8px">Most of my work has been on internal tools and regulated workflows, the kind of software people have no choice but to use. That is a good place to learn, because nothing forgives you.</p></section>
+  </div>
+</div>`;
+
+/* ═══════════ Stops ═══════════ */
+const STOPS = [
+  { id:'depot', short:'Depot', name:'Meet your guide', line:'depot', kind:'Ticket booth', x:330, y:1300, lm:'depot',
+    guide:"Welcome aboard. I'm Sneha, and I'll be your guide today.",
+    body:`<p class="sum">I'm <b>Sneha Baid</b>, a product designer in Bengaluru. I trained as an architect, then moved to the UK for an MSc in UX Design and spent three years redesigning how hiring and service systems work.</p>
+      <p class="sum" style="color:var(--muted)">I design systems, not screens. The workflows underneath an interface decide how people feel using it, the same way load-bearing walls decide how a room feels.</p>
+      <div class="facts"><div><b>B.Arch</b><span>PES University, 2021</span></div><div><b>MSc UX</b><span>Birmingham City University, 2023</span></div><div><b>4</b><span>languages: English, Hindi, Kannada, Marwadi</span></div></div>
+      <p class="wh">How to ride</p>
+      <div class="keys"><kbd>Next stop</kbd><span>Drive on. Or press →</span><kbd>Hop off</kbd><span>See a project up close, with visuals</span><kbd>Route</kbd><span>Tap any stop along the bottom to jump there</span><kbd>Auto tour</kbd><span>The bus drives the whole route for you</span><kbd>CV</kbd><span>My CV, any time, from the top bar</span></div>
+      <button class="btn ghost" data-cv>View my CV</button>`},
+
+  { id:'btw', short:'Tech Week', name:'Bengaluru Tech Week', line:'red', kind:'Case study · Freelance / volunteer · 2026', x:540, y:1010, lm:'btw',
+    guide:'On your left, a tech week spread across all of Bengaluru. Traffic included.',
+    summary:'A shared product system for a citywide tech event held Sept 1–6, 2026. Five linked apps for four kinds of people, all from one token set. I designed and prototyped every surface.',
+    facts:[['5','linked apps'],['4','roles served'],['1','token set']],
+    who:['Attendees choosing what to go to this week','Hosts publishing and running sessions','Participants collecting proof they showed up','Volunteer crew getting scheduled and briefed'],
+    slides:[
+      {t:'Four roles', v:V.btwRoles, d:`<h3>One event, four very different people</h3><p>Left alone, four groups would get four unrelated tools. I designed one shell, with a surface for each role and the screens each one actually needs.</p><p class="note">The event set itself a goal of 100+ events and 10,000+ attendees for 2026.</p>`},
+      {t:'Token set', v:V.btwTokens, d:`<h3>One token set behind every surface</h3><p>All five apps share the same CSS custom properties, component classes and type pairing, taken from the event's own brand kit.</p><p>Change a token once and every surface stays consistent, in light and dark.</p>`},
+      {t:'Digital Passport', v:V.btwPassport, d:`<h3>Proof of attendance worth collecting</h3><p>Version one was a plain checklist. I rebuilt it as 100 hyper-local Bengaluru stickers, earned by checking into real sessions, with a holographic foil on hover.</p><p>The copy carries the personality. Every name is a Bengaluru in-joke.</p>`},
+      {t:'Host Studio', v:V.btwHost, d:`<h3>A builder with a live preview</h3><p>Hosts see a phone-sized preview update as they type. "Publish to" is a real choice: BTW is always listed, and Luma is a separate connected-app toggle instead of a silent sync.</p><p class="note">Bengaluru traffic was the core constraint across all five apps. Crossing the city at 6 PM can take longer than a session, so location and neighborhood clustering mattered more than polish.</p>`}
+    ]},
+
+  { id:'rise', short:'Rise Connect', name:'Rise Connect', line:'red', kind:'Concept · Self-directed · Aug 2026', x:360, y:700, lm:'rise',
+    guide:"This building ran on one person's inbox. I drew it a floor plan.",
+    summary:"Rise runs one-on-one research mentorship for high school students. In the first three days of a trial there, I sketched one portal to replace six manual handoffs per student.",
+    facts:[['4','stakeholder groups'],['6','manual steps replaced'],['3','days to sketch']],
+    who:['High school students writing research papers','Mentors and writing coaches','Parents waiting on updates','The one staff member coordinating everyone'],
+    slides:[
+      {t:'Before', v:V.riseBefore, d:`<h3>Six manual steps, one person</h3><p>By day two, the real brief was coordination. Every student's first week took six separate manual actions, and four of them landed on the same person.</p><p>With no engineering time and no mandate to build, the deliverable had to be a sketch that argued its own case.</p>`},
+      {t:'After', v:V.riseAfter, d:`<h3>Four views replace six handoffs</h3><p><b>Status tags inside the cards.</b> On-track and follow-up show on the roster itself, so the gap is visible at the same glance.</p><p><b>Chat threaded by role.</b> "What does the mentor need to know" is a different question from "what's the latest message."</p><p><b>Leave lives with the schedule,</b> so a request and its conflict show up in one place.</p>`},
+      {t:"Student's view", v:V.riseTracker, d:`<h3>The same idea, for the student</h3><p>I later prototyped the student side in Google Stitch: one always-visible tracker for the six-phase journey from enrollment to publication.</p><p>It's the same move as the staff dashboard, applied to the person the whole system exists for.</p>`}
+    ]},
+
+  { id:'wispr', proto:'wispr', short:'Wispr Flow', name:'Wispr Flow Concepts', line:'red', kind:'Founder pitch · Unsolicited', x:600, y:420, lm:'wispr',
+    guide:'Listen closely. This tower turns speech into four new products.',
+    summary:"Wispr Flow's real asset is real-time speech understanding, and dictation is only one use of it. I pitched four new surfaces for the same engine, each a working simulation in Claude Design.",
+    facts:[['4','new directions'],['1','engine'],['100','use cases mapped']],
+    whoLabel:'Who it could serve',
+    who:['Multilingual teams','Teams that lose decisions after meetings','One person thinking out loud','Fields like live captioning and accessibility dictation'],
+    slides:[
+      {t:'Try the tabs', v:V.wisprDemo, d:`<h3>Four directions, built as working tabs</h3><p>Each direction is a clickable simulation, not a static comp. Try the four tabs.</p><p>${protoBtn('wispr')}</p>`},
+      {t:'The argument', v:V.wisprEngine, d:`<h3>Why one prototype, not four decks</h3><p>Putting four directions in one prototype was the argument itself: the same engine pointed at four jobs, with no rebuild for each.</p><p>I prototyped behavior first, because you can't judge a new interaction from a static picture.</p>`}
+    ]},
+
+  { id:'mumme', proto:'mumme', short:'MUM.me', name:'MUM.me', line:'red', kind:'Team project · MSc · Oct 2022–Jan 2023', x:950, y:290, lm:'mumme',
+    guide:'A quieter street. This house was designed for the months before a baby arrives.',
+    summary:'A mental health app for pregnant women, built with a university team from market research through usability testing. I was the UX/UI designer.',
+    facts:[['10–20%','of women affected'],['4','personas'],['8','process stages']],
+    who:['Pregnant women with anxiety, poor sleep or OCD symptoms','Women who found tracking apps hard to learn','Women with sight impairments, from day one'],
+    slides:[
+      {t:'Research', v:V.mumResearch, d:`<h3>A real gap in pregnancy care</h3><p>Stress during pregnancy affects the baby as well as the mother, yet we found little that addressed mental health in that time.</p><p>Many women already used tracking apps but said they took too long to understand. Clarity over comprehensiveness became a design rule.</p>`},
+      {t:'Personas', v:V.mumPersonas, d:`<h3>Four personas, one designed blind</h3><p>We built personas by age, profession, trimester, personality and medical history.</p><p>One persona was deliberately blind and another has low vision, which made accessibility a requirement from the first brainstorm instead of a fix at the end.</p>`},
+      {t:'Process', v:V.mumProcess, d:`<h3>From research to visual design</h3><p>We card-sorted every finding, ran it through a SWOT, and built a user journey for each scenario before drawing a single high-fidelity screen.</p><p>${protoBtn('mumme')}</p>`}
+    ]},
+
+  { id:'urbaneden', short:'Urban Eden', name:'Urban Eden', line:'red', kind:'Personal concept', x:1270, y:430, lm:'urbaneden',
+    guide:'Look up at the balconies. One of them is about to turn green.',
+    summary:'An AI-assisted balcony gardening concept explored in Google Stitch. Point your phone at a bare concrete balcony and get a spatial plan and plant picks back.',
+    facts:[['4','tabs'],['1','screen explored']],
+    whoLabel:'Who it could serve',
+    who:['Apartment dwellers with no garden yet','People who need teaching as well as selling','Shoppers, with somewhere for a recommendation to go'],
+    slides:[
+      {t:'Home screen', v:V.edenPhone, d:`<h3>The scan comes before the catalog</h3><p>Most gardening apps assume you already have a garden. This one starts from an empty balcony.</p><p><b>Scan My Balcony</b> sits above the fold, before any plant list, as the thing that turns a visitor into a project.</p>`},
+      {t:'Structure', v:V.edenIA, d:`<h3>Four jobs, one shell</h3><p>The tab bar splits the product into discovery, ownership, planning and reference. Templates and workshops serve people who need teaching, and the store sits in the header.</p><p class="note">To be clear about scope: one screen, with no plant database, no working scan and no user research yet.</p>`}
+    ]},
+
+  { id:'diamond', short:'Diamond Centre', name:'Diamond Centre Wales', line:'red', kind:'MSc dissertation · Industry project · 2023', x:1080, y:740, lm:'dcw',
+    guide:"Next, a jeweller's. Mind the sparkle.",
+    summary:'How could AR and digital twins personalize buying jewellery, online and in store, without losing the feel of holding a piece? A mixed-methods study with a bespoke jewellery maker.',
+    facts:[['20','interviews'],['50','surveys'],['73','SUS score']],
+    who:['Jewellery buyers who want to hold a piece first','Sales associates customers trust','A luxury manufacturer weighing new technology'],
+    slides:[
+      {t:'Research design', v:V.dcwDesign, d:`<h3>Qualitative first, then test it</h3><p>An exploratory sequential design. I started with interviews and store visits to find out what people care about, then used a survey and a prototype test to check how far those ideas held up.</p><p class="note">Interviews ran 30–45 minutes, nine online and eleven in person.</p>`},
+      {t:'What people said', v:V.dcwThemes, d:`<h3>Four themes from the interviews</h3><p>Customers want convenience but still want to touch, turn and inspect a piece. Reactions to AR were mixed.</p><p>The survey added one strong signal: privacy concerns were the biggest reason people hesitated to use AR at all.</p>`},
+      {t:'Prototype test', v:V.dcwSUS, d:`<h3>Good, not excellent</h3><p>Ten people tried an AR try-on prototype built from a template, then rated it on the System Usability Scale.</p><p>Some thought the jewellery was a video projected onto them, which pointed to clearer onboarding in the final framework.</p>`}
+    ]},
+
+  { id:'exchange', short:'The Exchange', name:'The Exchange: enterprise systems', line:'red', kind:'UK · 2023–2025', x:1400, y:980, lm:'exchange',
+    guide:'The financial district. The numbers here are real, and so are the users: people looking for work.',
+    summary:'Three years redesigning hiring and service workflows at Birmingham City University and ManpowerGroup. Same habit as architecture: find the structure people can\'t see, then redesign the path through it.',
+    facts:[['75%','fewer handoff failures'],['45%','more placements'],['50+','international hires']],
+    who:['International hires moving countries for a job','Job seekers who were being ghosted','Recruiting teams doing repetitive work by hand','Legal, HR and Compliance, all signing off one hire'],
+    slides:[
+      {t:'Results', v:V.exBars, d:`<h3>Measured results</h3><p><b>Birmingham City University,</b> Resourcing Advisor, Nov 2024–Dec 2025. Cross-border hiring rebuilt as one end-to-end service blueprint, plus an AI-driven audit of the Oracle recruiting system.</p><p><b>ManpowerGroup,</b> Service Delivery Consultant, Oct 2023–Nov 2024. Sourcing and engagement workflows redesigned in Bullhorn and HireVue.</p>`},
+      {t:'Blueprint', v:V.exBlueprint, d:`<h3>One blueprint across five lanes</h3><p>Handoff failures happened between departments, not inside them. Mapping the whole journey on one blueprint made every handoff visible to Leadership, Legal, HR and Compliance.</p>`}
+    ]},
+
+  { id:'architecture', short:'Architecture', name:'Old Town: architecture', line:'blue', kind:'B.Arch, PES University · Practice 2020–2022', x:1880, y:790, lm:'arch',
+    guide:"Welcome to the old town. This is where I learned that the walls you can't see decide how a room feels.",
+    summary:'Five years of architecture school and two years in practice, from a built 200-cover restaurant to a five-star hotel thesis and a transit interchange.',
+    facts:[['603 m²','built'],['154','hotel keys'],['567,633 m²','interchange']],
+    who:['Diners in a 200-cover restaurant and bar','Hotel guests and delegates next to a new airport','Commuters moving through a transit interchange'],
+    slides:[
+      {t:'Xochi, built', v:V.archXochi, d:`<h3>Xochi Resto-Bar, Bellandur</h3><p>A practice project at ID+AS with a fully demountable mild-steel structure. I worked on drawings, fabrication details and material studies.</p><p class="note">Design team: Asad Khan, Omkar, Umair, Priyanka, Aishwarya and me. Later at CBRC Architects and SNN Builders (2021–22) I produced working drawings and specifications for homes.</p>`},
+      {t:'Jewar, thesis', v:V.archJewar, d:`<h3>Five-star hotel and convention centre, Jewar Aerocity</h3><p>My B.Arch thesis, drawn against a live IHCL brief and resolved down to water, waste, HVAC and electrical distribution.</p><p class="note">I also wrote a research paper on acoustics in airport hotels.</p>`},
+      {t:'Railport', v:V.archRail, d:`<h3>Anand Vihar Railport</h3><p>A competition entry for Ethos 2019, and my only public-flow-scale project. Arrivals and departures sit on separate levels, so the two flows of people never cross.</p>`}
+    ]},
+
+  { id:'travel', short:'Two cities', name:'Two cities', line:'blue', kind:'Travel · Bengaluru ⇄ Birmingham', x:2250, y:460, lm:'travel',
+    guide:"Our one flight of the day: Bengaluru to Birmingham, and back again.",
+    summary:'Bengaluru is home. In 2022 I moved to Birmingham for my MSc and stayed three more years working in the UK. In 2026 I came back.',
+    facts:[['2','home cities'],['4','years in the UK']],
+    who:['I love architecture, and it\'s a big part of why I travel','I look at how a station, market or lobby moves people, the same question I ask of software'],
+    whoLabel:'Why I travel',
+    slides:[
+      {t:'The route', v:V.travelMap, d:`<h3>Between two very different cities</h3><p>Living in both taught me to design for people who don't share my defaults, from Bengaluru traffic to a British jewellery counter.</p>`},
+      {t:'Timeline', v:V.travelTime, d:`<h3>Ten years, two cities</h3><p>Architecture school in Bengaluru, a master's and three jobs in the UK, then home again to design products.</p>`}
+    ]},
+
+  { id:'art', short:'Art', name:'Arts district', line:'green', kind:'Art on the side', x:2390, y:930, lm:'art',
+    guide:'The arts district. Some of the work here is the size of a wall.',
+    summary:'I placed in a national mural award two years running. Painting at wall size taught me how a graphic changes with distance, from a 24 px label to a wall.',
+    facts:[['1st','Yuva Ratna Next, 2018'],['3rd','Yuva Ratna Next, 2017']],
+    who:['Murals and large-format graphics','Furniture and trophy design','Sculpture and photography'],
+    whoLabel:'What I make',
+    slides:[
+      {t:'Awards', v:V.artAwards, d:`<h3>Recognition</h3><p>The Yuva Ratna Next award from Birla White is a national competition for mural design. The mural was large format and painted on site with a team.</p>`},
+      {t:'Craft', v:V.artCraft, d:`<h3>Making things by hand</h3><p>Art of Balance is the piece I'd walk an interviewer through. It went from center-of-gravity sketches to ergonomic studies to three material variants.</p>`}
+    ]},
+
+  { id:'running', short:'Running', name:'The running track', line:'green', kind:'Off duty · Health and wellbeing', x:2080, y:1270, lm:'run',
+    guide:'Last stretch before the terminus. This part of the tour is on foot.',
+    summary:"I train for marathons. It's how I look after my health and my head: long, steady work where the result comes from showing up week after week.",
+    facts:[['42.195','km in a marathon']],
+    who:['Small, steady sessions','Honest tracking','No skipping the boring miles'],
+    whoLabel:'What carries into design work',
+    slides:[
+      {t:'The distance', v:V.runMarathon, d:`<h3>42.195 kilometers</h3><p>Press <b>Run it</b> to cover a marathon to scale. Training for one is mostly patience, and so is good systems work.</p>`},
+      {t:'Outdoors', v:V.runScout, d:`<h3>Outdoors since school</h3><p>Before running, there was scouting. I hold the Rashtrapati Award, the highest award of the Bharat Scouts and Guides.</p>`}
+    ]},
+
+  { id:'terminus', short:'Terminus', name:'Terminus', line:'depot', kind:'End of the line', x:1450, y:1340, lm:'terminus',
+    guide:"Terminus. Thanks for riding. Please take your belongings, and my email.",
+    body:`<p class="sum">I'm open to product design roles, especially where the system underneath matters as much as the screen.</p>
+      <div class="email"><code id="em">snehabaid.1998@gmail.com</code><button class="btn small" data-copy="snehabaid.1998@gmail.com">Copy email</button></div>
+      <div class="links">${ext('https://www.linkedin.com/in/-snehabaid','LinkedIn')}${ext('https://snehabaid1998-byte.github.io/','Full case studies')}</div>
+      <button class="btn hop" data-cv><span>View my CV</span><small>Product Designer →</small></button>`}
+];
+
+/* ═══════════ Landmarks (base at 0,0) — soft 3D, no outlines ═══════════ */
+const DY=.55; // oblique depth: every unit of depth rises this much
+const sideOf=(c)=>`color-mix(in srgb,${c} 78%,#000)`;
+const roofOf=(c)=>`color-mix(in srgb,${c} 88%,#fff)`;
+function box(x,w,h,d,o={}){
+  const f=o.front||'var(--bldg)', sd=o.side||(o.front&&!o.front.startsWith('url')?sideOf(o.front):'var(--side)'), rf=o.roof||'var(--roof)', dy=d*DY, y=-h;
+  return `<path d="M${x+w},0 L${x+w+d},${-dy} L${x+w+d},${y-dy} L${x+w},${y}Z" style="fill:${sd}"/>`+
+    `<path d="M${x},${y} L${x+w},${y} L${x+w+d},${y-dy} L${x+d},${y-dy}Z" style="fill:${rf}"/>`+
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" style="fill:${f}"/>`;
+}
+const win=(x,y,w,h,f='var(--win)')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" style="fill:${f}"/>`;
+function wins(x0,y0,cols,rows,w,h,gx,gy,f){ let s=''; for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) s+=win(x0+c*gx,y0+r*gy,w,h,f); return s; }
+function sideWins(xr,d,y0,rows,gy,hh){ // window strips on a side face whose front edge is at x=xr
+  let s=''; const a=d*.2, b=d*.8;
+  for(let r=0;r<rows;r++){ const yr=y0+r*gy;
+    s+=`<path d="M${xr+a},${yr-a*DY} L${xr+b},${yr-b*DY} L${xr+b},${yr-b*DY+hh} L${xr+a},${yr-a*DY+hh}Z" style="fill:var(--win2)"/>`; }
+  return s;
+}
+const tree=(x,y,r)=>`<rect x="${x-2}" y="${y}" width="4" height="${r*.7}" rx="2" style="fill:var(--trunk)"/><circle cx="${x}" cy="${y-r*.15}" r="${r}" style="fill:var(--tree)"/><circle cx="${x-r*.32}" cy="${y-r*.48}" r="${r*.5}" style="fill:var(--tree-hi)"/>`;
+const up=(dy,s)=>`<g transform="translate(0,${-dy})">${s}</g>`;
+
+const LM = {
+  depot:()=>`
+    ${box(-130,170,84,44,{roof:'var(--red)'})}
+    ${[-118,-66].map(x=>`<path d="M${x},0 V-46 A22,22 0 0 1 ${x+44},-46 V0Z" style="fill:#2A2F38"/>`).join('')}
+    <rect x="-14" y="-62" width="44" height="30" rx="4" style="fill:var(--win)"/>
+    <rect x="-104" y="-104" width="104" height="26" rx="6" style="fill:var(--led-bg)"/>
+    <text class="ledsvg" x="-52" y="-86" style="font-size:13px">TICKETS</text>
+    ${box(70,54,62,24,{roof:'var(--amber)'})}${win(80,-50,34,22)}`,
+  btw:()=>`
+    ${box(-160,58,190,28)}${wins(-150,-176,3,8,10,14,17,22)}${sideWins(-102,28,-176,8,22,12)}
+    ${box(36,66,250,32,{front:'url(#gGlass)'})}
+    ${[48,62,76,90].map(x=>`<rect x="${x}" y="-244" width="2" height="236" style="fill:var(--bldg);opacity:.7"/>`).join('')}${sideWins(102,32,-240,10,23,13)}
+    ${box(-120,150,82,34)}
+    ${[-108,-86,-64,-42,-20,2].map(x=>`<rect x="${x}" y="-74" width="9" height="66" rx="2" style="fill:var(--side)"/>`).join('')}
+    <rect x="-130" y="-6" width="170" height="8" rx="2" style="fill:var(--side)"/>
+    ${up(82,box(-74,62,30,22))}
+    <path d="M-74,-112 A31,31 0 0 1 -12,-112Z" style="fill:var(--roof)"/>
+    <path d="M-43,-143 A31,31 0 0 1 -12,-112 L4,-121 A31,31 0 0 0 -27,-152Z" style="fill:var(--side);opacity:.6"/>
+    <line x1="-43" y1="-143" x2="-43" y2="-176" style="stroke:var(--muted);stroke-width:2"/><path d="M-43,-176 L-20,-169 L-43,-162Z" style="fill:var(--red)"/>`,
+  rise:()=>`
+    ${box(-100,200,100,40)}
+    <path d="M0,-150 L108,-100 L148,-122 L40,-172Z" style="fill:var(--side)"/>
+    <path d="M-108,-100 L108,-100 L0,-150Z" style="fill:var(--roof)"/>
+    <circle cx="0" cy="-118" r="9" style="fill:var(--win)"/>
+    ${[-86,-58,-30,16,44,72].map(x=>`<rect x="${x}" y="-92" width="12" height="82" rx="3" style="fill:var(--side)"/>`).join('')}
+    <rect x="-12" y="-52" width="24" height="44" rx="12" style="fill:#2A2F38"/>
+    <rect x="-112" y="-8" width="224" height="8" rx="2" style="fill:var(--side)"/>
+    <g>
+      ${[[-70,-214],[-26,-244],[26,-244],[70,-214]].map(([x,y])=>`<line x1="0" y1="-196" x2="${x}" y2="${y}" style="stroke:var(--muted);stroke-width:2;opacity:.6"/>`).join('')}
+      <circle cx="0" cy="-196" r="7" style="fill:var(--ink)"/>
+      ${[[-70,-214,'--red'],[-26,-244,'--blue'],[26,-244,'--green'],[70,-214,'--amber']].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="13" style="fill:var(${c})"/><circle cx="${x-4}" cy="${y-4}" r="4" style="fill:#fff;opacity:.45"/>`).join('')}
+    </g>`,
+  wispr:()=>`
+    ${box(46,92,84,30)}${wins(56,-72,3,2,18,20,26,32)}${sideWins(138,30,-72,2,32,14)}
+    <path d="M-26,0 L-9,-222 L9,-222 L26,0Z" style="fill:var(--bldg)"/>
+    <path d="M26,0 L40,-8 L15,-226 L9,-222Z" style="fill:var(--side)"/>
+    ${[-60,-120,-170].map((y,i)=>`<rect x="${-22+i*5}" y="${y}" width="${44-i*10}" height="5" rx="2" style="fill:var(--side)"/>`).join('')}
+    <circle cx="0" cy="-236" r="14" style="fill:var(--red)"/><circle cx="-4" cy="-240" r="5" style="fill:#fff;opacity:.45"/>
+    <path class="wave" d="M24,-256 a30,30 0 0 1 0,40"/><path class="wave b" d="M38,-270 a48,48 0 0 1 0,68"/><path class="wave c" d="M52,-284 a66,66 0 0 1 0,96"/>
+    <path class="wave" d="M-24,-256 a30,30 0 0 0 0,40"/><path class="wave b" d="M-38,-270 a48,48 0 0 0 0,68"/>`,
+  mumme:()=>`
+    ${box(-90,170,92,40)}
+    <path d="M-5,-168 L80,-92 L120,-114 L35,-190Z" style="fill:color-mix(in srgb,var(--purple) 72%,#000)"/>
+    <path d="M-100,-92 L90,-92 L-5,-168Z" style="fill:var(--purple)"/>
+    <path d="M-5,-112 c-6,-9 -18,-5 -18,4 c0,9 18,19 18,19 c0,0 18,-10 18,-19 c0,-9 -12,-13 -18,-4Z" style="fill:#fff;opacity:.9"/>
+    ${win(-74,-74,38,30)}${win(26,-74,38,30)}
+    <rect x="-18" y="-50" width="26" height="50" rx="3" style="fill:#2A2F38"/>
+    ${tree(-118,-4,18)}${tree(-136,4,13)}${tree(112,4,15)}`,
+  urbaneden:()=>{
+    let s=box(-70,130,284,36)+sideWins(60,36,-268,6,46,24);
+    for(let i=0;i<6;i++){ const y=-268+i*46;
+      s+=wins(-56,y,2,1,40,24,62,0);
+      s+=`<rect x="-80" y="${y+28}" width="150" height="6" rx="2" style="fill:var(--side)"/>`;
+      if(i<3) s+=`<circle class="grow" cx="${-58+i*14}" cy="${y+22}" r="9" style="fill:var(--tree)"/><circle class="grow" cx="${46-i*10}" cy="${y+20}" r="12" style="fill:var(--tree-hi);animation-delay:${i*.6}s"/>`;
+    }
+    return s+`<rect x="-14" y="-30" width="28" height="30" rx="3" style="fill:#2A2F38"/>`;},
+  dcw:()=>`
+    ${box(-100,190,104,36)}
+    <path d="M-106,-104 L96,-104 L92,-86 L-102,-86Z" style="fill:var(--blue)"/>
+    <path d="M96,-104 L132,-124 L128,-106 L92,-86Z" style="fill:color-mix(in srgb,var(--blue) 75%,#000)"/>
+    ${[[-86,62],[10,62]].map(([x,w])=>`<rect x="${x}" y="-76" width="${w}" height="56" rx="4" style="fill:var(--win)"/><path d="M${x+10},-20 L${x+30},-76 L${x+40},-76 L${x+20},-20Z" style="fill:#fff;opacity:.35"/>`).join('')}
+    <rect x="-16" y="-62" width="22" height="62" rx="3" style="fill:#2A2F38"/>
+    <g transform="translate(0,-170)">
+      <path d="M-36,-16 L-20,-34 L20,-34 L36,-16Z" style="fill:url(#gGem)"/>
+      <path d="M-36,-16 L36,-16 L0,30Z" style="fill:var(--water)"/>
+      <path d="M-20,-34 L-8,-16 L0,30 M20,-34 L8,-16 L0,30 M-36,-16 L36,-16" style="fill:none;stroke:#fff;stroke-width:1.5;opacity:.7"/>
+    </g>
+    <path class="sparkle" d="M52,-222 l5,13 l13,5 l-13,5 l-5,13 l-5,-13 l-13,-5 l13,-5Z" style="fill:var(--amber)"/>
+    <path class="sparkle" style="animation-delay:.8s;fill:var(--amber)" d="M-58,-200 l4,9 l9,4 l-9,4 l-4,9 l-4,-9 l-9,-4 l9,-4Z"/>`,
+  exchange:()=>`
+    ${box(-130,72,176,30)}${wins(-120,-162,3,6,14,16,20,26)}${sideWins(-58,30,-162,6,26,14)}
+    ${box(-46,104,312,38,{front:'url(#gGlass)'})}
+    ${[-30,-8,14,36].map(x=>`<rect x="${x}" y="-306" width="2" height="300" style="fill:var(--bldg);opacity:.7"/>`).join('')}${sideWins(58,38,-300,12,24,14)}
+    ${[[0,34],[1,56],[2,82],[3,112]].map(([i,h])=>up(312,`<rect x="${-30+i*22}" y="${-h}" width="16" height="${h}" rx="3" style="fill:var(--blue)"/>`)).join('')}
+    ${box(78,66,118,26)}${wins(88,-104,2,4,18,16,26,24)}`,
+  arch:()=>`
+    <path d="M-160,0 L-160,-104 A55,55 0 0 1 -50,-104 L-50,0 L-72,0 L-72,-100 A33,33 0 0 0 -138,-100 L-138,0Z" style="fill:var(--bldg)"/>
+    <path d="M-50,0 L-34,-9 L-34,-113 L-50,-104Z" style="fill:var(--side)"/>
+    ${box(-20,96,292,38)}${wins(-8,-280,3,11,18,14,28,24)}${sideWins(76,38,-280,11,24,13)}
+    ${box(96,112,96,32,{front:'url(#gGlass)'})}
+    <path d="M96,-96 L208,0 M208,-96 L96,0 M152,-96 L152,0" style="fill:none;stroke:var(--ink);stroke-width:2.5;opacity:.45"/>`,
+  travel:()=>`
+    ${box(-180,320,62,40,{front:'url(#gGlass)'})}
+    ${Array.from({length:11},(_,i)=>`<rect x="${-172+i*28}" y="-58" width="2" height="52" style="fill:var(--bldg);opacity:.8"/>`).join('')}<rect x="-180" y="-24" width="320" height="3" style="fill:var(--bldg);opacity:.8"/>${[-120,-40,40].map(x=>`<rect x="${x}" y="-20" width="20" height="20" rx="2" style="fill:#2A2F38"/>`).join('')}
+    <path d="M-192,-58 Q-96,-110 4,-66 Q86,-30 152,-64 L152,-50 Q86,-16 4,-52 Q-96,-96 -192,-44Z" style="fill:var(--blue)"/>
+    ${box(-246,28,172,20)}
+    ${up(172,box(-256,48,28,24,{front:'url(#gGlass)'}))}
+    <path d="M-280,-130 Q0,-400 300,-170" style="fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:3 12;stroke-linecap:round;opacity:.7"/>
+    <g><path d="M-24,0 C-24,-4 18,-4 26,0 C18,4 -24,4 -24,0Z M-2,-2 L-14,-22 L-6,-22 L10,-2Z M-2,2 L-14,22 L-6,22 L10,2Z M-20,-1 L-26,-10 L-21,-10 L-14,-1Z" style="fill:var(--paper)"/>
+      <animateMotion dur="7s" repeatCount="indefinite" rotate="auto" path="M-280,-130 Q0,-400 300,-170"/></g>`,
+  art:()=>`
+    ${box(-150,250,150,26)}
+    <clipPath id="muralClip"><rect x="-150" y="-150" width="250" height="150"/></clipPath>
+    <g clip-path="url(#muralClip)">
+      <circle cx="-100" cy="-86" r="40" style="fill:var(--red)"/>
+      <path d="M-56,0 L-4,-128 L48,0Z" style="fill:var(--blue)"/>
+      <rect x="28" y="-126" width="62" height="62" style="fill:var(--green)" transform="rotate(14 59 -95)"/>
+      <path d="M-160,-24 Q-70,-80 110,-30" style="fill:none;stroke:var(--amber);stroke-width:14;stroke-linecap:round"/>
+      <circle cx="40" cy="-30" r="16" style="fill:var(--purple)"/>
+    </g>
+    ${box(140,34,34,22,{front:'var(--amber)'})}${up(34,box(150,22,22,16,{front:'var(--purple)'}))}`,
+  run:()=>`
+    <ellipse cx="0" cy="-60" rx="180" ry="74" style="fill:var(--track)"/>
+    <ellipse cx="0" cy="-60" rx="134" ry="44" style="fill:var(--park)"/>
+    ${[148,162].map(r=>`<ellipse cx="0" cy="-60" rx="${r}" ry="${r*.395}" style="fill:none;stroke:#fff;stroke-width:1.5;opacity:.55"/>`).join('')}
+    <rect x="-3" y="-118" width="6" height="16" style="fill:#fff;opacity:.8"/>
+    <circle r="9" style="fill:#fff"><animateMotion dur="5s" repeatCount="indefinite" path="M0,-5 A155,61 0 1 0 0,-127 A155,61 0 1 0 0,-5"/></circle>
+    ${tree(-196,-30,16)}${tree(196,-40,18)}`,
+  terminus:()=>`
+    <rect x="-108" y="-112" width="6" height="112" rx="2" style="fill:var(--muted)"/><rect x="92" y="-112" width="6" height="112" rx="2" style="fill:var(--muted)"/>
+    <rect x="-100" y="-104" width="74" height="84" rx="3" style="fill:var(--win);opacity:.55"/>
+    ${up(112,box(-122,236,12,40,{roof:'var(--red)'}))}
+    ${box(-20,96,10,18)}
+    <rect x="148" y="-176" width="5" height="176" rx="2" style="fill:var(--muted)"/>
+    <circle cx="150" cy="-190" r="22" style="fill:var(--paper)"/><circle cx="150" cy="-190" r="22" style="fill:none;stroke:var(--red);stroke-width:7"/>
+    <text x="150" y="-183" style="font:700 18px var(--f-display);fill:var(--ink);text-anchor:middle">T</text>`
+};
+
+/* ═══════════ Bus ═══════════ */
+const SKIN=['#F1C9A5','#8D5524','#E0AC69','#C68642'], SHIRT=['#34C759','#AF52DE','#FF9500','#0A84FF'];
+const EXTRA=[
+  // sun hat
+  x=>`<ellipse cx="${x}" cy="-114" rx="11" ry="2.6" style="fill:#F2C14E"/><path d="M${x-6},-114 A6,6 0 0 1 ${x+6},-114Z" style="fill:#F2C14E"/><rect x="${x-6}" y="-115.5" width="12" height="1.6" style="fill:#E0533D"/>`,
+  // waving arm
+  x=>`<rect class="arm" x="${x+7}" y="-118" width="4" height="16" rx="2" style="fill:${SKIN[1]}"/>`,
+  // sunglasses + camera
+  x=>`<rect x="${x-6}" y="-111" width="12" height="3" rx="1.5" style="fill:#1D1D1F"/><rect x="${x-17}" y="-119" width="11" height="8" rx="2" style="fill:#1D1D1F"/><circle cx="${x-11.5}" cy="-115" r="2.4" style="fill:#8E8E93"/><circle class="flash" cx="${x-11.5}" cy="-115" r="6" style="fill:#fff"/>`,
+  // cap
+  x=>`<path d="M${x-6.5},-110 A6.5,6.5 0 0 1 ${x+6.5},-110Z" style="fill:#0A84FF"/><rect x="${x}" y="-111.5" width="10" height="2.4" rx="1.2" style="fill:#0A84FF"/>`
+];
+const SEATS=[-58,-30,-2,26].map((x,i)=>`<g class="seat empty" data-seat="${i}"><g class="tourist">
+  <rect x="${x-8}" y="-102" width="16" height="18" rx="6" style="fill:${SHIRT[i]}"/>
+  <circle cx="${x}" cy="-109" r="6.5" style="fill:${SKIN[i]}"/>${EXTRA[i](x)}</g></g>`).join('');
+const BUS = `
+<g id="bus"><g id="busflip"><g id="busbody" transform="scale(1.35)">
+  <ellipse cx="0" cy="4" rx="84" ry="8" style="fill:#000;opacity:.14"/>
+  <g id="seats">${SEATS}</g>
+  <rect x="-84" y="-92" width="168" height="84" rx="12" style="fill:url(#gBus)"/>
+  <line x1="-82" y1="-97" x2="64" y2="-97" style="stroke:#1D1D1F;stroke-width:2;opacity:.55"/>
+  ${[-80,-44,-16,12,40,64].map(x=>`<line x1="${x}" y1="-97" x2="${x}" y2="-90" style="stroke:#1D1D1F;stroke-width:2;opacity:.55"/>`).join('')}
+  <path d="M66,-90 L74,-106 L84,-106 L84,-90Z" style="fill:#C9DDEE;opacity:.7"/>
+  <text class="bt" data-cx="-14" x="-14" y="-73" style="font:800 10px var(--f-display);fill:#fff;text-anchor:middle;letter-spacing:.12em">HOP ON · HOP OFF</text>
+  <rect x="56" y="-86" width="24" height="9" rx="2" style="fill:var(--led-bg)"/>
+  <text class="ledsvg bt" data-cx="68" x="68" y="-79.5" style="font-size:6.5px">TOUR</text>
+  <rect x="-84" y="-68" width="168" height="3" style="fill:#fff;opacity:.9"/>
+  <rect x="-74" y="-60" width="108" height="22" rx="5" style="fill:#25303D"/>
+  <path d="M-60,-60 L-52,-60 L-66,-38 L-74,-38 L-74,-44Z M-24,-60 L-16,-60 L-30,-38 L-38,-38Z" style="fill:#fff;opacity:.18"/>
+  <rect id="busdoor" x="40" y="-62" width="18" height="50" rx="3" style="fill:#25303D"/>
+  <path d="M62,-62 L78,-62 Q82,-62 82,-56 L82,-36 L62,-36Z" style="fill:#25303D"/>
+  <circle cx="-50" cy="-24" r="9" style="fill:#fff"/><circle cx="-50" cy="-24" r="9" style="fill:none;stroke:var(--red);stroke-width:2.5"/>
+  <text class="bt" data-cx="-50" x="-50" y="-21.5" style="font:700 6.5px var(--f-display);fill:#1D1D1F;text-anchor:middle">S·B</text>
+  <path d="M-62,-8 A18,18 0 0 1 -26,-8Z M26,-8 A18,18 0 0 1 62,-8Z" style="fill:#000;opacity:.22"/>
+  <g class="wheel" transform="translate(-44,-7)"><circle r="14" style="fill:#1D1D1F"/><circle r="6.5" style="fill:#C7C7CC"/><circle r="2" style="fill:#1D1D1F"/><rect x="-1" y="-6" width="2" height="4" style="fill:#1D1D1F"/></g>
+  <g class="wheel" transform="translate(44,-7)"><circle r="14" style="fill:#1D1D1F"/><circle r="6.5" style="fill:#C7C7CC"/><circle r="2" style="fill:#1D1D1F"/><rect x="-1" y="-6" width="2" height="4" style="fill:#1D1D1F"/></g>
+  <rect x="78" y="-28" width="6" height="8" rx="2" style="fill:#FFD60A"/>
+</g></g></g>`;
+/* the queue at the depot */
+const QUEUE=[[60,1306],[104,1300],[148,1306],[192,1300]];
+const CROWD=`<g id="crowd">${QUEUE.map(([x,y],i)=>`<g class="pp" data-pp="${i}" transform="translate(${x},${y})">
+  <ellipse cx="0" cy="1" rx="11" ry="3.5" style="fill:#000;opacity:.15"/>
+  <g class="ppb"><rect x="-6.5" y="-15" width="5" height="15" rx="2.5" style="fill:#3A3A3C"/><rect x="1.5" y="-15" width="5" height="15" rx="2.5" style="fill:#3A3A3C"/>
+  <rect x="-10" y="-38" width="20" height="26" rx="8" style="fill:${SHIRT[i]}"/>
+  ${i===2?'<rect x="-15" y="-36" width="7" height="16" rx="3" style="fill:#5856D6"/>':''}
+  <circle cx="0" cy="-47" r="9" style="fill:${SKIN[i]}"/>${i===0?'<ellipse cx="0" cy="-53" rx="13" ry="3" style="fill:#F2C14E"/>':''}${i===3?'<path d="M-9,-49 A9,9 0 0 1 9,-49Z" style="fill:#0A84FF"/>':''}</g></g>`).join('')}</g>`;
+
+/* ═══════════ Build the map ═══════════ */
+const world=document.getElementById('world');
+const N=STOPS.length;
+const cv=v=>`var(${v})`;
+const lineVar=s=>LINES[s.line].v;
+function catmull(pts){
+  const P=i=>pts[Math.max(0,Math.min(pts.length-1,i))]; const segs=[];
+  for(let i=0;i<pts.length-1;i++){
+    const p0=P(i-1),p1=P(i),p2=P(i+1),p3=P(i+2);
+    const c1=[p1.x+(p2.x-p0.x)/6,p1.y+(p2.y-p0.y)/6], c2=[p2.x-(p3.x-p1.x)/6,p2.y-(p3.y-p1.y)/6];
+    segs.push({from:p1,c:`C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2.x},${p2.y}`});
+  }
+  return segs;
+}
+const segs=catmull(STOPS);
+const fullD=`M${STOPS[0].x},${STOPS[0].y} `+segs.map(s=>s.c).join(' ');
+let html=`
+<rect x="-900" y="-900" width="4500" height="3500" fill="url(#blocks)"/>
+${[[-900,486,4500,30],[-900,1186,4500,30],[986,-900,30,3500],[1786,-900,30,3500]].map(([x,y,w,h])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" style="fill:var(--road)"/>`).join('')}
+<path d="M120,180 h1460 v880 h-1460Z" style="fill:var(--red);opacity:.035"/>
+<path d="M1640,120 h1020 v860 h-1020Z" style="fill:var(--blue);opacity:.035"/>
+<path d="M1760,1000 h900 v520 h-900Z" style="fill:var(--green);opacity:.045"/>
+<text class="dl" x="140" y="150">PRODUCT QUARTER</text>
+<text class="dl" x="2040" y="96">BUILT CITY</text>
+<text class="dl" x="2240" y="1600">OFF DUTY</text>
+<path d="M1580,-500 C1660,200 1440,420 1660,620 S2050,1020 3200,1090" style="fill:none;stroke:var(--park);stroke-width:126;stroke-linecap:round;opacity:.7"/>
+<path d="M1580,-500 C1660,200 1440,420 1660,620 S2050,1020 3200,1090" style="fill:none;stroke:url(#gRiver);stroke-width:92;stroke-linecap:round"/>
+<path d="M1580,-500 C1660,200 1440,420 1660,620 S2050,1020 3200,1090" style="fill:none;stroke:#fff;stroke-width:3;stroke-dasharray:40 60;opacity:.35"/>
+<path d="M760,560 q80,-60 170,-10 q60,60 0,120 q-90,40 -170,-20 q-40,-50 0,-90Z" style="fill:var(--park)"/>
+<path d="M1820,1110 q160,-80 380,-20 q120,60 60,190 q-200,90 -420,20 q-90,-90 -20,-190Z" style="fill:var(--park)"/>
+<path d="M120,1420 q200,-60 380,0 q60,90 -60,140 q-220,40 -320,-40Z" style="fill:var(--park)"/>
+<path d="M1450,1340 C1100,1480 640,1500 330,1300" style="fill:none;stroke:var(--muted);stroke-width:5;stroke-dasharray:2 16;stroke-linecap:round;opacity:.45"/>`;
+const trees=[[790,610,20],[840,640,16],[880,590,22],[910,640,14],[1880,1160,22],[1930,1200,16],[1980,1150,18],[2290,1190,20],[2340,1230,16],[2260,1250,14],[190,1460,20],[250,1490,16],[320,1450,22],[410,1470,18],[700,1180,18],[1160,1180,18],[1660,420,16],[2480,520,20],[130,880,18],[1180,160,18],[1560,1500,18],[600,1560,16],[2560,1340,20]];
+html+=trees.sort((a,b)=>a[1]-b[1]).map(([x,y,r])=>`<ellipse cx="${x+4}" cy="${y+r*.7}" rx="${r*.9}" ry="${r*.35}" style="fill:var(--shade)"/>`+tree(x,y,r)).join('');
+html+=`<path d="${fullD}" transform="translate(0,4)" style="fill:none;stroke:#000;stroke-width:26;stroke-linecap:round;stroke-linejoin:round;opacity:.07"/>`;
+html+=`<path d="${fullD}" style="fill:none;stroke:var(--road);stroke-width:22;stroke-linecap:round;stroke-linejoin:round"/>`;
+segs.forEach((s,i)=>{ const to=STOPS[i+1]; const v=to.line==='depot'?(STOPS[i].line==='depot'?'--ink':LINES[STOPS[i].line].v):lineVar(to);
+  html+=`<path class="seg" d="M${s.from.x},${s.from.y} ${s.c}" style="fill:none;stroke:${cv(v)};stroke-width:8;stroke-linecap:round"/>`;});
+html+=`<path id="motion" d="${fullD}" style="fill:none;stroke:none"/><g id="lamps"></g>`;
+STOPS.forEach((s,i)=>{
+  const lw=Math.max(120,s.short.length*13.5+44);
+  html+=`<g class="lm" data-i="${i}" aria-label="${s.name}">
+    <g transform="translate(${s.x + (i%2?70:-60)},${s.y-160})"><g class="lmi">${LM[s.lm]()}</g></g>
+    <circle cx="${s.x}" cy="${s.y+3}" r="17" style="fill:#000;opacity:.1"/><circle class="stopmark" cx="${s.x}" cy="${s.y}" r="15" style="stroke:${cv(lineVar(s))}"/><circle cx="${s.x}" cy="${s.y}" r="4.5" style="fill:${cv(lineVar(s))}"/>
+    <g class="pill" data-x="${s.x}" data-y="${s.y+50}" transform="translate(${s.x},${s.y+50})"><rect x="${-lw/2-8}" y="-22" width="${lw+16}" height="40" rx="20"/><circle cx="${-lw/2+12}" cy="-2" r="6" style="fill:${cv(lineVar(s))}"/><text x="10" y="6">${s.short}</text></g>
+  </g>`;
+});
+html+=BUS+CROWD;
+world.innerHTML=html;
+
+const motion=document.getElementById('motion');
+const busEl=document.getElementById('bus'), busFlip=document.getElementById('busflip');
+const svg=document.getElementById('map');
+const pills=[...world.querySelectorAll('.pill')];
+const lms=[...world.querySelectorAll('.lm')];
+const stopL=[0]; { let acc=0; world.querySelectorAll('.seg').forEach(p=>{acc+=p.getTotalLength();stopL.push(acc);}); }
+{ const tot=motion.getTotalLength(); let s=''; for(let L=90;L<tot;L+=170){ const p=motion.getPointAtLength(L), q=motion.getPointAtLength(L+1); const nx=-(q.y-p.y), ny=q.x-p.x, m=Math.hypot(nx,ny)||1; const x=p.x+nx/m*28, y=p.y+ny/m*28;
+  s+=`<circle class="lamp" cx="${x.toFixed(1)}" cy="${(y-14).toFixed(1)}" r="16"/><circle class="lamp lampdot" cx="${x.toFixed(1)}" cy="${(y-14).toFixed(1)}" r="3.5"/>`; }
+  document.getElementById('lamps').innerHTML=s; }
+
+/* ═══════════ Route strip ═══════════ */
+const route=document.getElementById('route');
+route.innerHTML=STOPS.map((s,i)=>`<button class="rs" data-goto="${i}" style="--line:${cv(lineVar(s))}"><span class="d"></span>${s.short}</button>`).join('');
+const rsBtns=[...route.children];
+
+/* ═══════════ Camera ═══════════ */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const main=document.getElementById('main'), board=document.getElementById('board');
+const cam={x:1400,y:800,s:.4}, tgt={x:1400,y:800,s:.4};
+let mode='overview', boardOpen=false, zoomMul=1;
+function layout(){
+  const W=main.clientWidth,H=main.clientHeight, phone=W<=760;
+  let fw=W, fh=H;
+  if(boardOpen){ if(phone) fh=H-board.offsetHeight-8; else fw=W-board.offsetWidth-32; }
+  return {W,H,fw,fh,phone};
+}
+function scaleFor(l){
+  const base=Math.min(l.fw/1450,l.fh/920);
+  return Math.max(l.phone?.3:.36,Math.min(.82,base))*zoomMul;
+}
+function setTarget(x,y){
+  const l=layout();
+  if(mode==='overview'){ tgt.s=Math.min(l.W/2900,l.H/1750); tgt.x=1400; tgt.y=760; return; }
+  tgt.s=scaleFor(l); tgt.x=x; tgt.y=y-130;
+}
+let busPos={x:STOPS[0].x,y:STOPS[0].y}, lastK=0;
+function apply(){
+  const l=layout(); const k=reduce?1:.085;
+  cam.x+=(tgt.x-cam.x)*k; cam.y+=(tgt.y-cam.y)*k; cam.s+=(tgt.s-cam.s)*k;
+  world.setAttribute('transform',`translate(${(l.fw/2-cam.x*cam.s).toFixed(2)},${(l.fh/2-cam.y*cam.s).toFixed(2)}) scale(${cam.s.toFixed(4)})`);
+  // keep labels legible when zoomed out: never smaller than ~14px on screen
+  const lk=Math.max(1,Math.min(2.2,.62/cam.s));
+  if(Math.abs(lk-lastK)>.01){ lastK=lk; pills.forEach(p=>p.setAttribute('transform',`translate(${p.dataset.x},${p.dataset.y}) scale(${lk.toFixed(3)})`)); }
+  requestAnimationFrame(apply);
+}
+let facing=1;
+function placeBus(p){
+  busEl.setAttribute('transform',`translate(${p.x.toFixed(1)},${(p.y+6).toFixed(1)})`);
+  busFlip.setAttribute('transform',`scale(${facing},1)`);
+  busEl.querySelectorAll('.bt').forEach(t=>t.setAttribute('transform',facing<0?`translate(${2*t.dataset.cx},0) scale(-1,1)`:''));
+}
+placeBus(busPos);
+document.getElementById('zin').onclick=()=>{ zoomMul=Math.min(1.6,zoomMul*1.25); setTarget(busPos.x,busPos.y); };
+document.getElementById('zout').onclick=()=>{ zoomMul=Math.max(.55,zoomMul/1.25); setTarget(busPos.x,busPos.y); };
+
+/* ═══════════ Guide ═══════════ */
+const led=document.getElementById('ledtxt'), sr=document.getElementById('guidesr');
+let typeT=0;
+function say(t){
+  clearTimeout(typeT); sr.textContent=t;
+  if(reduce){ led.textContent=t; return; }
+  led.classList.add('fade');
+  typeT=setTimeout(()=>{ led.textContent=t; led.classList.remove('fade'); },220);
+}
+
+/* ═══════════ Stop sheet ═══════════ */
+let cur=0, curL=0, anim=0, autoOn=false, autoT=0;
+const factsHTML=a=>'<div class="facts">'+a.map(([b,s])=>`<div><b>${b}</b><span>${s}</span></div>`).join('')+'</div>';
+function renderBoard(i, focus){
+  const s=STOPS[i], ln=LINES[s.line], nxt=STOPS[i+1];
+  board.style.setProperty('--line',cv(ln.v));
+  const body=s.body || `<p class="sum">${s.summary}</p>${factsHTML(s.facts)}
+    <p class="wh">${s.whoLabel||'Who it serves'}</p><ul class="who">${s.who.map(w=>`<li><span>${w}</span></li>`).join('')}</ul>`;
+  const hop=(s.slides?`<button class="btn hop" data-explore><span>Hop off and explore</span><small>${s.slides.length} views →</small></button>`:'')+(s.proto?`<button class="btn ghost" data-proto="${s.proto}">View prototype</button>`:'');
+  board.innerHTML=`
+    <button class="grab" aria-label="Show or hide stop details"></button>
+    <div class="bhead"><div class="stopno">${String(i).padStart(2,'0')}</div>
+      <div class="kind"><span class="chip">${ln.name}</span> · ${s.kind}</div>
+      <h2 tabindex="-1">${s.name}</h2></div>
+    <div class="bbody">${body}${hop}</div>
+    <div class="bfoot">
+      ${i>0?`<button class="btn ghost" data-goto="${i-1}" aria-label="Previous stop">‹</button>`:''}
+      ${nxt?`<button class="btn next" data-goto="${i+1}"><span>Next stop: ${nxt.short}</span> ›</button>`:`<button class="btn next" data-goto="0"><span>Ride again from the depot</span> ↺</button>`}
+    </div>`;
+  if(focus) board.querySelector('h2').focus({preventScroll:true});
+}
+
+function arrive(i, focus){
+  cur=i; boardOpen=true; board.classList.remove('away','peek');
+  renderBoard(i, focus);
+  say(STOPS[i].guide);
+  rsBtns.forEach((b,j)=>{ b.removeAttribute('aria-current'); if(j===i){ b.setAttribute('aria-current','step'); b.scrollIntoView({block:'nearest',inline:'center',behavior:reduce?'auto':'smooth'}); } if(j<=i) b.classList.add('seen'); });
+  lms.forEach((g,j)=>g.classList.toggle('cur',j===i));
+  document.getElementById('count').textContent=`Stop ${i} of ${N-1}`;
+  document.getElementById('progfill').style.width=(i/(N-1)*100)+'%';
+  setTarget(busPos.x,busPos.y);
+  try{ history.replaceState(null,'','#'+STOPS[i].id); }catch(e){}
+  clearTimeout(autoT);
+  if(autoOn) autoT=setTimeout(()=>{ if(cur<N-1) go(cur+1); else setAuto(false); }, 9000);
+  if(i===0) maybeTip();
+}
+
+function go(i, focus){
+  if(i<0||i>=N) return;
+  hideTicket(); closeExplore(true); mode='tour'; finishBoarding();
+  cancelAnimationFrame(anim);
+  lms.forEach(g=>g.classList.remove('cur'));
+  const from=curL, to=stopL[i], dist=Math.abs(to-from);
+  if(dist<1){ arrive(i,focus); return; }
+  boardOpen=false; board.classList.add('away');
+  say(`Next stop: ${STOPS[i].name}`);
+  const dur=reduce?0:Math.min(3400,Math.max(1100,dist*1.4));
+  const t0=performance.now(); svg.classList.add('moving');
+  const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  let lastX=busPos.x;
+  const step=now=>{
+    const t=dur?Math.min(1,(now-t0)/dur):1;
+    curL=from+(to-from)*ease(t);
+    const p=motion.getPointAtLength(curL);
+    if(Math.abs(p.x-lastX)>.4) facing=p.x>lastX?1:-1;
+    lastX=p.x; busPos={x:p.x,y:p.y}; placeBus(busPos); setTarget(p.x,p.y);
+    if(t<1) anim=requestAnimationFrame(step); else { svg.classList.remove('moving'); arrive(i,focus); }
+  };
+  anim=requestAnimationFrame(step);
+}
+
+/* ═══════════ Explore (hop off) ═══════════ */
+const ex=document.getElementById('explore');
+let exi=0, exReturn=null;
+const PHASE_N=['Enrollment','Mentor Mapping','Research Question','Data Collection','Draft Writing','Publication'];
+const PHASES=[
+  ['Complete','The student joins and is matched with a mentor and writing coach based on their research interest. The phase closes after the trio\'s first introduction.'],
+  ['Complete','Finding the right mentor for the student\'s field. Mentor mapping takes 10–14 days.'],
+  ['Complete','Mentor and student agree on a working research question together.'],
+  ['In progress','The student gathers and analyzes evidence, with the mentor setting direction across 8 sessions.'],
+  ['Up next','The writing coach works through the paper with the student over 10–12 sessions.'],
+  ['Up next','A dedicated publication team formats the paper to journal guidelines and handles submission, a cycle of about three months.']];
+function renderExplore(enter){
+  const s=STOPS[cur], ln=LINES[s.line], sl=s.slides[exi], last=exi===s.slides.length-1, nxt=STOPS[cur+1];
+  ex.style.setProperty('--line',cv(ln.v));
+  ex.innerHTML=`<div class="excard glass${enter?' enter':''}">
+    <div class="exhead"><div><div class="kind"><span class="chip">${ln.name}</span> · ${s.kind}</div><h2 id="exTitle">${s.name}</h2></div>
+      <button class="btn ghost small" data-exclose style="white-space:nowrap;flex:none" aria-label="Close and get back on the bus">Back on the bus</button></div>
+    <div class="exsteps" role="tablist">${s.slides.map((x,j)=>`<button class="exstep" role="tab" aria-selected="${j===exi}" data-exstep="${j}"><i>${j+1}</i><span>${x.t}</span></button>`).join('')}</div>
+    <div class="exbody"><div class="vstage" id="vstage">${sl.v}</div><div class="extext">${sl.d}</div></div>
+    <div class="exfoot">
+      <button class="btn ghost" data-exprev ${exi===0?'disabled style="opacity:.4"':''}>‹ Previous</button>
+      <span class="sp">${exi+1} of ${s.slides.length}</span>
+      ${last?(nxt?`<button class="btn" data-goto="${cur+1}">Next stop: ${nxt.short} ›</button>`:`<button class="btn" data-exclose>Back on the bus</button>`):`<button class="btn" data-exnext>Next ›</button>`}
+    </div></div>`;
+  if(s.id==='rise' && exi===2) showPhase(3);
+}
+function openExplore(k){
+  if(!STOPS[cur].slides) return;
+  exReturn=document.activeElement; exi=k||0; ex.hidden=false;
+  if(autoOn) setAuto(false);
+  renderExplore(true); ex.querySelector('[data-exclose]').focus();
+}
+function closeExplore(silent){
+  if(ex.hidden) return;
+  ex.hidden=true; ex.innerHTML='';
+  if(!silent && exReturn && exReturn.isConnected) exReturn.focus();
+}
+function exGo(k){ const n=STOPS[cur].slides.length; if(k<0||k>=n) return; exi=k; renderExplore(); }
+function showPhase(k){
+  const box=document.getElementById('trkd'); if(!box) return;
+  ex.querySelectorAll('[data-phase]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.phase===k));
+  const [st,txt]=PHASES[k], cls=st==='Complete'?'ok':st==='In progress'?'fu':'';
+  box.innerHTML=`<span class="st ${cls}" ${cls?'':'style="background:var(--fill)"'}>${st.toUpperCase()}</span><b style="display:block;font-size:15px;margin-bottom:2px">${k+1}. ${PHASE_N[k]}</b><p>${txt}</p>`;
+}
+// swipe between slides
+let sx=null;
+ex.addEventListener('pointerdown',e=>{ if(e.target.closest('input,button,a,.vtabs')) return; sx=e.clientX; });
+ex.addEventListener('pointerup',e=>{ if(sx===null) return; const dx=e.clientX-sx; sx=null; if(Math.abs(dx)>60) exGo(exi+(dx<0?1:-1)); });
+
+/* ═══════════ Layer: prototype viewer + CV ═══════════ */
+const layer=document.getElementById('layer');
+let lReturn=null, lProto=null, lIdx=0;
+function openLayer(html){
+  lReturn=document.activeElement; layer.innerHTML=html; layer.hidden=false;
+  if(autoOn) setAuto(false);
+  const c=layer.querySelector('[data-lclose]'); if(c) c.focus();
+}
+function closeLayer(){ if(layer.hidden) return; layer.hidden=true; layer.innerHTML=''; lProto=null; if(lReturn&&lReturn.isConnected) lReturn.focus(); }
+function openProto(k){
+  const P=PROTOS[k]; lProto=k; lIdx=0;
+  const stage = P.type==='phone'
+    ? `<div class="phones">${P.shots.map(([src,t])=>`<figure><img src="${src}" alt="${P.title} ${t} screen"><figcaption>${t}</figcaption></figure>`).join('')}</div>`
+    : `<div class="bframe" id="bframe"></div><button class="gnav l" data-gprev aria-label="Previous screen">‹</button><button class="gnav r" data-gnext aria-label="Next screen">›</button>`;
+  openLayer(`<div class="lcard glass">
+    <div class="lhead"><div><div class="kind">${P.kind}</div><h2 id="lTitle">${P.title}</h2></div>
+      <button class="btn ghost small" data-lclose style="white-space:nowrap">Close</button></div>
+    <div class="gal">${stage}</div>
+    <p class="gcap" id="gcap">${P.type==='phone'?'Screens captured from the Figma prototype.':''}</p>
+    <div class="lfoot">
+      ${P.type==='desktop'?`<div class="thumbs">${P.shots.map(([src,t],j)=>`<button class="thumb" data-gto="${j}" aria-label="${t}"><img src="${src}" alt=""></button>`).join('')}</div>`:'<span class="note">On a phone, swipe to see each screen.</span>'}
+      <a class="olink" href="${P.live}" target="_blank" rel="noopener">Try the live prototype ↗</a>
+    </div></div>`);
+  if(P.type==='desktop') showShot(0);
+}
+function showShot(j){
+  const P=PROTOS[lProto]; if(!P||P.type!=='desktop'||j<0||j>=P.shots.length) return; lIdx=j;
+  const [src,t,c]=P.shots[j];
+  layer.querySelector('#bframe').outerHTML=`<div class="bframe" id="bframe"><div class="bbar"><i></i><i></i><i></i></div><img src="${src}" alt="${P.title}: ${t}"></div>`;
+  layer.querySelector('#gcap').innerHTML=`<b>${t}.</b> ${c}`;
+  layer.querySelectorAll('[data-gto]').forEach(b=>b.setAttribute('aria-current',+b.dataset.gto===j));
+  layer.querySelector('[data-gprev]').disabled=j===0;
+  layer.querySelector('[data-gnext]').disabled=j===P.shots.length-1;
+}
+function openCV(){
+  openLayer(`<div class="lcard glass" style="grid-template-rows:auto minmax(0,1fr) auto">
+    <div class="lhead"><div><div class="kind">Product Designer · October 2026</div><h2 id="lTitle">CV</h2></div>
+      <button class="btn ghost small" data-lclose style="white-space:nowrap">Close</button></div>
+    <div class="cvwrap">${CV_HTML}</div>
+    <div class="lfoot"><span class="note">Also available as a two-page PDF.</span>
+      <a class="btn small cvbtn" href="Sneha-Baid-Product-Designer-CV.pdf" target="_blank" rel="noopener">Open PDF ↗</a></div></div>`);
+}
+let lsx=null;
+layer.addEventListener('pointerdown',e=>{ if(e.target.closest('button,a')) return; lsx=e.clientX; });
+layer.addEventListener('pointerup',e=>{ if(lsx===null||!lProto) return; const dx=e.clientX-lsx; lsx=null; if(Math.abs(dx)>60) showShot(lIdx+(dx<0?1:-1)); });
+
+/* ═══════════ Ticket, tip, auto ═══════════ */
+const tw=document.getElementById('ticketwrap');
+function hideTicket(){ if(!tw.classList.contains('gone')){ tw.classList.add('gone'); tw.setAttribute('aria-hidden','true'); } }
+let boarded=false, boardT=[], boardRAF=0;
+function fillSeats(n){ busEl.querySelectorAll('.seat').forEach((g,i)=>g.classList.toggle('empty',i>=n)); }
+function finishBoarding(){
+  if(boarded) return; boarded=true;
+  boardT.forEach(clearTimeout); boardT=[]; cancelAnimationFrame(boardRAF);
+  document.querySelectorAll('.pp').forEach(p=>p.style.opacity=0);
+  fillSeats(4);
+}
+function boardBus(done){
+  if(boarded||reduce){ finishBoarding(); done(); return; }
+  say('Boarding at the depot. Find a seat up top.');
+  setTarget(busPos.x-70,busPos.y); tgt.s=Math.max(tgt.s,.62);
+  const door={x:busPos.x+49*1.35, y:busPos.y+2};
+  const people=[...document.querySelectorAll('.pp')];
+  const t0=performance.now()+1100, each=1600, gap=560;
+  const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  const seated=new Set();
+  const step=now=>{
+    let all=true;
+    people.forEach((p,i)=>{
+      const [sx,sy]=QUEUE[i], t=Math.min(1,Math.max(0,(now-t0-i*gap)/each));
+      if(t<1) all=false;
+      const e=ease(t), x=sx+(door.x-sx)*e, y=sy+(door.y-sy)*e, bob=t>0&&t<1?-Math.abs(Math.sin(t*Math.PI*7))*4:0;
+      p.setAttribute('transform',`translate(${x.toFixed(1)},${(y+bob).toFixed(1)})`);
+      if(t>=.92){ p.style.opacity=0; if(!seated.has(i)){ seated.add(i); fillSeats(seated.size); } }
+    });
+    if(!all) boardRAF=requestAnimationFrame(step);
+    else { boarded=true; boardT.push(setTimeout(done,500)); }
+  };
+  boardRAF=requestAnimationFrame(step);
+}
+function start(){ hideTicket(); mode='tour'; boardBus(()=>arrive(0,true)); }
+document.getElementById('hopon').onclick=start;
+document.getElementById('skip').onclick=()=>go(N-1,true);
+const toast=document.getElementById('toast');
+function maybeTip(){
+  let seen=false; try{ seen=localStorage.getItem('sb-tip')==='1'; }catch(e){}
+  if(seen) return;
+  setTimeout(()=>{ toast.hidden=false; },900);
+  setTimeout(()=>{ toast.hidden=true; },9000);
+}
+document.getElementById('toastok').onclick=()=>{ toast.hidden=true; try{ localStorage.setItem('sb-tip','1'); }catch(e){} };
+const autoBtn=document.getElementById('auto');
+function setAuto(on){
+  autoOn=on; autoBtn.setAttribute('aria-pressed',on); autoBtn.textContent=on?'Pause tour':'Auto tour';
+  clearTimeout(autoT);
+  if(on){ closeExplore(true); if(mode==='overview') start(); else if(cur<N-1) autoT=setTimeout(()=>go(cur+1),1000); else go(0); }
+}
+autoBtn.onclick=()=>setAuto(!autoOn);
+
+/* ═══════════ Events ═══════════ */
+document.addEventListener('click',e=>{
+  const t=e.target;
+  if(t.closest('[data-lclose]')){ closeLayer(); return; }
+  if(!layer.hidden && t===layer){ closeLayer(); return; }
+  const pr=t.closest('[data-proto]'); if(pr){ openProto(pr.dataset.proto); return; }
+  if(t.closest('[data-cv]')){ openCV(); return; }
+  if(t.closest('[data-gprev]')){ showShot(lIdx-1); return; }
+  if(t.closest('[data-gnext]')){ showShot(lIdx+1); return; }
+  const gt=t.closest('[data-gto]'); if(gt){ showShot(+gt.dataset.gto); return; }
+  const g=t.closest('[data-goto]'); if(g){ go(+g.dataset.goto, !!t.closest('.board')); return; }
+  if(t.closest('[data-explore]')){ openExplore(0); return; }
+  if(t.closest('[data-exclose]')){ closeExplore(); return; }
+  if(t.closest('[data-exnext]')){ exGo(exi+1); return; }
+  if(t.closest('[data-exprev]')){ exGo(exi-1); return; }
+  const st=t.closest('[data-exstep]'); if(st){ exGo(+st.dataset.exstep); return; }
+  if(t.closest('.grab')){ board.classList.toggle('peek'); setTimeout(()=>setTarget(busPos.x,busPos.y),50); return; }
+  const lm=t.closest('.lm'); if(lm){ go(+lm.dataset.i); return; }
+  const ph=t.closest('[data-phase]'); if(ph){ showPhase(+ph.dataset.phase); return; }
+  const vt=t.closest('[data-vt]'); if(vt){ const w=vt.closest('.vtw'); w.querySelectorAll('[data-vt]').forEach(b=>b.setAttribute('aria-selected',b===vt)); w.querySelectorAll('[data-vp]').forEach(p=>p.hidden=p.dataset.vp!==vt.dataset.vt); return; }
+  const lk=t.closest('[data-locked]'); if(lk){ lk.classList.remove('shake'); void lk.offsetWidth; lk.classList.add('shake'); const c=ex.querySelector('.vcap'); if(c) c.textContent='Locked. Check in at a real session to unlock it.'; return; }
+  const lu=t.closest('#hs-luma'); if(lu){ const on=lu.getAttribute('aria-checked')!=='true'; lu.setAttribute('aria-checked',on); document.getElementById('hs-pl').hidden=!on; return; }
+  const c=t.closest('[data-copy]');
+  if(c){ const txt=c.dataset.copy;
+    const done=()=>{ c.textContent='Copied'; setTimeout(()=>c.textContent='Copy email',1800); };
+    const fallback=()=>{ const r=document.createRange(); r.selectNodeContents(document.getElementById('em')); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); c.textContent='Selected. Press Ctrl+C'; };
+    try{ navigator.clipboard.writeText(txt).then(done,fallback); }catch(err){ fallback(); }
+    return; }
+  const run=t.closest('[data-run]'); if(run) runMarathon(run);
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='hs-t') document.getElementById('hs-pt').textContent=e.target.value||'Untitled event';
+  if(e.target.id==='hs-w') document.getElementById('hs-pw').textContent=e.target.value;
+});
+document.addEventListener('keydown',e=>{
+  if(e.target.closest('input,textarea')) return;
+  if(!layer.hidden){
+    if(e.key==='Escape') closeLayer();
+    else if(e.key==='ArrowRight'){ e.preventDefault(); showShot(lIdx+1); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); showShot(lIdx-1); }
+    return;
+  }
+  if(!ex.hidden){
+    if(e.key==='Escape'){ closeExplore(); }
+    else if(e.key==='ArrowRight'){ e.preventDefault(); exGo(exi+1); }
+    else if(e.key==='ArrowLeft'){ e.preventDefault(); exGo(exi-1); }
+    return;
+  }
+  if(e.key==='ArrowRight'){ e.preventDefault(); if(mode==='overview') start(); else go(Math.min(N-1,cur+1)); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); go(Math.max(0,cur-1)); }
+  else if(e.key==='Enter' && mode==='overview' && !e.target.closest('button')) start();
+});
+
+function runMarathon(btn){
+  const box=btn.closest('.marathon'), km=box.querySelector('.km'), rn=box.querySelector('.runner'), fill=box.querySelector('.mfill');
+  btn.disabled=true; const T=reduce?0:3400, t0=performance.now();
+  const f=now=>{ const t=T?Math.min(1,(now-t0)/T):1; const e=1-Math.pow(1-t,1.6);
+    rn.style.left=(e*100)+'%'; fill.style.width=(e*100)+'%'; km.textContent=(e*42.195).toFixed(3);
+    if(t<1) requestAnimationFrame(f); else { btn.disabled=false; btn.textContent='Run it again'; } };
+  requestAnimationFrame(f);
+}
+
+addEventListener('resize',()=>{ if(mode==='overview') setTarget(); else setTarget(busPos.x,busPos.y); });
+
+/* ═══════════ Start ═══════════ */
+const startIdx=STOPS.findIndex(s=>s.id===(location.hash||'').slice(1));
+if(startIdx>0){
+  hideTicket(); mode='tour'; finishBoarding();
+  curL=stopL[startIdx]; busPos=motion.getPointAtLength(curL); placeBus(busPos);
+  arrive(startIdx);
+  Object.assign(cam,{x:tgt.x,y:tgt.y,s:tgt.s});
+} else {
+  say('Welcome aboard. Grab a day pass to begin the tour.');
+  document.getElementById('count').textContent='13 stops';
+  setTarget(); Object.assign(cam,{x:tgt.x,y:tgt.y,s:tgt.s});
+}
+apply();
+})();
+</script>
+
+</body>
+</html>
