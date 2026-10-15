@@ -1632,7 +1632,8 @@ const sfx=(()=>{
     return ctx;
   }
   function unlock(){ if(init()&&ctx.state==='suspended') ctx.resume().catch(()=>{}); }
-  function noiseBuf(){ const b=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; return b; }
+  let nb=null;
+  function noiseBuf(){ if(nb) return nb; const b=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; return nb=b; }
   // hop-on: two footsteps on the bus's metal step, then the ticket reader beep
   function step(t,v){
     // body of the footfall: a low thump
@@ -1681,42 +1682,68 @@ const sfx=(()=>{
     g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.16,t+.03); g.gain.exponentialRampToValueAtTime(.0001,t+.75);
     n.connect(f).connect(g).connect(master); n.start(t); n.stop(t+.8);
   }
-  // diesel engine: harmonics in the range laptop and phone speakers can play, a chug, and road noise
+  // wheels: tires rolling on the road, with a clack over road joints that follows the bus's speed
+  function thump(t,v,sched){
+    const n=ctx.createBufferSource(), f=ctx.createBiquadFilter(), g=ctx.createGain();
+    n.buffer=noiseBuf(); f.type='bandpass'; f.frequency.value=320; f.Q.value=1.4;
+    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.5*v,t+.004); g.gain.exponentialRampToValueAtTime(.0001,t+.06);
+    n.connect(f).connect(g).connect(master); n.start(t); n.stop(t+.07);
+    const o=ctx.createOscillator(), og=ctx.createGain(); o.type='sine';
+    o.frequency.setValueAtTime(160,t); o.frequency.exponentialRampToValueAtTime(70,t+.05);
+    og.gain.setValueAtTime(.0001,t); og.gain.exponentialRampToValueAtTime(.35*v,t+.004); og.gain.exponentialRampToValueAtTime(.0001,t+.07);
+    o.connect(og).connect(master); o.start(t); o.stop(t+.08);
+    sched.push(n,o);
+  }
+  function squeal(t,sched){
+    const o=ctx.createOscillator(), g=ctx.createGain(), vib=ctx.createOscillator(), vg=ctx.createGain();
+    o.type='sine'; o.frequency.value=2650; vib.frequency.value=9; vg.gain.value=30; vib.connect(vg).connect(o.frequency);
+    const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=2650; bp.Q.value=4;
+    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.045,t+.08); g.gain.setValueAtTime(.045,t+.32); g.gain.exponentialRampToValueAtTime(.0001,t+.6);
+    o.connect(bp).connect(g).connect(master); o.start(t); vib.start(t); o.stop(t+.62); vib.stop(t+.62);
+    sched.push(o,vib);
+  }
   function engine(dur){
     if(!on||!init()) return; const t=ctx.currentTime, d=Math.max(.8,dur/1000);
     if(!eng){
       bell();
-      const out=ctx.createGain(); out.gain.value=.0001;
-      const body=ctx.createBiquadFilter(); body.type='lowpass'; body.frequency.value=900; body.Q.value=1.2;
-      const o1=ctx.createOscillator(); o1.type='sawtooth';
-      const o2=ctx.createOscillator(); o2.type='sawtooth'; o2.detune.value=7;
-      const o3=ctx.createOscillator(); o3.type='square';
-      const g3=ctx.createGain(); g3.gain.value=.35;
-      // chug: amplitude wobble at the firing rate
-      const chug=ctx.createGain(); chug.gain.value=.6;
-      const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.type='sine'; lg.gain.value=.4; lfo.connect(lg).connect(chug.gain);
-      o1.connect(body); o2.connect(body); o3.connect(g3).connect(body);
-      body.connect(chug).connect(out);
-      // road and tire noise
+      const out=ctx.createGain(); out.gain.value=1; out.connect(master);
       const n=ctx.createBufferSource(); n.buffer=noiseBuf(); n.loop=true;
-      const nf=ctx.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=700; nf.Q.value=.6;
-      const road=ctx.createGain(); road.gain.value=.0001;
-      n.connect(nf).connect(road).connect(out);
-      out.connect(master);
-      [o1,o2,o3,lfo,n].forEach(x=>x.start());
-      eng={out,road,o1,o2,o3,lfo,parts:[o1,o2,o3,lfo,n]};
+      const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=650;
+      const roll=ctx.createGain(); roll.gain.value=.0001;
+      n.connect(lp).connect(roll).connect(out);
+      const n2=ctx.createBufferSource(); n2.buffer=noiseBuf(); n2.loop=true;
+      const hum=ctx.createBiquadFilter(); hum.type='bandpass'; hum.frequency.value=420; hum.Q.value=.9;
+      const tire=ctx.createGain(); tire.gain.value=.0001;
+      n2.connect(hum).connect(tire).connect(out);
+      n.start(); n2.start();
+      eng={out,roll,tire,lp,parts:[n,n2],sched:[]};
+    } else {
+      eng.sched.forEach(x=>{ try{ x.stop(); }catch(err){} }); eng.sched=[];
     }
-    const {out,road,o1,o2,o3,lfo}=eng;
-    out.gain.cancelScheduledValues(t); out.gain.setValueAtTime(Math.max(out.gain.value,.0001),t); out.gain.exponentialRampToValueAtTime(.26,t+.3);
-    road.gain.cancelScheduledValues(t); road.gain.setValueAtTime(Math.max(road.gain.value,.0001),t); road.gain.exponentialRampToValueAtTime(.5,t+d*.45); road.gain.exponentialRampToValueAtTime(.12,t+d);
-    // rev: idle → cruising → slowing, following the bus's ease-in-out
-    [[o1,1],[o2,2],[o3,3]].forEach(([o,m])=>{ o.frequency.cancelScheduledValues(t); o.frequency.setValueAtTime(68*m,t); o.frequency.linearRampToValueAtTime(112*m,t+d*.45); o.frequency.linearRampToValueAtTime(74*m,t+d); });
-    lfo.frequency.cancelScheduledValues(t); lfo.frequency.setValueAtTime(14,t); lfo.frequency.linearRampToValueAtTime(26,t+d*.45); lfo.frequency.linearRampToValueAtTime(15,t+d);
+    const {roll,tire,lp,sched}=eng;
+    // speed follows the bus's ease-in-out: slow, faster mid-route, slow into the stop
+    const speed=x=>x<.5?2*x:2*(1-x);
+    roll.gain.cancelScheduledValues(t); roll.gain.setValueAtTime(Math.max(roll.gain.value,.0001),t);
+    roll.gain.exponentialRampToValueAtTime(.32,t+d*.45); roll.gain.exponentialRampToValueAtTime(.05,t+d);
+    tire.gain.cancelScheduledValues(t); tire.gain.setValueAtTime(Math.max(tire.gain.value,.0001),t);
+    tire.gain.exponentialRampToValueAtTime(.22,t+d*.45); tire.gain.exponentialRampToValueAtTime(.02,t+d);
+    lp.frequency.cancelScheduledValues(t); lp.frequency.setValueAtTime(380,t); lp.frequency.linearRampToValueAtTime(900,t+d*.45); lp.frequency.linearRampToValueAtTime(400,t+d);
+    // road joints: clack-clack (front and rear wheels), closer together at speed
+    let x=.04;
+    while(x<d-.25){
+      const v=Math.max(.15,speed(x/d)), at=t+x;
+      thump(at,.35+.65*v,sched); thump(at+.07+.1*(1-v),.3+.55*v,sched);
+      x+=.26+ .9*(1-v);
+    }
+    // brakes squeal as it comes into the stop
+    if(d>1.1) squeal(t+d-.62,sched);
   }
   function stop(){
     if(!eng||!ctx) return; const t=ctx.currentTime, e=eng; eng=null;
-    e.out.gain.cancelScheduledValues(t); e.out.gain.setValueAtTime(Math.max(e.out.gain.value,.0001),t); e.out.gain.exponentialRampToValueAtTime(.0001,t+.45);
-    e.parts.forEach(x=>{ try{ x.stop(t+.5); }catch(err){} });
+    [e.roll,e.tire].forEach(g=>{ g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(g.gain.value,.0001),t); g.gain.exponentialRampToValueAtTime(.0001,t+.35); });
+    e.parts.forEach(x=>{ try{ x.stop(t+.4); }catch(err){} });
+    // the bus settles on its suspension
+    const s=[]; thump(t+.02,.6,s);
     hiss();
   }
   function toggle(){
