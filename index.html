@@ -140,7 +140,14 @@ button{font:inherit;color:inherit;cursor:pointer;letter-spacing:inherit}
 :root[data-theme="dark"] .lampdot{opacity:1}
 
 /* zoom controls */
-.zoom{position:absolute;left:16px;bottom:16px;display:grid;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--hair);z-index:2}
+.sound{position:absolute;left:16px;bottom:16px;z-index:2;width:40px;height:40px;border-radius:50%;border:1px solid var(--hair);box-shadow:var(--shadow);display:grid;place-items:center;color:var(--ink);cursor:pointer;padding:0}
+.sound svg{width:20px;height:20px;display:block}
+.sound .off{display:none}
+.sound[aria-pressed="false"] .on{display:none}
+.sound[aria-pressed="false"] .off{display:block}
+.sound[aria-pressed="false"]{color:var(--muted)}
+.sound:hover{background:var(--fill)}
+.zoom{position:absolute;left:16px;bottom:68px;display:grid;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--hair);z-index:2}
 .zoom button{border:0;background:transparent;width:38px;height:36px;font-size:18px;font-weight:500}
 .zoom button+button{border-top:1px solid var(--hair)}
 .zoom button:hover{background:var(--fill)}
@@ -472,6 +479,8 @@ kbd{font:600 12px var(--f-mono);background:var(--paper);border-radius:6px;paddin
   .extext{overflow:visible;padding:18px 4px 8px}
 }
 @media (max-width:760px){
+  .sound{top:12px;bottom:auto;left:12px;width:36px;height:36px}
+  .toast{left:56px}
   .lcard{border-radius:22px}
   .lhead{padding:16px 18px 10px}
   .gal{margin:0 14px;padding:14px}
@@ -565,6 +574,10 @@ kbd{font:600 12px var(--f-mono);background:var(--paper);border-radius:6px;paddin
       <g id="world"></g>
     </svg>
 
+    <button class="sound glass" id="sound" aria-pressed="true" aria-label="Sound on. Turn sound off" title="Sound">
+      <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+      <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" stroke="none"/><path d="M17 9l5 6M22 9l-5 6"/></svg>
+    </button>
     <div class="zoom glass" role="group" aria-label="Map zoom">
       <button id="zin" aria-label="Zoom in">+</button>
       <button id="zout" aria-label="Zoom out">−</button>
@@ -1496,7 +1509,7 @@ function go(i, focus){
   boardOpen=false; board.classList.add('away');
   say(`Next stop: ${STOPS[i].name}`);
   const dur=reduce?0:Math.min(3400,Math.max(1100,dist*1.4));
-  const t0=performance.now(); svg.classList.add('moving');
+  const t0=performance.now(); svg.classList.add('moving'); if(dur) sfx.engine(dur);
   const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
   let lastX=busPos.x;
   const step=now=>{
@@ -1505,7 +1518,7 @@ function go(i, focus){
     const p=motion.getPointAtLength(curL);
     if(Math.abs(p.x-lastX)>.4) facing=p.x>lastX?1:-1;
     lastX=p.x; busPos={x:p.x,y:p.y}; placeBus(busPos); setTarget(p.x,p.y);
-    if(t<1) anim=requestAnimationFrame(step); else { svg.classList.remove('moving'); arrive(i,focus); }
+    if(t<1) anim=requestAnimationFrame(step); else { svg.classList.remove('moving'); sfx.stop(); arrive(i,focus); }
   };
   anim=requestAnimationFrame(step);
 }
@@ -1605,6 +1618,72 @@ let lsx=null;
 layer.addEventListener('pointerdown',e=>{ if(e.target.closest('button,a')) return; lsx=e.clientX; });
 layer.addEventListener('pointerup',e=>{ if(lsx===null||!lProto) return; const dx=e.clientX-lsx; lsx=null; if(Math.abs(dx)>60) showShot(lIdx+(dx<0?1:-1)); });
 
+/* ═══════════ Sound ═══════════ */
+const sfx=(()=>{
+  let ctx=null, master=null, eng=null, on=true;
+  try{ on=localStorage.getItem('sb-sound')!=='off'; }catch(e){}
+  const btn=document.getElementById('sound');
+  const paint=()=>{ btn.setAttribute('aria-pressed',on); btn.setAttribute('aria-label',on?'Sound on. Turn sound off':'Sound off. Turn sound on'); };
+  paint();
+  function init(){
+    if(ctx) return ctx;
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return null;
+    ctx=new AC(); master=ctx.createGain(); master.gain.value=on?1:0; master.connect(ctx.destination);
+    return ctx;
+  }
+  function unlock(){ if(init()&&ctx.state==='suspended') ctx.resume().catch(()=>{}); }
+  function noiseBuf(){ const b=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate), d=b.getChannelData(0); for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1; return b; }
+  // a soft "click" for each passenger stepping on
+  function click(){
+    if(!on||!init()) return; const t=ctx.currentTime;
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type='triangle'; o.frequency.setValueAtTime(1500,t); o.frequency.exponentialRampToValueAtTime(700,t+.06);
+    g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.22,t+.004); g.gain.exponentialRampToValueAtTime(.0001,t+.09);
+    o.connect(g).connect(master); o.start(t); o.stop(t+.1);
+    const n=ctx.createBufferSource(), f=ctx.createBiquadFilter(), ng=ctx.createGain();
+    n.buffer=noiseBuf(); f.type='highpass'; f.frequency.value=3000;
+    ng.gain.setValueAtTime(.12,t); ng.gain.exponentialRampToValueAtTime(.0001,t+.03);
+    n.connect(f).connect(ng).connect(master); n.start(t); n.stop(t+.04);
+  }
+  // engine hum that revs up with the bus and settles as it arrives
+  function engine(dur){
+    if(!on||!init()) return; const t=ctx.currentTime, d=Math.max(.6,dur/1000);
+    if(!eng){
+      const g=ctx.createGain(); g.gain.value=.0001;
+      const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=380; lp.Q.value=.8;
+      const o1=ctx.createOscillator(); o1.type='sawtooth';
+      const o2=ctx.createOscillator(); o2.type='square'; o2.detune.value=-8;
+      const lfo=ctx.createOscillator(), lg=ctx.createGain(); lfo.frequency.value=7; lg.gain.value=.25;
+      const tremolo=ctx.createGain(); tremolo.gain.value=.75; lfo.connect(lg).connect(tremolo.gain);
+      const n=ctx.createBufferSource(); n.buffer=noiseBuf(); n.loop=true;
+      const nf=ctx.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=180; nf.Q.value=.7;
+      const ngain=ctx.createGain(); ngain.gain.value=.5;
+      o1.connect(lp); o2.connect(lp); n.connect(nf).connect(ngain).connect(lp);
+      lp.connect(tremolo).connect(g).connect(master);
+      [o1,o2,lfo,n].forEach(x=>x.start());
+      eng={g,o1,o2,lfo,parts:[o1,o2,lfo,n]};
+    }
+    const {g,o1,o2,lfo}=eng;
+    g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(g.gain.value,.0001),t);
+    g.gain.exponentialRampToValueAtTime(.09,t+.35);
+    [[o1,1],[o2,2]].forEach(([o,m])=>{ o.frequency.cancelScheduledValues(t); o.frequency.setValueAtTime(42*m,t); o.frequency.linearRampToValueAtTime(68*m,t+d*.45); o.frequency.linearRampToValueAtTime(46*m,t+d); });
+    lfo.frequency.cancelScheduledValues(t); lfo.frequency.setValueAtTime(6,t); lfo.frequency.linearRampToValueAtTime(11,t+d*.45); lfo.frequency.linearRampToValueAtTime(6,t+d);
+  }
+  function stop(){
+    if(!eng||!ctx) return; const t=ctx.currentTime, e=eng; eng=null;
+    e.g.gain.cancelScheduledValues(t); e.g.gain.setValueAtTime(Math.max(e.g.gain.value,.0001),t); e.g.gain.exponentialRampToValueAtTime(.0001,t+.5);
+    e.parts.forEach(x=>{ try{ x.stop(t+.55); }catch(err){} });
+  }
+  function toggle(){
+    on=!on; paint(); try{ localStorage.setItem('sb-sound',on?'on':'off'); }catch(e){}
+    if(init()){ unlock(); master.gain.setTargetAtTime(on?1:0,ctx.currentTime,.05); if(!on) stop(); }
+  }
+  btn.addEventListener('click',e=>{ e.stopPropagation(); toggle(); });
+  // any first tap or key unlocks audio (browsers require a gesture)
+  ['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,unlock,{once:true}));
+  return {click,engine,stop,unlock};
+})();
+
 /* ═══════════ Ticket, tip, auto ═══════════ */
 const tw=document.getElementById('ticketwrap');
 function hideTicket(){ if(!tw.classList.contains('gone')){ tw.classList.add('gone'); tw.setAttribute('aria-hidden','true'); } }
@@ -1632,14 +1711,14 @@ function boardBus(done){
       if(t<1) all=false;
       const e=ease(t), x=sx+(door.x-sx)*e, y=sy+(door.y-sy)*e, bob=t>0&&t<1?-Math.abs(Math.sin(t*Math.PI*7))*4:0;
       p.setAttribute('transform',`translate(${x.toFixed(1)},${(y+bob).toFixed(1)})`);
-      if(t>=.92){ p.style.opacity=0; if(!seated.has(i)){ seated.add(i); fillSeats(seated.size); } }
+      if(t>=.92){ p.style.opacity=0; if(!seated.has(i)){ seated.add(i); fillSeats(seated.size); sfx.click(); } }
     });
     if(!all) boardRAF=requestAnimationFrame(step);
     else { boarded=true; boardT.push(setTimeout(done,500)); }
   };
   boardRAF=requestAnimationFrame(step);
 }
-function start(){ hideTicket(); mode='tour'; boardBus(()=>arrive(0,true)); }
+function start(){ sfx.unlock(); hideTicket(); mode='tour'; boardBus(()=>arrive(0,true)); }
 document.getElementById('hopon').onclick=start;
 document.getElementById('skip').onclick=()=>go(N-1,true);
 const toast=document.getElementById('toast');
