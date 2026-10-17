@@ -653,7 +653,7 @@ const fit = h => `<div class="vfit">${h}</div>`;
 /* ═══════════ Visuals for each walkthrough slide ═══════════ */
 const V = {
 btwRoles: fit(`
-  <div class="banner"><span>5 linked apps</span><span>1 shell</span><span>1 token set</span></div>
+  <div class="banner"><span>5 website user interfaces</span><span>1 shell</span><span>1 token set</span></div>
   <div class="g2 keep">
     ${[['A','Attendee','My BTW','--blue',['Dashboard','Calendar','Saved Events','My Attendance','Connect & Support']],
        ['H','Session host','Host Studio','--amber',['Overview','My Events','Create Event','Check-in','Insights','My Host Profile']],
@@ -1049,14 +1049,14 @@ const STOPS = [
 
   { id:'btw', short:'Tech Week', name:'Bengaluru Tech Week', line:'red', kind:'Case study · Freelance / volunteer · 2026', x:540, y:1010, lm:'btw',
     guide:'On your left, a tech week spread across all of Bengaluru. Traffic included.',
-    summary:'A shared product system for a citywide tech event held Sept 1–6, 2026. Five linked apps for four kinds of people, all from one token set. I designed and prototyped every surface.',
-    facts:[['5','linked apps'],['4','roles served'],['1','token set']],
+    summary:'A shared product system for a citywide tech event held Sept 1–6, 2026. Five linked website user interfaces for four kinds of people, all from one token set. I designed and prototyped every surface.',
+    facts:[['5','website user interfaces'],['4','roles served'],['1','token set']],
     who:['Attendees choosing what to go to this week','Hosts publishing and running sessions','Participants collecting proof they showed up','Volunteer crew getting scheduled and briefed'],
     slides:[
       {t:'Four roles', v:V.btwRoles, d:`<h3>One event, four very different people</h3><p>Left alone, four groups would get four unrelated tools. I designed one shell, with a surface for each role and the screens each one actually needs.</p><p class="note">The event set itself a goal of 100+ events and 10,000+ attendees for 2026.</p>`},
-      {t:'Token set', v:V.btwTokens, d:`<h3>One token set behind every surface</h3><p>All five apps share the same CSS custom properties, component classes and type pairing, taken from the event's own brand kit.</p><p>Change a token once and every surface stays consistent, in light and dark.</p>`},
+      {t:'Token set', v:V.btwTokens, d:`<h3>One token set behind every surface</h3><p>All five website interfaces share the same CSS custom properties, component classes and type pairing, taken from the event's own brand kit.</p><p>Change a token once and every surface stays consistent, in light and dark.</p>`},
       {t:'Digital Passport', v:V.btwPassport, d:`<h3>Proof of attendance worth collecting</h3><p>Version one was a plain checklist. I rebuilt it as 100 hyper-local Bengaluru stickers, earned by checking into real sessions, with a holographic foil on hover.</p><p>The copy carries the personality. Every name is a Bengaluru in-joke.</p>`},
-      {t:'Host Studio', v:V.btwHost, d:`<h3>A builder with a live preview</h3><p>Hosts see a phone-sized preview update as they type. "Publish to" is a real choice: BTW is always listed, and Luma is a separate connected-app toggle instead of a silent sync.</p><p class="note">Bengaluru traffic was the core constraint across all five apps. Crossing the city at 6 PM can take longer than a session, so location and neighborhood clustering mattered more than polish.</p>`}
+      {t:'Host Studio', v:V.btwHost, d:`<h3>A builder with a live preview</h3><p>Hosts see a phone-sized preview update as they type. "Publish to" is a real choice: BTW is always listed, and Luma is a separate connected-app toggle instead of a silent sync.</p><p class="note">Bengaluru traffic was the core constraint across all five interfaces. Crossing the city at 6 PM can take longer than a session, so location and neighborhood clustering mattered more than polish.</p>`}
     ]},
 
   { id:'rise', short:'Rise Connect', name:'Rise Connect', line:'red', kind:'Concept · Self-directed · Aug 2026', x:360, y:700, lm:'rise',
@@ -1180,7 +1180,7 @@ const STOPS = [
    kind 'm' = measured results; 'e' = expected impact of a concept or prototype (not yet measured). */
 const IMPACT = {
   btw:{kind:'e', label:'Expected', note:'Prototyped end to end; not yet measured with live users.', rows:[
-    ['Four groups would get four unrelated tools','One system: change a token once and all five apps update together','5 apps, 1 system'],
+    ['Four groups would get four unrelated tools','One system: change a token once and all five website interfaces update together','5 interfaces, 1 system'],
     ['Attendees pick sessions without knowing the cross-city travel cost','Sessions clustered by neighborhood, so plans account for Bengaluru traffic',''],
     ['Hosts keep event listings in separate places','Publish once to BTW, with an optional cross-post to Luma',''],
     ['Volunteers consent through a blanket terms link','The Agreement screen says exactly what is shared and why','']]},
