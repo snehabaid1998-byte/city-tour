@@ -170,6 +170,24 @@ button{font:inherit;color:inherit;cursor:pointer;letter-spacing:inherit}
 .facts b{display:block;font:700 24px/1 var(--f-display);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .facts span{display:block;font-size:11.5px;color:var(--muted);line-height:1.3;margin-top:6px}
 .wh{font-size:12px;font-weight:600;color:var(--muted);margin:0 0 -6px}
+.wh.imh{display:flex;align-items:center;gap:8px;color:var(--ink);font-size:13px}
+.ik{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:980px}
+.ik.m{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--ok-ink)}
+.ik.e{background:color-mix(in srgb,var(--blue) 14%,transparent);color:var(--blue)}
+.imp{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.imp li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:13.5px;line-height:1.4;background:var(--paper2);border-radius:12px;padding:10px 12px}
+.imp li::before{content:"↗";display:grid;place-items:center;width:22px;height:22px;border-radius:7px;background:var(--line);color:#fff;font-size:12px;font-weight:700}
+.imp b{font-weight:600}
+.ba{display:grid;gap:10px}
+.barow{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1.15fr);gap:8px;align-items:stretch}
+.barow > div{border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.4}
+.barow .bf{background:var(--paper);color:var(--muted);box-shadow:0 0 0 .5px var(--hair)}
+.barow .af{background:var(--paper);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--line) 55%,transparent)}
+.barow .lab2{display:block;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.barow .bf .lab2{color:var(--muted)}.barow .af .lab2{color:var(--line)}
+.barow .ar{display:grid;place-items:center;color:var(--muted);font-size:18px;padding:0!important}
+.barow .af b{display:block;font:700 22px/1.05 var(--f-display);letter-spacing:-.025em;margin-bottom:2px;color:var(--ink)}
+@media (max-width:760px){.barow{grid-template-columns:minmax(0,1fr)}.barow .ar{transform:rotate(90deg);height:18px}}
 .who{list-style:none;margin:0;padding:0;border-radius:14px;background:var(--paper2);overflow:hidden}
 .who li{padding:9px 14px;display:grid;grid-template-columns:8px 1fr;gap:11px;align-items:start;font-size:13.5px;line-height:1.4}
 .who li + li{border-top:1px solid var(--hair)}
@@ -1158,6 +1176,44 @@ const STOPS = [
       <button class="btn hop" data-cv><span>View my CV</span><small>Product Designer →</small></button>`}
 ];
 
+/* ═══════════ Impact: what changed, and for whom ═══════════
+   kind 'm' = measured results; 'e' = expected impact of a concept or prototype (not yet measured). */
+const IMPACT = {
+  btw:{kind:'e', label:'Expected', note:'Prototyped end to end; not yet measured with live users.', rows:[
+    ['Four groups would get four unrelated tools','One system: change a token once and all five apps update together','5 apps, 1 system'],
+    ['Attendees pick sessions without knowing the cross-city travel cost','Sessions clustered by neighborhood, so plans account for Bengaluru traffic',''],
+    ['Hosts keep event listings in separate places','Publish once to BTW, with an optional cross-post to Luma',''],
+    ['Volunteers consent through a blanket terms link','The Agreement screen says exactly what is shared and why','']]},
+  rise:{kind:'e', label:'Expected', note:'A concept sketched in a two-week trial; not built.', rows:[
+    ['Six manual handoffs per student, all run by one person','Four shared views do the same job','6 → 4'],
+    ['Coordination lived in one inbox, a single point of failure','Students, mentors, coaches and parents see the same status at the same time',''],
+    ['Students had no single view of their progress','One tracker from enrollment to publication','6 phases, 1 view']]},
+  wispr:{kind:'e', label:'Expected', note:'An unsolicited pitch; the impact is the case made to the founders.', rows:[
+    ['Flow writes back in the language you spoke','Translate Mode turns a bilingual gap into a one-click feature, opening non-English-first markets',''],
+    ['Individual dictation is disposable','Team Knowledge Capture builds a searchable team memory, which drives seat expansion and makes Flow harder to leave',''],
+    ['Flow is a work tool','Voice Journal creates a daily habit outside of work and broadens the audience','']]},
+  mumme:{kind:'e', label:'Expected', note:'An MSc team project, taken through usability testing.', rows:[
+    ['Tracking apps took pregnant women too long to learn','Clarity over comprehensiveness, with every feature traced to research',''],
+    ['Accessibility usually gets retrofitted at the end','Designed for blind and low-vision users from the first persona','Day one'],
+    ['Wellness apps are generic','Pregnancy-specific support, with a community of other women','']]},
+  urbaneden:{kind:'e', label:'Expected', note:'A personal concept; one screen explored, no research yet.', rows:[
+    ['Gardening apps assume you already have a garden','Starts from a bare balcony: scan the space, get a plan','0 → plan'],
+    ['Inspiration, planning and shopping live in separate apps','One shell with four jobs: Inspire, My Garden, Design, Library','']]},
+  diamond:{kind:'m', label:'Measured', note:'Research results, delivered to a senior stakeholder team.', rows:[
+    ['A luxury manufacturer weighing AR without evidence','A decision backed by 20 interviews, 3 store visits, 50 surveys and 10 usability tests','4 methods'],
+    ['The barrier to AR adoption was unknown','Privacy named as the biggest brake on customers using AR',''],
+    ['No baseline for the AR try-on experience','SUS 73, plus three concrete fixes: faster 3D, bigger tap targets, clearer onboarding','SUS 73']]},
+  exchange:{kind:'m', label:'Measured', note:'Results from live hiring systems in the UK.', rows:[
+    ['Cross-border hires fell between Legal, HR and Compliance','One end-to-end blueprint across 50+ international hires','75% fewer handoff failures'],
+    ['Candidates were being ghosted mid-process','400 touchpoints remapped with account stakeholders','50% less ghosting'],
+    ['Sourcing in Bullhorn and HireVue produced weak shortlists','Redesigned sourcing and engagement workflows','45% more placements'],
+    ['A redundant Oracle recruiting workflow','AI-driven audit stripped out the waste','40% NPS lift']]}
+};
+const impactSlide = im => fit(`<div class="ba">${im.rows.map(([b,a,n])=>`<div class="barow"><div class="bf"><span class="lab2">Before</span>${b}</div><div class="ar" aria-hidden="true">→</div><div class="af"><span class="lab2">After</span>${n?`<b>${n}</b>`:''}${a}</div></div>`).join('')}</div>`);
+STOPS.forEach(s=>{ const im=IMPACT[s.id]; if(!im) return; s.impact=im;
+  s.slides.push({t:'Impact', v:impactSlide(im), d:`<h3>Impact <span class="ik ${im.kind}" style="vertical-align:middle;margin-left:6px">${im.label}</span></h3><p>${im.kind==='m'?'These are measured results.':'This is the impact the design is built to have. It has not been measured with live users.'}</p><p class="note">${im.note}</p>`});
+});
+
 /* ═══════════ Landmarks (base at 0,0) — soft 3D, no outlines ═══════════ */
 const DY=.55; // oblique depth: every unit of depth rises this much
 const sideOf=(c)=>`color-mix(in srgb,${c} 78%,#000)`;
@@ -1468,7 +1524,8 @@ const factsHTML=a=>'<div class="facts">'+a.map(([b,s])=>`<div><b>${b}</b><span>$
 function renderBoard(i, focus){
   const s=STOPS[i], ln=LINES[s.line], nxt=STOPS[i+1];
   board.style.setProperty('--line',cv(ln.v));
-  const body=s.body || `<p class="sum">${s.summary}</p>${factsHTML(s.facts)}
+  const imp=s.impact?`<p class="wh imh">Impact <span class="ik ${s.impact.kind}">${s.impact.label}</span></p><ul class="imp">${s.impact.rows.slice(0,3).map(([b,a,n])=>`<li><span>${n?`<b>${n}.</b> `:''}${a}</span></li>`).join('')}</ul><p class="wh">At a glance</p>`:'';
+  const body=s.body || `<p class="sum">${s.summary}</p>${imp}${factsHTML(s.facts)}
     <p class="wh">${s.whoLabel||'Who it serves'}</p><ul class="who">${s.who.map(w=>`<li><span>${w}</span></li>`).join('')}</ul>`;
   const hop=(s.slides?`<button class="btn hop" data-explore><span>Hop off and explore</span><small>${s.slides.length} views →</small></button>`:'')+(s.proto?`<button class="btn ghost" data-proto="${s.proto}">View prototype</button>`:'');
   board.innerHTML=`
