@@ -173,6 +173,7 @@ button{font:inherit;color:inherit;cursor:pointer;letter-spacing:inherit}
 .wh.imh{display:flex;align-items:center;gap:8px;color:var(--ink);font-size:13px}
 .ik{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:980px}
 .ik.m{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--ok-ink)}
+.ik.s{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
 .ik.e{background:color-mix(in srgb,var(--blue) 14%,transparent);color:var(--blue)}
 .imp{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .imp li{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:13.5px;line-height:1.4;background:var(--paper2);border-radius:12px;padding:10px 12px}
@@ -698,6 +699,17 @@ btwHost: fit(`
   </div>
   ${cap('Type in the form. The phone preview updates as you go, so no host publishes blind.')}`),
 
+btwShip: fit(`
+  <div class="g3">
+    ${[['D','Design','Me','--red','Five interfaces, one token set, components and specs'],['E','Development','Developer','--blue','Built the product from the same tokens and components'],['P','Product','Product manager','--green','Priorities, scope and the fixed event date']]
+      .map(([i,a,b,c,t])=>`<div class="vcard" style="--c:var(${c})"><div class="rh"><span class="ri">${i}</span><div><b>${a}</b><small>${b}</small></div></div><span style="font-size:12.5px;color:var(--muted)">${t}</span></div>`).join('')}
+  </div>
+  <div class="darr">↓</div>
+  <div class="vcard" style="display:flex;align-items:center;gap:14px;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--red) 45%,transparent)">
+    <span class="st ok" style="font-size:11px">LIVE</span>
+    <div><b style="display:block;font-size:15px">Used in real time during Bengaluru Tech Week</b><span style="font-size:12.5px;color:var(--muted)">Attendees, hosts, participants and volunteers · Sept 1–6, 2026</span></div>
+  </div>
+  ${cap('Three roles working together on one shipped product.')}`),
 riseBefore: fit(`
   <ol class="flow">
     ${[['New student assigned','Program Associate',1],['Chat group created','Google Space',0],['Acceptance email sent','Program Associate',1],['Intro message posted','Mentor + Coach',0],['Start date logged','Program Associate',1],['Parent contacted','Program Associate',1]]
@@ -1049,14 +1061,15 @@ const STOPS = [
 
   { id:'btw', short:'Tech Week', name:'Bengaluru Tech Week', line:'red', kind:'Case study · Freelance / volunteer · 2026', x:540, y:1010, lm:'btw',
     guide:'On your left, a tech week spread across all of Bengaluru. Traffic included.',
-    summary:'A shared product system for a citywide tech event held Sept 1–6, 2026. Five linked website user interfaces for four kinds of people, all from one token set. I designed and prototyped every surface.',
+    summary:'A shared product system for a citywide tech event held Sept 1–6, 2026. Five linked website user interfaces for four kinds of people, all from one token set. I designed every surface, then worked alongside a developer and a product manager to ship it as a product people used live during the event.',
     facts:[['5','website user interfaces'],['4','roles served'],['1','token set']],
     who:['Attendees choosing what to go to this week','Hosts publishing and running sessions','Participants collecting proof they showed up','Volunteer crew getting scheduled and briefed'],
     slides:[
       {t:'Four roles', v:V.btwRoles, d:`<h3>One event, four very different people</h3><p>Left alone, four groups would get four unrelated tools. I designed one shell, with a surface for each role and the screens each one actually needs.</p><p class="note">The event set itself a goal of 100+ events and 10,000+ attendees for 2026.</p>`},
       {t:'Token set', v:V.btwTokens, d:`<h3>One token set behind every surface</h3><p>All five website interfaces share the same CSS custom properties, component classes and type pairing, taken from the event's own brand kit.</p><p>Change a token once and every surface stays consistent, in light and dark.</p>`},
       {t:'Digital Passport', v:V.btwPassport, d:`<h3>Proof of attendance worth collecting</h3><p>Version one was a plain checklist. I rebuilt it as 100 hyper-local Bengaluru stickers, earned by checking into real sessions, with a holographic foil on hover.</p><p>The copy carries the personality. Every name is a Bengaluru in-joke.</p>`},
-      {t:'Host Studio', v:V.btwHost, d:`<h3>A builder with a live preview</h3><p>Hosts see a phone-sized preview update as they type. "Publish to" is a real choice: BTW is always listed, and Luma is a separate connected-app toggle instead of a silent sync.</p><p class="note">Bengaluru traffic was the core constraint across all five interfaces. Crossing the city at 6 PM can take longer than a session, so location and neighborhood clustering mattered more than polish.</p>`}
+      {t:'Host Studio', v:V.btwHost, d:`<h3>A builder with a live preview</h3><p>Hosts see a phone-sized preview update as they type. "Publish to" is a real choice: BTW is always listed, and Luma is a separate connected-app toggle instead of a silent sync.</p><p class="note">Bengaluru traffic was the core constraint across all five interfaces. Crossing the city at 6 PM can take longer than a session, so location and neighborhood clustering mattered more than polish.</p>`},
+      {t:'Shipping it', v:V.btwShip, d:`<h3>From prototype to a product people used live</h3><p>I worked alongside a developer and a product manager to turn the designs into a working product that attendees, hosts, participants and volunteers used in real time during the event.</p><p>Designing on one token set made the handoff simpler: the build used the same tokens and components the designs were made from, so the five interfaces stayed consistent as they shipped.</p><p class="note">The product ran live during Bengaluru Tech Week, Sept 1–6, 2026.</p>`}
     ]},
 
   { id:'rise', short:'Rise Connect', name:'Rise Connect', line:'red', kind:'Concept · Self-directed · Aug 2026', x:360, y:700, lm:'rise',
@@ -1179,7 +1192,8 @@ const STOPS = [
 /* ═══════════ Impact: what changed, and for whom ═══════════
    kind 'm' = measured results; 'e' = expected impact of a concept or prototype (not yet measured). */
 const IMPACT = {
-  btw:{kind:'e', label:'Expected', note:'Prototyped end to end; not yet measured with live users.', rows:[
+  btw:{kind:'s', label:'Shipped', note:'Built with a developer and a product manager and used live during the event. Usage numbers are not included yet.', rows:[
+    ['A design prototype','A live product, built with a developer and a PM, used in real time during the event','Live'],
     ['Four groups would get four unrelated tools','One system: change a token once and all five website interfaces update together','5 interfaces, 1 system'],
     ['Attendees pick sessions without knowing the cross-city travel cost','Sessions clustered by neighborhood, so plans account for Bengaluru traffic',''],
     ['Hosts keep event listings in separate places','Publish once to BTW, with an optional cross-post to Luma',''],
@@ -1211,7 +1225,7 @@ const IMPACT = {
 };
 const impactSlide = im => fit(`<div class="ba">${im.rows.map(([b,a,n])=>`<div class="barow"><div class="bf"><span class="lab2">Before</span>${b}</div><div class="ar" aria-hidden="true">→</div><div class="af"><span class="lab2">After</span>${n?`<b>${n}</b>`:''}${a}</div></div>`).join('')}</div>`);
 STOPS.forEach(s=>{ const im=IMPACT[s.id]; if(!im) return; s.impact=im;
-  s.slides.push({t:'Impact', v:impactSlide(im), d:`<h3>Impact <span class="ik ${im.kind}" style="vertical-align:middle;margin-left:6px">${im.label}</span></h3><p>${im.kind==='m'?'These are measured results.':'This is the impact the design is built to have. It has not been measured with live users.'}</p><p class="note">${im.note}</p>`});
+  s.slides.push({t:'Impact', v:impactSlide(im), d:`<h3>Impact <span class="ik ${im.kind}" style="vertical-align:middle;margin-left:6px">${im.label}</span></h3><p>${im.kind==='m'?'These are measured results.':im.kind==='s'?'This shipped and was used live. Usage numbers are not included yet, so these describe what changed rather than measured results.':'This is the impact the design is built to have. It has not been measured with live users.'}</p><p class="note">${im.note}</p>`});
 });
 
 /* ═══════════ Landmarks (base at 0,0) — soft 3D, no outlines ═══════════ */
